@@ -1,0 +1,11 @@
+{
+  "mcpServers": {
+    "smart-city-water-elementor": {
+      "type": "http",
+      "url": "https://smartcitywater.ca/wp-json/elementor/mcp/",
+      "headers": {
+        "Authorization": "Basic ${SCW_WP_MCP_AUTH}"
+      }
+    }
+  }
+}
