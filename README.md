@@ -12,7 +12,12 @@ Landing page for **SSCAP — Smart Sewer Capacity Analysis & Planning** by Smart
 
 ## Hero map
 
-- A 3D view (pitch 58°, bearing 29° along Manhattan's grid) over OpenFreeMap vector tiles, with extruded buildings, harbour-blue water and green parks.
+- A night "control app" look: a dark 3D city (pitch 58°, bearing 29° along Manhattan's grid) over OpenFreeMap vector tiles, with a glass control card. The card has scenario tiles, layer chips with live counts, a storm selector, and glowing cards for the most loaded conduits.
+- Camera:
+  - pan: drag;
+  - zoom: wheel, pinch or + / −;
+  - rotate and tilt: right-drag, Ctrl+drag, two-finger twist, or the rotate and tilt buttons;
+  - compass resets north, and "Reset" returns to the default view.
 - The network is **synthetic**. It is drawn on Manhattan's East Side street grid (14th–53rd St) and is not NYC or any municipality's data. A badge on the map says so.
 - Flows follow Ontario design conventions: 370 L/cap/day, Harmon PF capped at 4.0, 0.26 L/s/ha infiltration, ICI by area, and Manning full-flow capacity with n = 0.013. Each scenario recomputes Q/Qcap in the browser.
 - Indicators:
