@@ -1263,10 +1263,10 @@ function addBuildings3D() {
     id: 'sscap-buildings', type: 'fill-extrusion', source: src, 'source-layer': 'building', minzoom: 13,
     paint: {
       // dark slate massing, slightly lighter with height (lit towers)
-      'fill-extrusion-color': ['interpolate', ['linear'], ['coalesce', ['get', 'render_height'], 12], 0, '#1A2232', 80, '#232D42', 250, '#2E3A55'],
+      'fill-extrusion-color': ['interpolate', ['linear'], ['coalesce', ['get', 'render_height'], 12], 0, '#3C4E70', 80, '#4A6090', 250, '#6A84B8'],
       'fill-extrusion-height': ['coalesce', ['get', 'render_height'], 12],
       'fill-extrusion-base': ['coalesce', ['get', 'render_min_height'], 0],
-      'fill-extrusion-opacity': 0.9,
+      'fill-extrusion-opacity': 0.38, // translucent glass massing: pipes and glow read through the city
       'fill-extrusion-vertical-gradient': true
     }
   }, firstSymbol);
