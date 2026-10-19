@@ -10,6 +10,15 @@ Landing page for **SSCAP — Smart Sewer Capacity Analysis & Planning** by Smart
 | `og-image.png` | 1200×630 share image rendered from the poster. |
 | `tools/generate-network.mjs` | Regenerates the GeoJSON and poster: `node tools/generate-network.mjs` |
 
+## Design language
+
+- The page uses **Material 3** (Google's open design system):
+  - colour roles: surface / surface-container tones, outline-variant lines, and a tonal secondary-container for selected states;
+  - type: Roboto Flex at a regular-weight display / headline scale, with medium titles and Roboto Mono for numbers;
+  - shapes: 28 px cards, pill buttons, 8 px filter chips and 4 px outlined fields;
+  - interaction: flat buttons with hover / press state layers and emphasized easing.
+- It carries no Google branding. Data-tier colours stay reserved for capacity and condition.
+
 ## Themes
 
 - **Light** is the default. The **Dark** night "control app" theme is one click away on the nav button.
