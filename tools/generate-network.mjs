@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 // Generates the illustrative SSCAP demo network (demo-network.geojson) and the
-// static hero poster (hero-poster.svg). Everything is synthetic: a dendritic
+// static hero posters (hero-poster.svg light, hero-poster-dark.svg dark). Everything is synthetic: a dendritic
 // sanitary network over a generic downtown grid, draining along a river valley
 // to a treatment-plant outlet. Re-run after changing parameters:
 //   node tools/generate-network.mjs
@@ -169,7 +169,11 @@ const fc = {
 writeFileSync(join(ROOT, 'demo-network.geojson'), JSON.stringify(fc));
 
 // ---------- poster (existing scenario, dry weather, pseudo-3D like the map) ----------
-const TIER = ['#5E6678', '#22A699', '#F7D154', '#F2913F', '#FF4D6D']; // night palette (matches index.html)
+// one poster per page theme; tier colours match index.html
+const THEMES = {
+  light: { file: 'hero-poster.svg', tier: ['#A3A9B1', '#2A9D8F', '#F2C230', '#E8772E', '#A51D24'], sky: ['#9DBCCE', '#C9D7DF', '#E7E6E2'], water: '#4A7C9C', street: '#A9AEB3', glow: false },
+  dark: { file: 'hero-poster-dark.svg', tier: ['#5E6678', '#22A699', '#F7D154', '#F2913F', '#FF4D6D'], sky: ['#1A1F3A', '#0A0D18', '#05070C'], water: '#05070C', street: '#1F2839', glow: true }
+};
 const tierOf = u => u < 0.5 ? 1 : u < 0.75 ? 2 : u < 1 ? 3 : 4;
 const W = 1600, H = 900;
 // ground coords: u = eastward across the grid, v = uptown (depth)
@@ -189,17 +193,20 @@ pipes.forEach(p => {
 });
 const shore = [];
 for (let x = -400; x <= COLS * DX + 400; x += 80) shore.push(proj(x, trunkY(x / DX) + 70));
-let svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${W} ${H}" width="${W}" height="${H}" preserveAspectRatio="xMidYMid slice" role="img" aria-label="Illustrative sanitary sewer network in a 3D view of Manhattan's East Side, coloured by used capacity">`;
-svg += `<defs><radialGradient id="sky" cx="0.5" cy="0" r="1"><stop offset="0" stop-color="#1A1F3A"/><stop offset="0.45" stop-color="#0A0D18"/><stop offset="1" stop-color="#05070C"/></radialGradient><radialGradient id="land" cx="0.5" cy="1" r="0.9"><stop offset="0" stop-color="#151C2B"/><stop offset="1" stop-color="#0E1422"/></radialGradient><filter id="g" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="3" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>`;
-svg += `<rect width="${W}" height="${H}" fill="url(#sky)"/>`;
-svg += `<path fill="#05070C" d="M${shore.map(p => p.join(' ')).join('L')}L${W} ${H}L${W} 0Z"/>`;
-svg += `<g stroke="#1F2839" fill="none">`;
-for (let i = 0; i <= COLS; i += 1) { const [a1, b1] = proj(i * DX, -200), [a2, b2] = proj(i * DX, trunkY(i) + 40); svg += `<path d="M${a1} ${b1}L${a2} ${b2}" stroke-width="${i % 4 ? 1.2 : 2.4}"/>`; }
-for (let y = -200; y < TRUNK_Y; y += 230) { const [a1, b1] = proj(-200, y), [a2, b2] = proj(COLS * DX + 200, y); svg += `<path d="M${a1} ${b1}L${a2} ${b2}" stroke-width="2.4"/>`; }
-svg += `</g><g fill="none" stroke-linecap="round" filter="url(#g)">`;
-byTier.forEach((arr, t) => { if (arr.length) svg += `<g stroke="${TIER[t]}"${t === 4 ? ' stroke-dasharray="6 3"' : ''}>${arr.join('')}</g>`; });
-svg += `</g></svg>`;
-writeFileSync(join(ROOT, 'hero-poster.svg'), svg);
+for (const T of Object.values(THEMES)) {
+  let svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${W} ${H}" width="${W}" height="${H}" preserveAspectRatio="xMidYMid slice" role="img" aria-label="Illustrative sanitary sewer network in a 3D view of Manhattan's East Side, coloured by used capacity">`;
+  svg += `<defs><radialGradient id="sky" cx="0.5" cy="0" r="1"><stop offset="0" stop-color="${T.sky[0]}"/><stop offset="0.45" stop-color="${T.sky[1]}"/><stop offset="1" stop-color="${T.sky[2]}"/></radialGradient>`;
+  if (T.glow) svg += `<filter id="g" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="3" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>`;
+  svg += `</defs><rect width="${W}" height="${H}" fill="url(#sky)"/>`;
+  svg += `<path fill="${T.water}" d="M${shore.map(p => p.join(' ')).join('L')}L${W} ${H}L${W} 0Z"/>`;
+  svg += `<g stroke="${T.street}" fill="none">`;
+  for (let i = 0; i <= COLS; i += 1) { const [a1, b1] = proj(i * DX, -200), [a2, b2] = proj(i * DX, trunkY(i) + 40); svg += `<path d="M${a1} ${b1}L${a2} ${b2}" stroke-width="${i % 4 ? 1.2 : 2.4}"/>`; }
+  for (let y = -200; y < TRUNK_Y; y += 230) { const [a1, b1] = proj(-200, y), [a2, b2] = proj(COLS * DX + 200, y); svg += `<path d="M${a1} ${b1}L${a2} ${b2}" stroke-width="2.4"/>`; }
+  svg += `</g><g fill="none" stroke-linecap="round"${T.glow ? ' filter="url(#g)"' : ''}>`;
+  byTier.forEach((arr, t) => { if (arr.length) svg += `<g stroke="${T.tier[t]}"${t === 4 ? ' stroke-dasharray="6 3"' : ''}>${arr.join('')}</g>`; });
+  svg += `</g></svg>`;
+  writeFileSync(join(ROOT, T.file), svg);
+}
 
 const counts = byTier.map(a => a.length);
 console.log(`nodes ${nodes.length}, conduits ${pipes.length}, apps ${apps.length}; existing tiers [grey,<50,50-75,75-100,>=100] = ${counts.join(', ')}`);

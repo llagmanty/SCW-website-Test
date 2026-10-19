@@ -6,9 +6,16 @@ Landing page for **SSCAP — Smart Sewer Capacity Analysis & Planning** by Smart
 | --- | --- |
 | `index.html` | Self-contained page (inline CSS/JS). MapLibre GL JS 4.7.1 loads lazily from jsDelivr with SRI. |
 | `demo-network.geojson` | Illustrative demo network: 925 conduits, 926 manholes, 4 SMAs, 10 development applications, 6 monitors. Swap it for the open-data demo city model. |
-| `hero-poster.svg` | Static LCP poster of the coloured network, shown until the live map cross-fades in. |
+| `hero-poster.svg`, `hero-poster-dark.svg` | Static LCP posters (light and dark themes) of the coloured network, shown until the live map cross-fades in. |
 | `og-image.png` | 1200×630 share image rendered from the poster. |
 | `tools/generate-network.mjs` | Regenerates the GeoJSON and poster: `node tools/generate-network.mjs` |
+
+## Themes
+
+- **Light** is the default. The **Dark** night "control app" theme is one click away on the nav button.
+- The choice is saved per visitor (`localStorage` key `sscap_theme`) and applied before first paint, so the page doesn't flash the wrong theme.
+- Each theme has its own design tokens (`:root` and `:root[data-theme="dark"]`), capacity-tier palette, basemap styling, 3D building glass and hero poster.
+- Switching theme rebuilds the map in the new style and keeps the camera where it was.
 
 ## Hero map
 
