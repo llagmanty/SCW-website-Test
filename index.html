@@ -414,6 +414,17 @@ button:not(:disabled):active{filter:brightness(0.92)}
 .sheet thead tr{background:var(--c-surface-2)}
 .sheet tbody tr{opacity:0;transform:translateY(-6px);transition:opacity 500ms var(--ease),transform 500ms var(--ease)}
 .sheet tbody tr.in{opacity:1;transform:none}
+.sscap-file{padding:12px}
+.sscap-file__preview{display:block;border-radius:20px;overflow:hidden;background:#FFFFFF;box-shadow:0 1px 2px rgba(0,0,0,.12)}
+.sscap-file__preview img{display:block;width:100%;height:auto;aspect-ratio:1600/675;transition:transform var(--d-med) var(--ease)}
+.sscap-file__preview:hover img{transform:scale(1.015)}
+.sscap-file__bar{display:flex;flex-wrap:wrap;align-items:center;gap:12px 16px;padding:16px 8px 6px}
+.sscap-file__type{width:40px;height:40px;border-radius:8px;background:var(--c-surface-2);color:var(--c-ink-2);display:grid;place-items:center;font:700 11px var(--f-sans);flex-shrink:0}
+.sscap-file__meta{flex:1 1 220px;min-width:0}
+.sscap-file__name{font-size:16px;line-height:24px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.sscap-file__info{font-size:14px;line-height:20px;color:var(--c-ink-3)}
+.sscap-file__actions{display:flex;gap:8px}
+.sscap-file__actions .btn{min-height:40px;padding:0 20px;font-size:14px;font-weight:500}
 .oacs-strip{display:flex;gap:2px;height:22px;margin-bottom:20px}
 .oacs-strip i{flex:1 1 0}
 .oacs-strip i.t0{background:repeating-linear-gradient(90deg,var(--t-grey) 0 3px,transparent 3px 6px);outline:1px solid var(--c-field);outline-offset:-1px}
@@ -769,10 +780,21 @@ button:not(:disabled):active{filter:brightness(0.92)}
         <p>One row per conduit, upstream to downstream, generated from the model and the application roster. Sanitary design sheet automation replaces the hand-built spreadsheet with one your reviewers can audit.</p>
         <ul><li>Harmon peaking factor, ICI flow and infiltration per row</li><li>Manning full-flow capacity and velocity per conduit</li><li>Export for development submissions and council packages</li></ul>
       </div>
-      <div class="sscap-feature__vis sscap-feature__vis--wide" style="padding:12px">
-        <div class="sheet"><table class="tnum"><caption>DA.24.017 · Subject + Active + Approved · flow path to outlet</caption>
-          <thead><tr><th scope="col">Conduit</th><th scope="col">Res. area (ha)</th><th scope="col">Units</th><th scope="col">Pop.</th><th scope="col">PF (Harmon)</th><th scope="col">Peaked res. (L/s)</th><th scope="col">ICI (L/s)</th><th scope="col">Infiltr. (L/s)</th><th scope="col">Total (L/s)</th><th scope="col">Ø (mm)</th><th scope="col">L (m)</th><th scope="col">S (%)</th><th scope="col">Qcap (L/s)</th><th scope="col">V (m/s)</th><th scope="col">Used (%)</th></tr></thead>
-          <tbody id="sheet-rows"></tbody></table></div>
+      <div class="sscap-feature__vis sscap-feature__vis--wide sscap-file">
+        <a class="sscap-file__preview" href="sample-design-sheet.pdf" target="_blank" rel="noopener" aria-label="Open the sample sanitary design sheet, PDF, 1 page">
+          <img src="design-sheet-preview.webp" width="1600" height="675" loading="lazy" decoding="async" alt="Preview of a sample sanitary design sheet for DA.24.017: 22 pipe segments listed upstream to downstream with residential, ICI, flow calculation and pipe data columns, ending at 57.4 L/s and 41% used capacity.">
+        </a>
+        <div class="sscap-file__bar">
+          <span class="sscap-file__type" aria-hidden="true">PDF</span>
+          <div class="sscap-file__meta">
+            <div class="sscap-file__name">Sample_Sanitary_Design_Sheet_DA.24.017.pdf</div>
+            <div class="sscap-file__info">PDF · 1 page · 66 KB · Subject + Active + Approved · flow path to outlet</div>
+          </div>
+          <div class="sscap-file__actions">
+            <a class="btn btn--ghost" href="sample-design-sheet.pdf" target="_blank" rel="noopener" data-cta="design-sheet-open">Open</a>
+            <a class="btn btn--primary" href="sample-design-sheet.pdf" download="Sample_Sanitary_Design_Sheet_DA.24.017.pdf" data-cta="design-sheet-download">Download</a>
+          </div>
+        </div>
       </div>
     </div>
 
@@ -981,6 +1003,7 @@ const hv = (params.get('h') || '').toUpperCase();
 if (HEADLINES[hv]) { const h1 = $('#hero-h1'); h1.textContent = HEADLINES[hv]; h1.dataset.variant = hv; }
 
 /* ---------- CTA → form with focus ---------- */
+$$('.sscap-file a').forEach(a => a.addEventListener('click', () => SSCAP.track('cta_click', { location: a.dataset.cta || 'design-sheet-preview' })));
 $$('a[href="#demo"]').forEach(a => a.addEventListener('click', e => {
   e.preventDefault();
   SSCAP.track('cta_click', { location: a.dataset.cta || 'inline' });
@@ -1207,12 +1230,6 @@ function drawModelVisuals({ m }) {
   $('#mini2-title').textContent = 'Trunk segment ' + m.P[tk].id + ' · ' + m.P[tk].d + ' mm · used capacity';
   bars.innerHTML = '<div class="line" style="bottom:' + scale + 'px"><span>100% full-flow capacity</span></div>' + us.map((u, i) => '<div class="bar"><b class="tnum">' + fmt(u * 100) + '%</b>' + us.slice(0, i + 1).map((v, j) => '<i class="seg-' + j + '" style="height:' + Math.max(1, Math.round((v - (j ? us[j - 1] : 0)) * scale)) + 'px"></i>').reverse().join('') + '</div>').join('');
   bars.setAttribute('aria-label', 'Used capacity of trunk segment ' + m.P[tk].id + ' by scenario: ' + us.map((u, i) => STEPS[i] + ' ' + fmt(u * 100) + '%').join(', ') + '.');
-  // design sheet (fills row by row when scrolled into view)
-  const S3 = scenario(m, 3, 0, s0), rows = sheetRows(m, pathOf(m, m.apps[s0].nodeIdx).slice(0, 9), S3);
-  const tb = $('#sheet-rows');
-  tb.innerHTML = rows.map(r => '<tr><th scope="row" style="font-weight:500">' + r.id + '</th><td>' + r.a + '</td><td>' + r.units + '</td><td>' + r.pop + '</td><td>' + r.pf + '</td><td>' + r.qr + '</td><td>' + r.qi + '</td><td>' + r.inf + '</td><td><b>' + r.q + '</b></td><td>' + r.d + '</td><td>' + r.len + '</td><td>' + r.s + '</td><td>' + r.cap + '</td><td>' + r.v + '</td><td><span class="chip chip--' + r.t + '">' + r.u + '</span></td></tr>').join('');
-  const fill = () => $$('tr', tb).forEach((tr, i) => setTimeout(() => tr.classList.add('in'), reducedMotion() ? 0 : i * 220));
-  if ('IntersectionObserver' in window) { const io = new IntersectionObserver(es => { if (es.some(e => e.isIntersecting)) { fill(); io.disconnect(); } }, { threshold: 0.3 }); io.observe(tb); } else fill();
   // OACS strip + reline list
   const S0 = scenario(m, 0, 0, s0), path0 = pathOf(m, m.apps[s0].nodeIdx);
   const strip = $('#oacs-strip');
