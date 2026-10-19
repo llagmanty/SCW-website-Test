@@ -10,6 +10,14 @@ Landing page for **SSCAP — Smart Sewer Capacity Analysis & Planning** by Smart
 | `og-image.png` | 1200×630 share image rendered from the poster. |
 | `tools/generate-network.mjs` | Regenerates the GeoJSON and poster: `node tools/generate-network.mjs` |
 
+## Demo form
+
+- **Three required fields:** full name, work email (free-mail domains are rejected) and organization.
+- **Optional:** a separate, unchecked CASL marketing-consent box.
+- Role, region, network size and tools are left for the demo call or for CRM enrichment.
+- Hidden fields still capture UTM tags, the referrer and the last map layer and scenario viewed.
+- A honeypot field and a time-to-submit check catch spam.
+
 ## Design language
 
 - The page uses **Material 3** (Google's open design system):

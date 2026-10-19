@@ -323,8 +323,8 @@ button:not(:disabled):active{filter:brightness(0.92)}
 .sscap-form__grid{display:flex;flex-wrap:wrap;gap:32px;align-items:flex-start}
 .sscap-form__card{flex:999 1 560px;min-width:0;background:var(--c-surface);border:1px solid var(--c-line);border-radius:var(--r-panel);padding:24px}
 @media (min-width:768px){.sscap-form__card{padding:32px}}
-.sscap-form__fields{display:grid;grid-template-columns:1fr;gap:20px 16px}
-@media (min-width:600px){.sscap-form__fields{grid-template-columns:1fr 1fr}}
+.sscap-form__fields{display:grid;grid-template-columns:1fr;gap:20px}
+
 .sscap-form .full{grid-column:1/-1}
 .sscap-form .field{display:flex;flex-direction:column;gap:6px}
 .sscap-form label.label,.sscap-form legend.label{color:var(--c-ink)}
@@ -661,32 +661,9 @@ button:not(:disabled):active{filter:brightness(0.92)}
       <div class="sscap-form__card" id="form-card">
         <form id="lead-form" novalidate aria-describedby="privacy-line">
           <div class="sscap-form__fields">
-            <div class="field"><label class="label" for="f-first">First name *</label><input id="f-first" name="first_name" autocomplete="given-name" required aria-describedby="e-first"><p class="err" id="e-first" role="alert"></p></div>
-            <div class="field"><label class="label" for="f-last">Last name *</label><input id="f-last" name="last_name" autocomplete="family-name" required aria-describedby="e-last"><p class="err" id="e-last" role="alert"></p></div>
-            <div class="field full"><label class="label" for="f-email">Work email *</label><input id="f-email" name="email" type="email" autocomplete="email" inputmode="email" required aria-describedby="e-email"><p class="err" id="e-email" role="alert"></p></div>
-            <div class="field full"><label class="label" for="f-org">Organization *</label><input id="f-org" name="organization" autocomplete="organization" required aria-describedby="e-org"><p class="err" id="e-org" role="alert"></p></div>
-            <div class="field"><label class="label" for="f-role">Role *</label>
-              <select id="f-role" name="role" required aria-describedby="e-role"><option value="">Select…</option><option>Development / Servicing Engineer</option><option>Infrastructure Planner</option><option>Asset Manager</option><option>Utility / Wastewater Manager</option><option>Consulting Engineer</option><option>Developer</option><option>Other</option></select><p class="err" id="e-role" role="alert"></p></div>
-            <div class="field"><label class="label" for="f-orgtype">Organization type *</label>
-              <select id="f-orgtype" name="org_type" required aria-describedby="e-orgtype"><option value="">Select…</option><option>Municipality</option><option>Region / County</option><option>Utility</option><option>Engineering Consultancy</option><option>Developer</option><option>Other</option></select><p class="err" id="e-orgtype" role="alert"></p></div>
-            <div class="field"><label class="label" for="f-region">Province / State *</label>
-              <select id="f-region" name="region" required aria-describedby="e-region"><option value="">Select…</option>
-                <optgroup label="Canada"><option>Alberta</option><option>British Columbia</option><option>Manitoba</option><option>New Brunswick</option><option>Newfoundland and Labrador</option><option>Northwest Territories</option><option>Nova Scotia</option><option>Nunavut</option><option>Ontario</option><option>Prince Edward Island</option><option>Quebec</option><option>Saskatchewan</option><option>Yukon</option></optgroup>
-                <optgroup label="United States"><option>Alabama</option><option>Alaska</option><option>Arizona</option><option>Arkansas</option><option>California</option><option>Colorado</option><option>Connecticut</option><option>Delaware</option><option>District of Columbia</option><option>Florida</option><option>Georgia</option><option>Hawaii</option><option>Idaho</option><option>Illinois</option><option>Indiana</option><option>Iowa</option><option>Kansas</option><option>Kentucky</option><option>Louisiana</option><option>Maine</option><option>Maryland</option><option>Massachusetts</option><option>Michigan</option><option>Minnesota</option><option>Mississippi</option><option>Missouri</option><option>Montana</option><option>Nebraska</option><option>Nevada</option><option>New Hampshire</option><option>New Jersey</option><option>New Mexico</option><option>New York</option><option>North Carolina</option><option>North Dakota</option><option>Ohio</option><option>Oklahoma</option><option>Oregon</option><option>Pennsylvania</option><option>Rhode Island</option><option>South Carolina</option><option>South Dakota</option><option>Tennessee</option><option>Texas</option><option>Utah</option><option>Vermont</option><option>Virginia</option><option>Washington</option><option>West Virginia</option><option>Wisconsin</option><option>Wyoming</option></optgroup>
-                <optgroup label="Elsewhere"><option>Outside Canada / US</option></optgroup>
-              </select><p class="err" id="e-region" role="alert"></p></div>
-            <div class="field"><label class="label" for="f-size">Approx. sanitary network size <span class="opt">(optional)</span></label>
-              <select id="f-size" name="network_size"><option value="">Select…</option><option>&lt; 100 km</option><option>100–500 km</option><option>500–1,500 km</option><option>1,500+ km</option><option>Not sure</option></select></div>
-            <fieldset class="full"><legend class="label">Current modelling tools <span class="opt">(optional, choose any)</span></legend>
-              <div class="chips">
-                <label><input type="checkbox" name="tools" value="InfoWorks ICM"><span>InfoWorks ICM</span></label>
-                <label><input type="checkbox" name="tools" value="SWMM / PCSWMM"><span>SWMM / PCSWMM</span></label>
-                <label><input type="checkbox" name="tools" value="MIKE URBAN+"><span>MIKE URBAN+</span></label>
-                <label><input type="checkbox" name="tools" value="Excel design sheets"><span>Excel design sheets</span></label>
-                <label><input type="checkbox" name="tools" value="GIS only"><span>GIS only</span></label>
-                <label><input type="checkbox" name="tools" value="None"><span>None</span></label>
-              </div></fieldset>
-            <div class="field full"><label class="label" for="f-msg">What do you want to solve? <span class="opt">(optional)</span></label><textarea id="f-msg" name="message" rows="3" placeholder="e.g. We review 40+ site plans a year and need cumulative capacity checks."></textarea></div>
+            <div class="field full"><label class="label" for="f-first">Full name</label><input id="f-first" name="full_name" autocomplete="name" required aria-describedby="e-first"><p class="err" id="e-first" role="alert"></p></div>
+            <div class="field full"><label class="label" for="f-email">Work email</label><input id="f-email" name="email" type="email" autocomplete="email" inputmode="email" required aria-describedby="e-email"><p class="err" id="e-email" role="alert"></p></div>
+            <div class="field full"><label class="label" for="f-org">Organization</label><input id="f-org" name="organization" autocomplete="organization" required aria-describedby="e-org"><p class="err" id="e-org" role="alert"></p></div>
             <div class="hp" aria-hidden="true"><label for="f-website">Leave this field empty</label><input id="f-website" name="company_website" tabindex="-1" autocomplete="off"></div>
             <input type="hidden" name="utm_source"><input type="hidden" name="utm_medium"><input type="hidden" name="utm_campaign"><input type="hidden" name="utm_term"><input type="hidden" name="utm_content">
             <input type="hidden" name="referrer"><input type="hidden" name="landing_page">
@@ -1015,8 +992,7 @@ $$('a[href="#demo"]').forEach(a => a.addEventListener('click', e => {
 const form = $('#lead-form');
 const FREE = ['gmail.com', 'googlemail.com', 'yahoo.com', 'yahoo.ca', 'hotmail.com', 'hotmail.ca', 'outlook.com', 'live.com', 'live.ca', 'msn.com', 'icloud.com', 'me.com', 'aol.com', 'proton.me', 'protonmail.com', 'gmx.com', 'mail.com', 'yandex.com', 'zoho.com', 'shaw.ca', 'rogers.com', 'sympatico.ca', 'bell.net'];
 const MSG = {
-  first_name: 'Enter your first name.', last_name: 'Enter your last name.', organization: 'Enter your organization so we can prepare the right demo.',
-  role: 'Choose the role closest to yours.', org_type: 'Choose your organization type.', region: 'Choose your province or state.'
+  full_name: 'Enter your name.', organization: 'Enter your organization so we can prepare the right demo.'
 };
 function validate(el) {
   const name = el.name, v = (el.value || '').trim();
@@ -1035,7 +1011,7 @@ function validate(el) {
 }
 let formStarted = false, formShownAt = Date.now();
 form.addEventListener('focusin', () => { if (!formStarted) { formStarted = true; formShownAt = Math.min(formShownAt, Date.now()); SSCAP.track('form_start'); } });
-$$('input[required], select[required]', form).forEach(el => {
+$$('input[required]', form).forEach(el => {
   el.addEventListener('blur', () => validate(el));
   el.addEventListener('input', () => { if (el.getAttribute('aria-invalid') === 'true') validate(el); });
 });
@@ -1063,23 +1039,22 @@ async function submitLead(payload) {
 SSCAP.submitLead = submitLead;
 const btn = $('#form-submit'), fail = $('#form-fail');
 async function doSubmit() {
-  const fields = $$('input[required], select[required]', form);
+  const fields = $$('input[required]', form);
   const ok = fields.map(validate).every(Boolean);
   if (!ok) { const bad = fields.find(f => f.getAttribute('aria-invalid') === 'true'); bad && bad.focus(); return; }
   const fd = new FormData(form);
   const payload = Object.fromEntries(fd.entries());
-  payload.tools = fd.getAll('tools');
   payload.casl_consent = fd.get('casl_consent') === 'yes' ? 'yes' : 'no';
   payload.submitted_at = new Date().toISOString();
   // spam checks: honeypot + time-to-submit (silently "succeed" for bots)
   const tooFast = Date.now() - formShownAt < 3000;
-  if (payload.company_website || tooFast) { showSuccess(payload.first_name); return; }
+  if (payload.company_website || tooFast) { showSuccess(payload.full_name); return; }
   delete payload.company_website;
   btn.setAttribute('aria-busy', 'true'); btn.disabled = true; btn.textContent = 'Sending…'; fail.hidden = true;
   try {
     await submitLead(payload);
-    SSCAP.track('form_submit_success', { role: payload.role, org_type: payload.org_type, region: payload.region });
-    showSuccess(payload.first_name);
+    SSCAP.track('form_submit_success');
+    showSuccess(payload.full_name);
   } catch (err) {
     SSCAP.track('form_submit_error', { reason: String(err.message || err) });
     fail.hidden = false;
@@ -1089,7 +1064,7 @@ async function doSubmit() {
   }
 }
 function showSuccess(first) {
-  $('#ok-title').textContent = 'Thanks, ' + (first || '').trim() + '.';
+  $('#ok-title').textContent = 'Thanks, ' + ((first || '').trim().split(/\s+/)[0] || 'there') + '.';
   form.hidden = true;
   const ok = $('#form-ok'); ok.hidden = false; ok.focus({ preventScroll: true });
 }
