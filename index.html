@@ -1372,8 +1372,6 @@ function addNetworkLayers() {
 function addMarkers() {
   const ml = window.maplibregl;
   const centroid = g => { const r = g.coordinates[0]; let x = 0, y = 0; r.slice(0, -1).forEach(c => { x += c[0]; y += c[1]; }); return [x / (r.length - 1), y / (r.length - 1)]; };
-  M.smas.forEach(s => { const el = document.createElement('div'); el.className = 'sscap-hero__label'; el.textContent = s.name; const r = s.geom.coordinates[0]; new ml.Marker({ element: el, anchor: 'bottom' }).setLngLat([(r[0][0] + r[1][0]) / 2, (r[0][1] + r[1][1]) / 2]).addTo(map); });
-  const out = M.N.find(n => n.outlet); if (out) { const el = document.createElement('div'); el.className = 'sscap-hero__label'; el.textContent = 'Outlet → WWTP (illustrative)'; new ml.Marker({ element: el, anchor: 'top', offset: [0, 8] }).setLngLat(out.c).addTo(map); }
   const group = document.createElement('div'); // roving tabindex across applications
   appMarkers = M.apps.map((a, k) => {
     const el = document.createElement('button');
@@ -1591,6 +1589,8 @@ function ensureMap() {
     M.center = [(M.bounds[0][0] + M.bounds[1][0]) / 2, (M.bounds[0][1] + M.bounds[1][1]) / 2];
     M.zoom = isMobile() ? 13.7 : 14.55;
     if (isDark()) darkenBasemap(style); else brightenBasemap(style);
+    // no map labels: hide every basemap text/icon layer (street, place, water and POI names)
+    style.layers.forEach(l => { if (l.type === 'symbol') l.layout = Object.assign({}, l.layout, { visibility: 'none' }); });
     const mob = isMobile();
     map = new maplibregl.Map({
       container: ui.gl, style, center: M.center, zoom: M.zoom, bearing: CONFIG.camera.bearing, pitch: CONFIG.camera.pitch, maxPitch: 70,
