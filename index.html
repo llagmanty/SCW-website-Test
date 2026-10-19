@@ -1360,7 +1360,7 @@ function addNetworkLayers() {
     'heatmap-weight': ['get', 'w'],
     'heatmap-intensity': ['interpolate', ['linear'], ['zoom'], 13, 0.9, 16, 1.6],
     'heatmap-radius': ['interpolate', ['linear'], ['zoom'], 13, 22, 16, 70],
-    'heatmap-opacity': 0.8,
+    'heatmap-opacity': 0.4, // halved so overloaded areas read without washing out the city
     'heatmap-color': ['interpolate', ['linear'], ['heatmap-density'], 0, 'rgba(255,77,109,0)', 0.2, 'rgba(255,77,109,0.35)', 0.5, 'rgba(255,110,70,0.7)', 0.8, 'rgba(255,170,90,0.85)', 1, 'rgba(255,236,170,0.95)']
   } });
   // manholes
@@ -1428,7 +1428,7 @@ function apply(reason) {
   map.setLayoutProperty('mh', 'visibility', state.layer === 'manholes' ? 'visible' : 'none');
   const hotOn = state.layer === 'capacity' || state.layer === 'manholes';
   map.getSource('hot').setData({ type: 'FeatureCollection', features: hotOn ? M.P.map((p, k) => [p, k]).filter(([, k]) => S.U[k] >= 1).map(([p, k]) => ({ type: 'Feature', properties: { w: Math.min(1, 0.35 + (S.U[k] - 1) * 1.5) }, geometry: { type: 'Point', coordinates: [(p.c[0][0] + p.c[1][0]) / 2, (p.c[0][1] + p.c[1][1]) / 2] } })) : [] });
-  map.setPaintProperty('hot', 'heatmap-opacity', state.sel != null ? 0.35 : 0.8);
+  map.setPaintProperty('hot', 'heatmap-opacity', state.sel != null ? 0.18 : 0.4);
   // applications & monitors visibility
   const showApps = state.layer === 'capacity' || state.layer === 'applications' || state.layer === 'condition';
   ['apps-3d', 'apps-active', 'apps-approved', 'apps-occupied', 'apps-sandbox'].forEach(id => map.setLayoutProperty(id, 'visibility', showApps ? 'visible' : 'none'));
