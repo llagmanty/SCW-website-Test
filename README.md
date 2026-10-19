@@ -13,7 +13,10 @@ Landing page for **SSCAP — Smart Sewer Capacity Analysis & Planning** by Smart
 ## Demo form
 
 - **Three required fields:** full name, work email (free-mail domains are rejected) and organization.
-- **Optional:** a separate, unchecked CASL marketing-consent box.
+- **Optional:**
+  - phone (checked only if filled in);
+  - a separate, unchecked CASL marketing-consent box.
+- **Layout:** two columns (name | email, organization | phone) that stack on narrow screens. The button and the privacy note share one row.
 - Role, region, network size and tools are left for the demo call or for CRM enrichment.
 - Hidden fields still capture UTM tags, the referrer and the last map layer and scenario viewed.
 - A honeypot field and a time-to-submit check catch spam.

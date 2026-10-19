@@ -323,7 +323,7 @@ button:not(:disabled):active{filter:brightness(0.92)}
 .sscap-form__grid{display:flex;flex-wrap:wrap;gap:32px;align-items:flex-start}
 .sscap-form__card{flex:999 1 560px;min-width:0;background:var(--c-surface);border:1px solid var(--c-line);border-radius:var(--r-panel);padding:24px}
 @media (min-width:768px){.sscap-form__card{padding:32px}}
-.sscap-form__fields{display:grid;grid-template-columns:1fr;gap:20px}
+.sscap-form__fields{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:24px 20px}
 
 .sscap-form .full{grid-column:1/-1}
 .sscap-form .field{display:flex;flex-direction:column;gap:6px}
@@ -346,7 +346,9 @@ button:not(:disabled):active{filter:brightness(0.92)}
 .sscap-form .consent{display:flex;gap:12px;align-items:flex-start;font-size:14px}
 .sscap-form .consent input{width:20px;height:20px;margin:2px 0 0;flex-shrink:0;accent-color:var(--c-accent)}
 .sscap-form .hp{position:absolute;left:-10000px;width:1px;height:1px;overflow:hidden}
-.sscap-form .submit{display:flex;flex-direction:column;gap:10px;align-items:flex-start}
+.sscap-form .submit{display:flex;flex-wrap:wrap;align-items:center;gap:16px 24px;padding-top:24px;border-top:1px solid var(--c-line-2)}
+.sscap-form .submit .privacy{flex:1 1 260px;font-size:14px;line-height:20px}
+.sscap-form input:not([type=checkbox]){min-height:56px}
 .sscap-form .submit .btn{min-height:52px;padding:0 28px;font-size:16px;border:0}
 .sscap-form .submit .btn[aria-busy="true"]{opacity:.75;cursor:progress}
 .sscap-form .privacy{margin:0;font-size:13px;color:var(--c-ink-2)}
@@ -661,9 +663,10 @@ button:not(:disabled):active{filter:brightness(0.92)}
       <div class="sscap-form__card" id="form-card">
         <form id="lead-form" novalidate aria-describedby="privacy-line">
           <div class="sscap-form__fields">
-            <div class="field full"><label class="label" for="f-first">Full name</label><input id="f-first" name="full_name" autocomplete="name" required aria-describedby="e-first"><p class="err" id="e-first" role="alert"></p></div>
-            <div class="field full"><label class="label" for="f-email">Work email</label><input id="f-email" name="email" type="email" autocomplete="email" inputmode="email" required aria-describedby="e-email"><p class="err" id="e-email" role="alert"></p></div>
-            <div class="field full"><label class="label" for="f-org">Organization</label><input id="f-org" name="organization" autocomplete="organization" required aria-describedby="e-org"><p class="err" id="e-org" role="alert"></p></div>
+            <div class="field"><label class="label" for="f-first">Full name</label><input id="f-first" name="full_name" autocomplete="name" required aria-describedby="e-first"><p class="err" id="e-first" role="alert"></p></div>
+            <div class="field"><label class="label" for="f-email">Work email</label><input id="f-email" name="email" type="email" autocomplete="email" inputmode="email" required aria-describedby="e-email"><p class="err" id="e-email" role="alert"></p></div>
+            <div class="field"><label class="label" for="f-org">Organization</label><input id="f-org" name="organization" autocomplete="organization" required aria-describedby="e-org"><p class="err" id="e-org" role="alert"></p></div>
+            <div class="field"><label class="label" for="f-phone">Phone <span class="opt">(optional)</span></label><input id="f-phone" name="phone" type="tel" autocomplete="tel" inputmode="tel" placeholder="+1 (555) 555-0123" aria-describedby="e-phone"><p class="err" id="e-phone" role="alert"></p></div>
             <div class="hp" aria-hidden="true"><label for="f-website">Leave this field empty</label><input id="f-website" name="company_website" tabindex="-1" autocomplete="off"></div>
             <input type="hidden" name="utm_source"><input type="hidden" name="utm_medium"><input type="hidden" name="utm_campaign"><input type="hidden" name="utm_term"><input type="hidden" name="utm_content">
             <input type="hidden" name="referrer"><input type="hidden" name="landing_page">
@@ -1002,6 +1005,8 @@ function validate(el) {
     if (!v) msg = 'Enter your work email so we can schedule the demo.';
     else if (!/^[^@\s]+@[^@\s]+\.[^@\s]{2,}$/.test(v)) msg = 'Check the address: it should look like name@yourtown.ca.';
     else if (FREE.includes(dom)) msg = 'Please use your work email (for example name@yourtown.ca) so we can prepare a demo for your organization.';
+  } else if (name === 'phone') {
+    if (v && v.replace(/\D/g, '').length < 7) msg = 'Check the number: include the area code, for example +1 (905) 555-0123.';
   } else if (el.required && !v) msg = MSG[name] || 'This field is required.';
   const err = document.getElementById(el.getAttribute('aria-describedby'));
   el.setAttribute('aria-invalid', msg ? 'true' : 'false');
@@ -1011,7 +1016,7 @@ function validate(el) {
 }
 let formStarted = false, formShownAt = Date.now();
 form.addEventListener('focusin', () => { if (!formStarted) { formStarted = true; formShownAt = Math.min(formShownAt, Date.now()); SSCAP.track('form_start'); } });
-$$('input[required]', form).forEach(el => {
+$$('input[required], #f-phone', form).forEach(el => {
   el.addEventListener('blur', () => validate(el));
   el.addEventListener('input', () => { if (el.getAttribute('aria-invalid') === 'true') validate(el); });
 });
@@ -1039,7 +1044,7 @@ async function submitLead(payload) {
 SSCAP.submitLead = submitLead;
 const btn = $('#form-submit'), fail = $('#form-fail');
 async function doSubmit() {
-  const fields = $$('input[required]', form);
+  const fields = $$('input[required], #f-phone', form);
   const ok = fields.map(validate).every(Boolean);
   if (!ok) { const bad = fields.find(f => f.getAttribute('aria-invalid') === 'true'); bad && bad.focus(); return; }
   const fd = new FormData(form);
