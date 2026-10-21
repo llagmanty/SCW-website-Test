@@ -18,16 +18,17 @@ const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 
 // ---------- parameters ----------
 const COLS = 40;            // north–south streets
-const DX = 80.5;            // m between cross streets (Manhattan: 20 streets per mile)
+const DX = 80.5;            // m between local north–south streets
 const DY = 75;              // m between manholes along a street
 const ROW_TOP = 0;          // y (m, southward) of the northernmost possible manhole
 const TRUNK_Y = 1290;       // y of the trunk sewer (river valley)
-// Illustrative placement on Manhattan's East Side street grid: the trunk follows the
-// East River (FDR Drive) and laterals run west along the cross streets (14th–53rd St).
-// The grid is rotated 29° east of true north, like Manhattan's avenues.
-const ORIGIN = { lon: -73.9738, lat: 40.7279 };   // near E 14th St at the East River
-const GRID_BEARING = 29;                          // degrees east of north, uptown
-const SMA_NAMES = ['SMA-1 Turtle Bay', 'SMA-2 Murray Hill', 'SMA-3 Kips Bay', 'SMA-4 Stuyvesant']; // north to south
+// Illustrative placement around Vaughan Metropolitan Centre (VMC), Ontario: the trunk
+// runs east along the Hwy 407 edge from Hwy 400 towards Keele St, and laterals run north
+// across the Hwy 7 corridor. York Region's concession grid is rotated about 16.7° counter-
+// clockwise from true north, so "east" here bears about 73.3°.
+const ORIGIN = { lon: -79.5385, lat: 43.7845 };   // trunk at x = 0, near Hwy 400 south of VMC
+const GRID_BEARING = 73.3;                        // bearing of the trunk (x axis), degrees
+const SMA_NAMES = ['SMA-1 Black Creek', 'SMA-2 VMC Centre', 'SMA-3 VMC East', 'SMA-4 Creditstone']; // west to east
 const DIAS = [200, 250, 300, 375, 450, 525, 600, 675, 750, 825, 900, 1050, 1200, 1350, 1500];
 const DESIGN = { domestic_L_cap_day: 370, infiltration_L_s_ha: 0.26, ici_L_s_ha: 0.35, harmon_cap: 4.0, manning_n: 0.013, density_p_ha: 55 };
 
@@ -89,18 +90,16 @@ pipes.forEach((p, k) => {
 });
 
 // ---------- projection ----------
-// local (x along the network, y toward the trunk) -> lon/lat on the rotated grid.
-// x = 0 is the northern end (53rd St); the trunk flows south to the outlet below 14th St.
+// local (x along the trunk, y southward toward it) -> lon/lat on the rotated grid.
+// x = 0 is the western end at Hwy 400; the trunk flows east to the outlet.
 const M_PER_DEG_LAT = 111320, M_PER_DEG_LON = 111320 * Math.cos(ORIGIN.lat * Math.PI / 180);
 const B = GRID_BEARING * Math.PI / 180;
 const ll = (x, y) => {
-  const X = COLS * DX - x;              // metres uptown of the origin
-  const Y = (TRUNK_Y + 60) - y;         // metres west of the shoreline
+  const X = x;                          // metres along the trunk, eastward
+  const Y = TRUNK_Y - y;                // metres north of the trunk
   const e = X * Math.sin(B) - Y * Math.cos(B), n = X * Math.cos(B) + Y * Math.sin(B);
   return [+(ORIGIN.lon + e / M_PER_DEG_LON).toFixed(5), +(ORIGIN.lat + n / M_PER_DEG_LAT).toFixed(5)];
 };
-const ord = n => n + (['th', 'st', 'nd', 'rd'][(n % 100 > 10 && n % 100 < 14) ? 0 : (n % 10 < 4 ? n % 10 : 0)]);
-const streetAt = x => 14 + Math.round((COLS * DX - x) / DX);
 
 // ---------- applications ----------
 const APPS = [
@@ -120,7 +119,7 @@ const apps = APPS.map(([file, address0, status, col, y, population, land_use, de
   let best = 0, bd = Infinity, address;
   nodes.forEach((n, k) => { if (n.kind !== 'mh') return; const d = (n.x - x) ** 2 + (n.y - y) ** 2; if (d < bd) { bd = d; best = k; } });
   const n = nodes[best];
-  address = `Parcel ${file.slice(-3)}, E ${ord(streetAt(nodes[best].x))} St (fictional)`;
+  address = `${address0} (fictional)`;
   return { file, address, status, population, land_use, developer, node: nodes[best].id, sma: SMA_NAMES[n.sma], area_ha: +(population / 420).toFixed(1), cx: n.x + 22, cy: n.y - 30 };
 });
 

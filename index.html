@@ -20,9 +20,10 @@
   15. FAQ answers marked [ANSWER NEEDED]: own-model requirement, configurable
       thresholds, onboarding time, consultant licensing
   16. Privacy Policy / Legal / social URLs, canonical URL, og:image host        [CONFIRM URLs]
-  17. Hero map placement: illustrative network drawn on Manhattan's East Side
-      street grid (OpenFreeMap vector tiles, 3D buildings). Network, flows and
-      applications are synthetic — not NYC or any municipality's data.          [CONFIRM placement]
+  17. Hero map placement: illustrative network drawn around Vaughan Metropolitan
+      Centre on a Mapbox basemap (CONFIG.mapbox.token; OpenFreeMap fallback), 3D
+      buildings. Network, flows and applications are synthetic — not the City of
+      Vaughan's or any municipality's data.                                     [CONFIRM placement, token]
 -->
 <html lang="en">
 <head>
@@ -519,7 +520,16 @@ button:not(:disabled):active{filter:brightness(0.92)}
 [data-theme="dark"] .sscap-hero .maplibregl-ctrl-group button .maplibregl-ctrl-icon{filter:invert(1) brightness(1.6)}
 .sscap-hero .maplibregl-ctrl-attrib{background:var(--c-chip-bg);color:var(--c-ink-3)}
 .sscap-hero .maplibregl-ctrl-attrib a{color:var(--c-ink-2)}
-.sscap-hero__gl .maplibregl-canvas{cursor:grab}.sscap-hero__gl .maplibregl-canvas:active{cursor:grabbing}
+.sscap-hero .mapboxgl-ctrl-bottom-right{right:440px;bottom:16px}
+@media (max-width:767px){.sscap-hero .mapboxgl-ctrl-bottom-right{right:8px;bottom:8px}}
+.sscap-hero .mapboxgl-ctrl-group{background:var(--glass-bg);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);border:1px solid var(--c-line-2);border-radius:18px;overflow:hidden;box-shadow:var(--shadow)}
+.sscap-hero .mapboxgl-ctrl-group button{width:44px;height:44px;display:grid;place-items:center}
+.sscap-hero .mapboxgl-ctrl-bottom-right{display:flex;flex-direction:column-reverse;align-items:flex-end}
+.sscap-hero .mapboxgl-ctrl-group button+button{border-top:1px solid var(--c-line)}
+[data-theme="dark"] .sscap-hero .mapboxgl-ctrl-group button .mapboxgl-ctrl-icon{filter:invert(1) brightness(1.6)}
+.sscap-hero .mapboxgl-ctrl-attrib{background:var(--c-chip-bg);color:var(--c-ink-3)}
+.sscap-hero .mapboxgl-ctrl-attrib a{color:var(--c-ink-2)}
+.sscap-hero__gl .maplibregl-canvas,.sscap-hero__gl .mapboxgl-canvas{cursor:grab}.sscap-hero__gl .maplibregl-canvas:active,.sscap-hero__gl .mapboxgl-canvas:active{cursor:grabbing}
 
 /* Store-style cards: flat tonal surfaces, no outlines */
 .sscap-problem__card,.sscap-feature__vis,.sscap-trust__tile,.sscap-roles [role=tabpanel],.sscap-how li,.sscap-proof__metrics div,.sscap-faq details,.sscap-form__card,.sscap-form__aside,.sscap-int li,.sscap-roles [role=tabpanel] li,.sscap-form__aside li,.reline li{border:0}
@@ -567,7 +577,7 @@ button:not(:disabled):active{filter:brightness(0.92)}
       <ul id="legend-list"></ul>
     </div>
     <div class="sscap-hero__badge">
-      <p>Illustrative demo network on Manhattan streets — not real municipal data.</p>
+      <p>Illustrative demo network around Vaughan Metropolitan Centre — not real municipal data.</p>
       <a href="#map-table" class="sr-only sr-only-focusable" id="table-link">View as table</a>
     </div>
     <button type="button" class="btn btn--primary sscap-hero__interact" id="hero-interact" hidden>Interact with map</button>
@@ -1140,8 +1150,18 @@ const CONFIG = {
   dataUrl: 'demo-network.geojson',                       // swap for the open-data demo city model
   maplibreJs: { src: 'https://cdn.jsdelivr.net/npm/maplibre-gl@4.7.1/dist/maplibre-gl.js', integrity: 'sha384-SYKAG6cglRMN0RVvhNeBY0r3FYKNOJtznwA0v7B5Vp9tr31xAHsZC0DqkQ/pZDmj' },
   maplibreCss: { href: 'https://cdn.jsdelivr.net/npm/maplibre-gl@4.7.1/dist/maplibre-gl.css', integrity: 'sha384-MinO0mNliZ3vwppuPOUnGa+iq619pfMhLVUXfC4LHwSCvF9H+6P/KO4Q7qBOYV5V' },
-  basemap: 'https://tiles.openfreemap.org/styles/positron', // muted light vector basemap (dark variant derived at runtime)
-  camera: { bearing: 29, pitch: 58 },                     // Manhattan grid bearing, 3D tilt
+  basemap: 'https://tiles.openfreemap.org/styles/positron', // fallback basemap when no Mapbox token is set (dark variant derived at runtime)
+  // Mapbox basemap for Vaughan Metropolitan Centre. Paste a public token (pk.…) restricted to this site's URL;
+  // with no token the map falls back to MapLibre + OpenFreeMap above. [CONFIRM token and Mapbox plan]
+  mapbox: {
+    token: '',
+    style: 'mapbox/light-v11',
+    js: 'https://api.mapbox.com/mapbox-gl-js/v3.8.0/mapbox-gl.js',   // add the integrity hash from Mapbox's install page
+    css: 'https://api.mapbox.com/mapbox-gl-js/v3.8.0/mapbox-gl.css'
+  },
+  get useMapbox() { return /^pk\./.test(this.mapbox.token); },
+  get styleUrl() { return this.useMapbox ? 'https://api.mapbox.com/styles/v1/' + this.mapbox.style + '?access_token=' + encodeURIComponent(this.mapbox.token) : this.basemap; },
+  camera: { bearing: -16.7, pitch: 58 },                  // York Region concession grid, 3D tilt
   tierLight: ['#A3A9B1', '#2A9D8F', '#F2C230', '#E8772E', '#A51D24'],
   tierDark: ['#5E6678', '#22A699', '#F7D154', '#F2913F', '#FF4D6D'],
   get tierColors() { return document.documentElement.dataset.theme === 'dark' ? this.tierDark : this.tierLight; },
@@ -1314,9 +1334,9 @@ function addBuildings3D() {
     id: 'sscap-buildings', type: 'fill-extrusion', source: src, 'source-layer': 'building', minzoom: 13,
     paint: {
       // dark slate massing, slightly lighter with height (lit towers)
-      'fill-extrusion-color': isDark() ? ['interpolate', ['linear'], ['coalesce', ['get', 'render_height'], 12], 0, '#3C4E70', 80, '#4A6090', 250, '#6A84B8'] : '#FFFFFF',
-      'fill-extrusion-height': ['coalesce', ['get', 'render_height'], 12],
-      'fill-extrusion-base': ['coalesce', ['get', 'render_min_height'], 0],
+      'fill-extrusion-color': isDark() ? ['interpolate', ['linear'], ['coalesce', ['get', 'render_height'], ['get', 'height'], 12], 0, '#3C4E70', 80, '#4A6090', 250, '#6A84B8'] : '#FFFFFF',
+      'fill-extrusion-height': ['coalesce', ['get', 'render_height'], ['get', 'height'], 12],
+      'fill-extrusion-base': ['coalesce', ['get', 'render_min_height'], ['get', 'min_height'], 0],
       'fill-extrusion-opacity': isDark() ? 0.38 : 0.55, // translucent glass massing: pipes and glow read through the city
       'fill-extrusion-vertical-gradient': true
     }
@@ -1372,7 +1392,7 @@ function addNetworkLayers() {
 
 /* ---------- markers (keyboard-operable application buttons, labels) ---------- */
 function addMarkers() {
-  const ml = window.maplibregl;
+  const ml = GL();
   const centroid = g => { const r = g.coordinates[0]; let x = 0, y = 0; r.slice(0, -1).forEach(c => { x += c[0]; y += c[1]; }); return [x / (r.length - 1), y / (r.length - 1)]; };
   const group = document.createElement('div'); // roving tabindex across applications
   appMarkers = M.apps.map((a, k) => {
@@ -1573,18 +1593,22 @@ $('#tour-next').addEventListener('click', () => goTour(state.tour + 1));
 $('#tour-skip').addEventListener('click', () => { stopTour(); });
 ui.about.addEventListener('click', () => { ui.panel.classList.remove('is-collapsed'); ui.about.hidden = true; stopTour(); });
 
-/* ---------- lazy MapLibre loader ---------- */
+/* ---------- lazy map library loader: Mapbox GL JS with a token, else MapLibre ---------- */
 let mapP = null;
+const GL = () => (CONFIG.useMapbox ? window.mapboxgl : window.maplibregl);
+const GLC = () => (CONFIG.useMapbox ? 'mapboxgl' : 'maplibregl');   // control class prefix
 function loadMapLibre() {
-  if (window.maplibregl) return Promise.resolve();
+  if (GL()) return Promise.resolve();
+  const mb = CONFIG.useMapbox;
   return new Promise((res, rej) => {
-    const css = document.createElement('link'); css.rel = 'stylesheet'; css.href = CONFIG.maplibreCss.href; css.integrity = CONFIG.maplibreCss.integrity; css.crossOrigin = 'anonymous'; document.head.appendChild(css);
-    const s = document.createElement('script'); s.src = CONFIG.maplibreJs.src; s.integrity = CONFIG.maplibreJs.integrity; s.crossOrigin = 'anonymous'; s.onload = res; s.onerror = rej; document.head.appendChild(s);
+    const css = document.createElement('link'); css.rel = 'stylesheet'; css.href = mb ? CONFIG.mapbox.css : CONFIG.maplibreCss.href; if (!mb) css.integrity = CONFIG.maplibreCss.integrity; css.crossOrigin = 'anonymous'; document.head.appendChild(css);
+    const s = document.createElement('script'); s.src = mb ? CONFIG.mapbox.js : CONFIG.maplibreJs.src; if (!mb) s.integrity = CONFIG.maplibreJs.integrity; s.crossOrigin = 'anonymous';
+    s.onload = () => { if (mb) window.mapboxgl.accessToken = CONFIG.mapbox.token; res(); }; s.onerror = rej; document.head.appendChild(s);
   });
 }
 function ensureMap() {
   if (mapP) return mapP;
-  mapP = Promise.all([loadData(), loadMapLibre(), fetch(CONFIG.basemap).then(r => r.json())]).then(([d, , style]) => new Promise(resolve => {
+  mapP = Promise.all([loadData(), loadMapLibre(), fetch(CONFIG.styleUrl).then(r => r.json())]).then(([d, , style]) => new Promise(resolve => {
     M = d.m;
     const cs = M.P.flatMap(p => p.c), lons = cs.map(c => c[0]), lats = cs.map(c => c[1]);
     M.bounds = [[Math.min(...lons), Math.min(...lats)], [Math.max(...lons), Math.max(...lats)]];
@@ -1594,17 +1618,19 @@ function ensureMap() {
     // no map labels: hide every basemap text/icon layer (street, place, water and POI names)
     style.layers.forEach(l => { if (l.type === 'symbol') l.layout = Object.assign({}, l.layout, { visibility: 'none' }); });
     const mob = isMobile();
-    map = new maplibregl.Map({
+    const gl = GL();
+    map = new gl.Map({
       container: ui.gl, style, center: M.center, zoom: M.zoom, bearing: CONFIG.camera.bearing, pitch: CONFIG.camera.pitch, maxPitch: 70,
-      attributionControl: { compact: true }, dragPan: !mob, touchZoomRotate: true, scrollZoom: !mob, cooperativeGestures: false, fadeDuration: 0, minZoom: 12, maxZoom: 18.5
+      attributionControl: false, dragPan: !mob, touchZoomRotate: true, scrollZoom: !mob, cooperativeGestures: false, fadeDuration: 0, minZoom: 12, maxZoom: 18.5
     });
     // pan (drag), zoom (wheel, pinch, + / −), rotate & tilt (right-drag or compass)
-    map.addControl(new maplibregl.NavigationControl({ visualizePitch: true, showCompass: true }), 'bottom-right');
+    map.addControl(new gl.AttributionControl({ compact: true }));
+    map.addControl(new gl.NavigationControl({ visualizePitch: true, showCompass: true }), 'bottom-right');
     // explicit rotate / tilt buttons (right-drag, Ctrl+drag, Shift+arrows and two-finger twist also rotate)
     const ICON = d => '<svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path d="' + d + '" fill="none" stroke="#EEF1F7" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>';
     map.addControl({
       onAdd(mp) {
-        const g = document.createElement('div'); g.className = 'maplibregl-ctrl maplibregl-ctrl-group';
+        const g = document.createElement('div'); g.className = GLC() + '-ctrl ' + GLC() + '-ctrl-group';
         const dur = () => reducedMotion() ? 0 : 500;
         [['Rotate map left', 'M4 10A8 8 0 1 1 6 17M4 4v6h6', () => mp.easeTo({ bearing: mp.getBearing() - 30, duration: dur() })],
          ['Rotate map right', 'M20 10A8 8 0 1 0 18 17M20 4v6h-6', () => mp.easeTo({ bearing: mp.getBearing() + 30, duration: dur() })],
