@@ -8,6 +8,7 @@ Landing page for **SSCAP — Smart Sewer Capacity Analysis & Planning** by Smart
 | `demo-network.geojson` | Illustrative demo network: 925 conduits, 926 manholes, 4 SMAs, 10 development applications, 6 monitors. Swap it for the open-data demo city model. |
 | `hero-poster.svg`, `hero-poster-dark.svg` | Static LCP posters (light and dark themes) of the coloured network, shown until the live map cross-fades in. |
 | `og-image.png` | 1200×630 share image rendered from the poster. |
+| `favicon.svg` | Smart City Water mark, used as the favicon and the nav logo. |
 | `tools/generate-network.mjs` | Regenerates the GeoJSON and poster: `node tools/generate-network.mjs` |
 | `sample-design-sheet.pdf`, `design-sheet-preview.webp` | Fictional one-page Sanitary Design Sheet (DA.24.017, 22 pipe segments) and its preview, shown in the "Automated Sanitary Design Sheet" feature block. |
 | `tools/generate-design-sheet.mjs` | Rebuilds the sample PDF with Playwright. It uses the same column layout and formulas as a municipal design sheet: 370 L/cap/day, 0.26 L/s/ha infiltration, Harmon PF bounded 2.00–4.00, ICI as equivalent population, Manning n = 0.013. Run `node tools/generate-design-sheet.mjs`, then convert `tools/.build/design-sheet-preview.png` to WebP. |
