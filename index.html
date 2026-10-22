@@ -1,0 +1,1698 @@
+<!doctype html>
+<!--
+  SSCAP landing page · Smart City Water Inc.
+
+  ITEMS TO CONFIRM BEFORE PUBLISHING ([CONFIRM] / [ANSWER NEEDED])
+  1.  Municipal permitting integration: AMANDA                                  [CONFIRM]
+  2.  "Ontario Land Tribunal" audit-trail wording                               [CONFIRM wording]
+  3.  Sample capacity report download exists (secondary conversion)             [CONFIRM asset exists]
+  4.  Demo offer: load a sample of the prospect's own data                      [CONFIRM]
+  5.  CRM target for submitLead() (HubSpot Forms API vs WordPress handler)      [CONFIRM CRM]
+  6.  Success-state SLA "within one business day"                               [CONFIRM SLA]
+  7.  Embedded calendar link in success state                                   [CONFIRM]
+  8.  Roadmap "Coming next" band: SSCAP Assistant, Historical storm replay      [CONFIRM before publishing]
+  9.  Cloud-hosted on Microsoft Azure                                           [CONFIRM]
+  10. Canadian data residency                                                   [CONFIRM]
+  11. Role-based access                                                         [CONFIRM]
+  12. Proof metrics {N}/{X} are placeholders                                    [CONFIRM numbers]
+  13. Case study card: municipality, challenge, outcome, quote                  [CONFIRM client permission]
+  14. Brand accent #0B5CAD vs. SCW logo palette                                 [CONFIRM]
+  15. FAQ answers marked [ANSWER NEEDED]: own-model requirement, configurable
+      thresholds, onboarding time, consultant licensing
+  16. Privacy Policy / Legal / social URLs, canonical URL, og:image host        [CONFIRM URLs]
+  17. Hero map placement: illustrative network drawn around Vaughan Metropolitan
+      Centre on OpenFreeMap vector tiles (MapLibre GL JS, no API key), 3D
+      buildings. Network, flows and applications are synthetic — not the City of
+      Vaughan's or any municipality's data.                                     [CONFIRM placement]
+-->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>SSCAP | Sewer Capacity Analysis &amp; Planning Software | Smart City Water</title>
+<meta name="description" content="Test sanitary sewer capacity for every development application, alone and cumulatively, on one interactive map. Book a live SSCAP demo.">
+<link rel="canonical" href="https://www.smartcitywater.ca/sscap/">
+<meta name="theme-color" content="#F0EEE9" id="meta-theme">
+<meta name="color-scheme" content="light dark">
+<script>/* light is the default; a saved choice wins */try{if(localStorage.getItem("sscap_theme")==="dark")document.documentElement.dataset.theme="dark"}catch(e){}</script>
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Smart City Water">
+<meta property="og:title" content="SSCAP | Sewer Capacity Analysis &amp; Planning Software">
+<meta property="og:description" content="Test sanitary sewer capacity for every development application, alone and cumulatively, on one interactive map. Book a live SSCAP demo.">
+<meta property="og:url" content="https://www.smartcitywater.ca/sscap/">
+<meta property="og:image" content="https://www.smartcitywater.ca/sscap/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Sanitary sewer network in a 3D city view, each pipe coloured by used capacity">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="SSCAP | Sewer Capacity Analysis &amp; Planning Software">
+<meta name="twitter:description" content="Test sanitary sewer capacity for every development application, alone and cumulatively, on one interactive map.">
+<meta name="twitter:image" content="https://www.smartcitywater.ca/sscap/og-image.png">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="preload" as="image" href="hero-poster.svg" fetchpriority="high">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto+Flex:opsz,wght@8..144,300..800&amp;family=Roboto+Mono:wght@400;500;600&amp;display=swap" media="print" onload="this.media='all'">
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "SoftwareApplication",
+      "name": "SSCAP — Smart Sewer Capacity Analysis & Planning",
+      "applicationCategory": "BusinessApplication",
+      "operatingSystem": "Web",
+      "description": "Cloud platform that joins the hydraulic model, development-application roster, monitoring data and asset-condition data in one map-first workspace to test sanitary sewer capacity for every development application, alone and cumulatively.",
+      "url": "https://www.smartcitywater.ca/sscap/",
+      "publisher": { "@id": "https://www.smartcitywater.ca/#org" }
+    },
+    {
+      "@type": "Organization",
+      "@id": "https://www.smartcitywater.ca/#org",
+      "name": "Smart City Water Inc.",
+      "slogan": "Changing the Way We Plan and Operate.",
+      "url": "https://www.smartcitywater.ca/",
+      "email": "solutions@smartcitywater.ca",
+      "telephone": "+1-866-473-0453",
+      "address": { "@type": "PostalAddress", "streetAddress": "155 Winges Rd, Unit 8", "addressLocality": "Woodbridge", "addressRegion": "ON", "postalCode": "L4L 6C7", "addressCountry": "CA" },
+      "contactPoint": { "@type": "ContactPoint", "contactType": "sales", "email": "solutions@smartcitywater.ca", "telephone": "+1-866-473-0453", "areaServed": ["CA", "US"] }
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        { "@type": "Question", "name": "Do we need our own hydraulic model?", "acceptedAnswer": { "@type": "Answer", "text": "SSCAP runs on the EPA SWMM engine and imports InfoWorks ICM networks, so an existing model is the fastest start." } },
+        { "@type": "Question", "name": "Which model formats do you import?", "acceptedAnswer": { "@type": "Answer", "text": "InfoWorks ICM network imports and EPA SWMM / VO SWMM models, plus GIS layers (Shapefile / GeoJSON) and CCTV / NASSCO PACP inspection exports. Monitoring data comes in through DataCurrent." } },
+        { "@type": "Question", "name": "How is cumulative impact calculated?", "acceptedAnswer": { "@type": "Answer", "text": "The same network is run under stacked scenarios: Subject Application, Subject + Active, Subject + Active + Approved, and Masterplan + Subject. Application loads accumulate downstream, so each scenario shows the combined effect of everything ahead of the subject in the queue." } },
+        { "@type": "Question", "name": "How are capacity thresholds set?", "acceptedAnswer": { "@type": "Answer", "text": "Used capacity is Q/Qcap, shown in tiers: under 50%, 50–75%, 75–100%, and 100% or more (surcharged / over capacity). Grey means not computed." } },
+        { "@type": "Question", "name": "How do you handle pipes without CCTV data?", "acceptedAnswer": { "@type": "Answer", "text": "They are shown grey and unscored, never as good. OACS is only calculated where PACP-scored inspection data exists." } },
+        { "@type": "Question", "name": "Where is our data hosted?", "acceptedAnswer": { "@type": "Answer", "text": "Cloud-hosted on Microsoft Azure with Canadian data residency." } },
+        { "@type": "Question", "name": "Can consultants access the platform?", "acceptedAnswer": { "@type": "Answer", "text": "SSCAP is designed as a shared source of truth between municipalities and the consultants who prepare servicing reports." } }
+      ]
+    }
+  ]
+}
+</script>
+
+<style>
+/* ============ DESIGN TOKENS (port to WordPress global styles) ============ */
+/* Night "control app" theme: near-black navy ground, glass cards, glowing state. */
+:root{
+  color-scheme:light;
+  --c-bg:#FFFFFF; --c-bg-2:#F8FAFD; --c-surface:#F0F4F9; --c-surface-2:#E9EEF6; --c-surface-3:#FFFFFF; --c-ink:#1F1F1F; --c-ink-2:#444746; --c-ink-3:#5F6368;
+  --c-line:rgba(31,31,31,0.08); --c-line-2:#C4C7C5; --c-line-3:#747775; --c-soft:rgba(11,87,208,0.04); --c-soft-2:rgba(31,31,31,0.05);
+  --c-field:#747775; --c-accent:#0B57D0; --c-accent-ink:#FFFFFF; --c-accent-hover:#0842A0; --c-accent-glow:transparent; --c-link:#0B57D0; --c-link-hover:#0842A0; --c-focus:#0B57D0;
+  --c-invert:#1F1F1F; --c-invert-ink:#FFFFFF; --c-error:#B3261E; --c-flag:#8A5A00; --c-badge:#E8772E; --c-next-ink:#4B2FA8;
+  --c-pill-on:#D3E3FD; --c-pill-on-ink:#041E49; --c-chip-bg:rgba(255,255,255,0.96); --c-header:#FFFFFF;
+  --c-hero-panel:rgba(255,255,255,0.96); --c-hero-shadow:none;
+  --c-sky:linear-gradient(180deg,#9DBCCE 0%,#6B97B3 24%,#4A7C9C 56%,#3A6A8A 100%); --c-map-bg:#4A7C9C;
+  --c-proof:#F0F4F9; --c-aside:#D3E3FD;
+  /* data colours: reserved for capacity / condition tiers only */
+  --t-grey:#A3A9B1; --t-green:#2A9D8F; --t-yellow:#F2C230; --t-orange:#E8772E; --t-red:#A51D24; --t-casing:#6B3410;
+  --glass-bg:rgba(255,255,255,0.97); --glass-border:transparent; --glass-solid:#FFFFFF;
+  --shadow:0 1px 2px rgba(0,0,0,0.3),0 2px 6px 2px rgba(0,0,0,0.15);
+  --f-sans:'Roboto Flex',Roboto,system-ui,-apple-system,'Segoe UI',sans-serif;
+  --f-mono:'Roboto Mono',ui-monospace,'SFMono-Regular',Menlo,monospace;
+  --fs-14:14px; --fs-16:16px; --fs-20:20px; --fs-28:28px; --fs-40:40px; --fs-56:57px;
+  --s-1:8px; --s-2:16px; --s-3:24px; --s-4:32px; --s-5:40px; --s-6:48px; --s-8:64px; --s-10:88px;
+  --r-card:28px; --r-panel:28px; --r-tile:16px; --r-input:4px; --r-chip:8px; --r-pill:999px;
+  --ease:cubic-bezier(0.2,0,0,1); /* M3 emphasized */ --d-fast:200ms; --d-med:400ms; --d-slow:600ms;
+}
+/* Night "control app" theme */
+:root[data-theme="dark"]{
+  color-scheme:dark;
+  --c-bg:#131314; --c-bg-2:#1B1B1C; --c-surface:#1E1F20; --c-surface-2:#282A2C; --c-surface-3:#1E1F20; --c-ink:#E3E3E3; --c-ink-2:#C4C7C5; --c-ink-3:#A8ABAF;
+  --c-line:rgba(255,255,255,0.08); --c-line-2:#444746; --c-line-3:#8E918F; --c-soft:rgba(168,199,250,0.05); --c-soft-2:rgba(255,255,255,0.06);
+  --c-field:#8E918F; --c-accent:#A8C7FA; --c-accent-ink:#062E6F; --c-accent-hover:#D3E3FD; --c-accent-glow:transparent; --c-link:#A8C7FA; --c-link-hover:#D3E3FD; --c-focus:#A8C7FA;
+  --c-invert:#EEF1F7; --c-invert-ink:#0B0F1A; --c-error:#F2B8B5; --c-flag:#F7D154; --c-badge:#F2913F; --c-next-ink:#D7C8FF;
+  --c-pill-on:#004A77; --c-pill-on-ink:#C2E7FF; --c-chip-bg:rgba(30,31,32,0.96); --c-header:#131314;
+  --c-hero-panel:rgba(30,31,32,0.94); --c-hero-shadow:none;
+  --c-sky:radial-gradient(ellipse at 50% 0%,#1A1F3A 0%,#0A0D18 45%,#05070C 100%); --c-map-bg:#05070C;
+  --c-proof:#1B1B1C; --c-aside:#1E2A3D;
+  --t-grey:#5E6678; --t-green:#22A699; --t-yellow:#F7D154; --t-orange:#F2913F; --t-red:#FF4D6D; --t-casing:#7A3A0C;
+  --glass-bg:rgba(30,31,32,0.97); --glass-border:transparent; --glass-solid:#1E1F20;
+  --shadow:0 1px 3px rgba(0,0,0,0.3),0 4px 8px 3px rgba(0,0,0,0.15);
+}
+html{transition:background-color var(--d-med) var(--ease)}
+
+/* ============ BASE ============ */
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--c-bg);color:var(--c-ink);font-family:var(--f-sans);font-size:var(--fs-16);line-height:1.55;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+a{color:var(--c-link)} a:hover{color:var(--c-link-hover)}
+img,svg{max-width:100%}
+h1,h2,h3{line-height:1.12;letter-spacing:-0.015em;margin:0}
+button,input,select,textarea{font:inherit;color:inherit}
+:focus-visible{outline:3px solid var(--c-focus);outline-offset:2px}
+.sr-only{position:absolute!important;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+.sr-only-focusable:focus{position:fixed!important;left:16px;top:16px;width:auto;height:auto;clip:auto;margin:0;padding:12px 16px;background:var(--c-surface);z-index:100;border-radius:8px}
+.tnum{font-variant-numeric:tabular-nums}
+.wrap{max-width:1200px;margin:0 auto;padding:0 16px}
+@media (min-width:768px){.wrap{padding:0 24px}}
+.eyebrow{margin:0 0 var(--s-1);font-size:14px;letter-spacing:0;font-weight:500;color:var(--c-ink-3)}
+.label{font-size:14px;letter-spacing:0;font-weight:500}
+.h2{font-size:28px;margin-bottom:var(--s-4)} @media (min-width:768px){.h2{font-size:var(--fs-40)}}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:48px;padding:0 22px;border-radius:var(--r-pill);font-weight:600;text-decoration:none;cursor:pointer;border:1.5px solid transparent;transition:background-color var(--d-fast) var(--ease)}
+.btn--primary{background:var(--c-accent);color:var(--c-accent-ink);box-shadow:none} .btn--primary:hover{background:var(--c-accent-hover);color:var(--c-accent-ink)}
+.btn--ghost{background:var(--c-soft-2);color:var(--c-ink);border-color:color-mix(in srgb,var(--c-ink) 40%,transparent)}
+.flag{display:inline-block;font-size:12px;font-weight:500;border:1px dashed var(--c-flag);color:var(--c-flag);padding:1px 6px;border-radius:4px;letter-spacing:0;text-transform:none;vertical-align:middle}
+.glass{background:var(--glass-bg);-webkit-backdrop-filter:blur(18px) saturate(140%);backdrop-filter:blur(18px) saturate(140%);border:1px solid var(--glass-border);box-shadow:var(--shadow)}
+@supports not ((backdrop-filter:blur(1px)) or (-webkit-backdrop-filter:blur(1px))){.glass{background:var(--glass-solid)}}
+@media (prefers-reduced-transparency: reduce){.glass{background:var(--glass-solid);-webkit-backdrop-filter:none;backdrop-filter:none}}
+@media (prefers-reduced-motion: reduce){html{scroll-behavior:auto}*,*::before,*::after{animation-duration:0.01ms!important;animation-iteration-count:1!important;transition-duration:0.01ms!important}}
+/* tier swatches (shared by legend, chips, mini-visuals) */
+.sw{display:inline-block;width:30px;height:5px;border-radius:2px;flex-shrink:0}
+.sw--0{background:repeating-linear-gradient(90deg,var(--t-grey) 0 3px,transparent 3px 6px)}
+.sw--1{background:var(--t-green);box-shadow:0 0 6px rgba(34,166,153,.5)} .sw--2{background:var(--t-yellow);box-shadow:0 0 6px rgba(247,209,84,.45)}
+.sw--3{background:var(--t-orange);box-shadow:0 0 0 1.5px var(--t-casing);height:6px}
+.sw--4{background:repeating-linear-gradient(90deg,var(--t-red) 0 8px,transparent 8px 11px);filter:drop-shadow(0 0 4px rgba(255,77,109,.8))}
+.chip{display:inline-block;min-width:48px;text-align:center;padding:1px 6px;border-radius:var(--r-pill);font-weight:600;color:#0F1B2A}
+.chip--0{background:transparent;outline:1.5px dotted var(--t-grey);outline-offset:-2px;color:var(--c-ink)}
+.chip--1{background:var(--t-green)} .chip--2{background:var(--t-yellow)} .chip--3{background:var(--t-orange);box-shadow:0 0 0 1.5px var(--t-casing)}
+.chip--4{background:var(--t-red);color:#0B0F1A;outline:1.5px dashed #0B0F1A;outline-offset:-3px}
+
+/* Material 3 type scale + state layers */
+h1,h2{font-weight:400;letter-spacing:0}
+.sscap-hero__h1{letter-spacing:-0.25px;line-height:1.12}
+h3{font-weight:500}
+button,a[href]{transition:filter var(--d-fast) var(--ease)}
+button:not(:disabled):hover,a[href].btn:hover{filter:brightness(0.96)}
+[data-theme="dark"] button:not(:disabled):hover,[data-theme="dark"] a[href].btn:hover{filter:brightness(1.12)}
+button:not(:disabled):active{filter:brightness(0.92)}
+
+/* ============ NAV ============ */
+.sscap-nav{position:sticky;top:0;z-index:50;background:var(--c-header);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);border-bottom:1px solid var(--c-line)}
+.sscap-nav__in{max-width:1440px;margin:0 auto;padding:10px 16px;display:flex;align-items:center;gap:24px}
+.sscap-nav__brand{display:flex;align-items:center;gap:10px;color:var(--c-ink);text-decoration:none;line-height:1}
+.sscap-nav__brand svg{display:block;flex-shrink:0}
+.sscap-nav__brand b{font-size:28px;line-height:1;position:relative;top:0.5px;letter-spacing:.01em}
+.sscap-nav__brand .ss{color:#E9B940}.sscap-nav__brand .cap{color:#767676}
+.sscap-nav__brand>span{font-size:14px;line-height:20px;color:var(--c-ink-3);white-space:nowrap;padding-left:12px;margin-left:2px;border-left:1px solid var(--c-line-2);display:none}
+.sscap-nav__links{display:none;gap:24px;margin-left:auto;font-size:var(--fs-14);font-weight:500}
+.sscap-nav__links a{color:var(--c-ink-2);text-decoration:none}
+.sscap-nav__links a:hover{text-decoration:underline}
+.sscap-nav .btn{min-height:44px;font-size:var(--fs-14)}
+@media (min-width:1024px){.sscap-nav__links{display:flex}.sscap-nav__brand>span{display:inline}.sscap-nav__in{padding:10px 24px}}
+
+.theme-btn{display:inline-flex;align-items:center;gap:8px;min-height:44px;padding:0 14px 0 12px;border-radius:var(--r-pill);border:1px solid var(--c-line-2);background:var(--c-soft-2);color:var(--c-ink);font:600 13px var(--f-sans);cursor:pointer;margin-left:auto}
+@media (min-width:1024px){.theme-btn{margin-left:0}}
+.theme-btn .moon{display:block}.theme-btn .sun{display:none}
+[data-theme="dark"] .theme-btn .moon{display:none}[data-theme="dark"] .theme-btn .sun{display:block}
+
+/* ============ 1 · HERO MAP ============ */
+.sscap-hero{position:relative;background:var(--c-map-bg)}
+.sscap-hero__map::after{content:"";position:absolute;inset:0;z-index:2;pointer-events:none;background:radial-gradient(ellipse at 42% 46%,var(--mood,rgba(76,141,255,0.18)) 0%,transparent 62%);transition:background var(--d-slow) var(--ease)}
+.sscap-hero__map{position:relative;height:70svh;min-height:420px;overflow:hidden;background:var(--c-sky);contain:layout paint}
+.sscap-hero__poster,.sscap-hero__gl{position:absolute;inset:0;width:100%;height:100%}
+.sscap-hero__poster{object-fit:cover;object-position:60% 100%;transition:opacity var(--d-slow) var(--ease);z-index:1}
+.sscap-hero__poster.is-hidden{opacity:0;pointer-events:none}
+.sscap-hero__gl{z-index:0}
+.sscap-hero__gl:focus-visible{outline-offset:-3px}
+.sscap-hero__panel{padding:24px 16px 32px;background:var(--c-bg)}
+.sscap-hero__panel .eyebrow{color:var(--c-ink-2)}
+.sscap-hero__h1{font-size:var(--fs-40);line-height:1.12;letter-spacing:-0.25px;margin:0 0 16px;font-weight:400}
+.sscap-hero__sub{margin:0 0 24px;color:var(--c-ink-2)}
+.sscap-hero__ctas{display:flex;flex-wrap:wrap;gap:12px}
+.sscap-hero__about{display:none}
+.sscap-hero__ctrl{position:relative;z-index:4;padding:18px;display:flex;flex-direction:column;gap:16px;border-radius:var(--r-panel) var(--r-panel) 0 0}
+.sscap-hero__ctrl-toggle{display:flex;align-items:center;justify-content:space-between;width:100%;min-height:44px;background:none;border:0;padding:0;cursor:pointer}
+.sscap-hero__ctrl-body{display:flex;flex-direction:column;gap:14px}
+.sscap-hero__ctrl-body[hidden]{display:none}
+.app-head{display:flex;align-items:center;gap:12px}
+.app-head .ico{width:44px;height:44px;border-radius:14px;background:var(--c-soft-2);border:1px solid var(--c-line);display:grid;place-items:center;flex-shrink:0}
+.app-head .name{flex-grow:1;min-width:0;font-size:22px;line-height:28px;font-weight:400}
+.app-head .status{display:flex;align-items:center;gap:8px;margin-top:4px;font-size:14px;line-height:20px;color:var(--c-ink-3);font-weight:400}
+.app-head .dot{width:7px;height:7px;border-radius:50%;background:var(--t-green)}
+.app-head .play{width:40px;height:40px;border-radius:999px;border:0;cursor:pointer;display:grid;place-items:center;background:var(--c-accent);color:var(--c-accent-ink)}
+.app-head .ico{display:none}
+.app-head{align-items:flex-start}
+.app-head .sq{min-height:40px;padding:0 16px;border-radius:999px;border:1px solid var(--c-line-3);background:transparent;color:var(--c-link);cursor:pointer;font:500 14px var(--f-sans)}
+.seg{display:flex;gap:8px;overflow-x:auto;scrollbar-width:none;padding:2px}
+.seg::-webkit-scrollbar{display:none}
+.seg button{flex-shrink:0;min-height:40px;padding:0 14px;border-radius:var(--r-chip);border:1px solid var(--c-line-3);background:transparent;color:var(--c-ink-2);font-size:13px;font-weight:500;cursor:pointer;display:inline-flex;align-items:center;gap:8px;white-space:nowrap;transition:background-color var(--d-fast) var(--ease)}
+.seg button[aria-pressed="true"]{background:var(--c-pill-on);color:var(--c-pill-on-ink);border-color:var(--c-pill-on)}
+.seg .badge{font:400 14px var(--f-sans);font-variant-numeric:tabular-nums;color:inherit;opacity:.75}
+.seg .badge:empty,.seg .badge[data-n="0"]{display:none}
+.steps{display:flex;border:1px solid var(--c-line-3);border-radius:999px;overflow:hidden}
+.steps button{flex:1 1 auto;min-height:40px;padding:0 8px;border:0;border-left:1px solid var(--c-line-3);border-radius:0;background:transparent;color:var(--c-ink);font-size:13px;font-weight:500;cursor:pointer;white-space:nowrap}
+.steps button:first-child{border-left:0}
+.steps button svg{display:none}
+.steps button svg{width:20px;height:20px}
+.steps button.is-past{border-color:var(--c-line-3)}
+.steps button[aria-pressed="true"]{background:var(--c-pill-on);border-color:transparent;color:var(--c-pill-on-ink);box-shadow:none}
+.pills{display:flex;gap:6px}
+.pills button{flex:1 1 0;min-height:36px;border-radius:var(--r-pill);font-size:12px;font-weight:500;cursor:pointer;background:transparent;color:var(--c-ink-2);border:1px solid var(--c-line-2)}
+.pills button[aria-pressed="true"]{background:var(--c-pill-on);color:var(--c-pill-on-ink);border-color:var(--c-pill-on)}
+.app-label{font-size:16px;letter-spacing:0;font-weight:500;color:var(--c-ink)}
+.cards{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.cards button{text-align:left;min-height:120px;padding:16px;border-radius:20px;border:0;background:var(--c-surface);cursor:pointer;color:var(--c-ink);display:flex;flex-direction:column;gap:2px}
+.cards .ct{font-size:13px;color:var(--c-ink-3);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.cards .cs{display:flex;align-items:baseline;gap:6px}.cards .cs b{font-size:28px;line-height:36px;font-weight:400}.cards .cs span{font-size:13px;color:var(--c-ink-3)}.cards .tier{display:flex;align-items:center;gap:6px;font-size:13px;color:var(--c-ink-2)}.cards .tier i{width:8px;height:8px;border-radius:50%}
+.cards .bar{display:block;margin-top:auto;height:4px;border-radius:4px;background:var(--c-line-2)}
+.cards .bar i{display:block;height:100%;border-radius:4px}
+.counter{border-top:1px solid var(--c-line);padding-top:12px;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.counter div div:nth-child(2){font-size:28px;line-height:36px;font-weight:400}
+.counter small{font-size:11px;color:var(--c-ink-2)}
+.counter .label{font-size:11px;color:var(--c-ink-2)}
+.sscap-hero__legend{position:absolute;left:12px;bottom:12px;z-index:3;padding:12px 14px;border-radius:16px;min-width:200px;font-size:13px}
+.sscap-hero__legend ul{list-style:none;margin:6px 0 0;padding:0}
+.sscap-hero__legend li{display:flex;align-items:center;gap:10px;line-height:24px}
+.sscap-hero__legend li span:nth-child(2){flex-grow:1}
+.sscap-hero__legend .lg-mark{width:30px;display:inline-flex;justify-content:center}
+.sscap-hero__badge{position:absolute;right:12px;top:12px;z-index:3;display:flex;flex-direction:column;align-items:flex-end;gap:6px;max-width:60%}
+.sscap-hero__badge p{margin:0;padding:6px 12px;border-radius:var(--r-pill);background:var(--c-chip-bg);border:1px solid var(--c-line-2);color:var(--c-ink-2);font-size:12px;font-weight:500;text-align:right}
+.sscap-hero__badge a{font-size:12px;color:#0F1B2A;background:rgba(255,255,255,.88);padding:4px 10px;border-radius:var(--r-pill)}
+.sscap-hero__interact{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);z-index:3}
+.sscap-hero__interact[hidden]{display:none}
+.sscap-hero__tip{position:absolute;z-index:6;width:240px;padding:10px 12px;border-radius:10px;font-size:12px;line-height:1.55;pointer-events:none}
+.sscap-hero__tip[hidden]{display:none}
+.sscap-hero__tip dl{display:grid;grid-template-columns:1fr 1fr;column-gap:8px;margin:4px 0 0}
+.sscap-hero__tip dt{color:var(--c-ink-2)} .sscap-hero__tip dd{margin:0}
+.sscap-hero__side{position:relative;z-index:5;padding:16px}
+.sscap-hero__side[hidden]{display:none}
+.sscap-hero__side-head{display:flex;align-items:flex-start;gap:8px}
+.sscap-hero__side-head > div{flex-grow:1}
+.iconbtn{width:44px;height:44px;border-radius:var(--r-pill);border:1px solid var(--c-line);background:var(--c-soft-2);cursor:pointer;display:grid;place-items:center;flex-shrink:0;color:var(--c-ink)}
+.status-chip{display:inline-block;font-size:12px;font-weight:600;padding:3px 10px;border-radius:var(--r-pill);border:1.5px solid var(--c-ink-2);background:var(--c-soft)}
+.status-chip[data-grp="active"]{border-style:dashed}.status-chip[data-grp="occupied"]{border-style:double;border-width:4px}.status-chip[data-grp="sandbox"]{border-style:dotted}
+.kv{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin:10px 0}
+.kv .label{font-size:11px;color:var(--c-ink-2)}
+.limit{padding:12px 14px;border-radius:16px;background:rgba(255,77,109,.12);border:1px solid rgba(255,77,109,.35);color:var(--c-ink);font-size:13px;margin:10px 0}
+.minisheet{max-height:180px;overflow:auto;border:1px solid var(--c-line);border-radius:16px;background:var(--c-surface)}
+.minisheet table,.sheet table,.dtable table{border-collapse:collapse;width:100%;font-size:11px}
+.minisheet th,.minisheet td,.sheet th,.sheet td,.dtable th,.dtable td{padding:5px 6px;text-align:right;white-space:nowrap}
+.minisheet th:first-child,.minisheet td:first-child,.sheet th:first-child,.sheet td:first-child,.dtable th:first-child{text-align:left}
+.minisheet thead th,.dtable thead th{position:sticky;top:0;background:var(--c-surface-2)}
+.minisheet tbody tr,.sheet tbody tr,.dtable tbody tr{border-top:1px solid var(--c-line)}
+.hgl{display:block;width:100%;height:auto;background:var(--c-surface);border-radius:8px}
+.sscap-hero__tour{position:absolute;left:50%;bottom:72px;z-index:7;transform:translateX(-50%);width:min(560px,calc(100% - 24px));padding:14px 16px;border-radius:12px;display:flex;flex-wrap:wrap;align-items:center;gap:12px}
+.sscap-hero__tour[hidden]{display:none}
+.sscap-hero__tour strong{flex:1 1 200px;font-size:18px}
+.sscap-hero__tour .btn{min-height:44px;padding:0 16px}
+.sscap-hero__marker{border:0;padding:2px 8px;border-radius:999px;font:600 11px/1.4 var(--f-mono);background:rgba(255,255,255,.92);color:#0F1B2A;cursor:pointer;box-shadow:0 1px 3px rgba(15,27,42,.3);white-space:nowrap}
+.sscap-hero__marker[aria-pressed="true"]{background:var(--c-accent);color:var(--c-accent-ink)}
+.sscap-hero__label{font:600 11px/1.3 var(--f-sans);letter-spacing:.08em;text-transform:uppercase;color:var(--c-ink);background:var(--c-chip-bg);border:1px solid var(--c-line-2);padding:2px 6px;border-radius:4px;white-space:nowrap;pointer-events:none}
+.sscap-hero__mon{display:flex;align-items:center;gap:6px;pointer-events:none}
+.sscap-hero__mon i{display:block;width:12px;height:12px;background:#EEF1F7;border:2px solid #0B0F1A;border-radius:4px;box-shadow:0 0 10px rgba(238,241,247,.6)}
+.sscap-hero__mon i.rg{width:0;height:0;background:none;border:0;border-left:8px solid transparent;border-right:8px solid transparent;border-bottom:14px solid #6EA1FF;border-radius:0}
+.sscap-hero__dialog{width:min(960px,calc(100% - 24px));max-height:80vh;border:0;border-radius:var(--r-card);padding:0;background:var(--c-surface);color:var(--c-ink)}
+.sscap-hero__dialog::backdrop{background:rgba(15,27,42,.5)}
+.sscap-hero__dialog header{display:flex;align-items:center;gap:12px;padding:16px;border-bottom:1px solid var(--c-line)}
+.sscap-hero__dialog header h2{font-size:20px;flex-grow:1}
+.dtable{max-height:calc(80vh - 80px);overflow:auto}
+@media (min-width:768px){
+  .sscap-hero__map{height:100svh;min-height:640px;max-height:1000px}
+  .sscap-hero__panel{position:absolute;left:32px;top:32px;z-index:4;max-width:476px;padding:20px;border:0;border-radius:28px;background:var(--c-hero-panel);box-shadow:none;-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px)}
+  .sscap-hero__panel .sscap-hero__h1,.sscap-hero__panel .sscap-hero__sub{text-shadow:var(--c-hero-shadow)}
+  .sscap-hero__panel.is-collapsed{display:none}
+  .sscap-hero__about{display:inline-flex;position:absolute;left:24px;top:24px;z-index:4}
+  .sscap-hero__about[hidden]{display:none}
+  .sscap-hero__h1{font-size:var(--fs-56)}
+  .sscap-hero__ctrl{position:absolute;right:24px;top:24px;width:404px;max-height:calc(100% - 48px);overflow-y:auto;border-radius:var(--r-panel)}
+  .sscap-hero__ctrl-toggle{display:none}
+  .sscap-hero__ctrl-body[hidden]{display:flex}
+  .sscap-hero__side{position:absolute;right:440px;bottom:24px;width:384px;max-height:calc(100% - 140px);overflow:auto;border-radius:var(--r-panel)}
+  .sscap-hero__legend{left:24px;bottom:24px}
+  .sscap-hero__badge{right:auto;left:50%;transform:translateX(-50%);top:auto;bottom:24px;align-items:center;max-width:none}
+  .sscap-hero__tour{bottom:96px}
+}
+@media (max-width:767px){.sscap-hero__panel{background:var(--c-bg)}.sscap-hero__legend{font-size:11px;min-width:0;padding:6px 8px;max-width:55%}.sscap-hero__legend li{line-height:18px;gap:6px}.sscap-hero__legend .label{font-size:10px}.sscap-hero__legend .lg-mark{width:22px}.sscap-hero__legend .sw{width:22px}.sscap-hero__badge p{font-size:11px;padding:4px 10px}
+.sscap-hero__ctrl,.sscap-hero__side{background:var(--glass-solid);box-shadow:none;border:0;border-top:1px solid var(--c-line);-webkit-backdrop-filter:none;backdrop-filter:none}}
+
+/* ============ 2 · DEMO FORM ============ */
+.sscap-form{padding:var(--s-10) 0;background:var(--c-bg)}
+.sscap-form__eyebrow{color:var(--c-link)}
+.sscap-form__lede{margin:0 0 var(--s-5);max-width:720px;font-size:18px;color:var(--c-ink-2)}
+.sscap-form__grid{display:flex;flex-wrap:wrap;gap:32px;align-items:flex-start}
+.sscap-form__card{flex:999 1 560px;min-width:0;background:var(--c-surface);border:1px solid var(--c-line);border-radius:var(--r-panel);padding:24px}
+@media (min-width:768px){.sscap-form__card{padding:32px}}
+.sscap-form__fields{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:24px 20px}
+
+.sscap-form .full{grid-column:1/-1}
+.sscap-form .field{display:flex;flex-direction:column;gap:6px}
+.sscap-form label.label,.sscap-form legend.label{color:var(--c-ink)}
+.sscap-form .opt{font-weight:400;text-transform:none;letter-spacing:0;color:var(--c-ink-3)}
+.sscap-form input:not([type=checkbox]),.sscap-form select,.sscap-form textarea{min-height:48px;padding:0 14px;border:1px solid var(--c-field);border-radius:var(--r-input);background:var(--c-surface-3);color:var(--c-ink);font-size:16px;width:100%}
+.sscap-form ::placeholder{color:var(--c-ink-3);opacity:.8}
+.sscap-form textarea{padding:10px 12px;resize:vertical}
+.sscap-form input:focus,.sscap-form select:focus,.sscap-form textarea:focus{border-color:var(--c-accent);box-shadow:0 0 0 3px rgba(110,161,255,.25);outline:none;border-color:#6EA1FF}
+.sscap-form [aria-invalid="true"]{border-color:var(--c-error)!important}
+.sscap-form .err{font-size:13px;color:var(--c-error);margin:0}
+.sscap-form .err:empty{display:none}
+.sscap-form fieldset{border:0;padding:0;margin:0}
+.sscap-form .chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}
+.sscap-form .chips label{position:relative}
+.sscap-form .chips input{position:absolute;opacity:0;width:1px;height:1px}
+.sscap-form .chips span{display:inline-flex;align-items:center;min-height:40px;padding:0 16px;border-radius:var(--r-chip);border:1px solid var(--c-line-2);background:var(--c-soft-2);color:var(--c-ink-2);font-size:14px;cursor:pointer}
+.sscap-form .chips input:checked + span{background:var(--c-pill-on);color:var(--c-pill-on-ink);border-color:var(--c-pill-on)}
+.sscap-form .chips input:focus-visible + span{outline:3px solid var(--c-accent);outline-offset:2px}
+.sscap-form .consent{display:flex;gap:12px;align-items:flex-start;font-size:14px}
+.sscap-form .consent input{width:20px;height:20px;margin:2px 0 0;flex-shrink:0;accent-color:var(--c-accent)}
+.sscap-form .hp{position:absolute;left:-10000px;width:1px;height:1px;overflow:hidden}
+.sscap-form .submit{display:flex;flex-wrap:wrap;align-items:center;gap:16px 24px;padding-top:24px;border-top:1px solid var(--c-line-2)}
+.sscap-form .submit .privacy{flex:1 1 260px;font-size:14px;line-height:20px}
+.sscap-form input:not([type=checkbox]){min-height:56px}
+.sscap-form .submit .btn{min-height:52px;padding:0 28px;font-size:16px;border:0}
+.sscap-form .submit .btn[aria-busy="true"]{opacity:.75;cursor:progress}
+.sscap-form .privacy{margin:0;font-size:13px;color:var(--c-ink-2)}
+.sscap-form__fail{padding:12px 14px;border-radius:8px;border:1.5px solid var(--c-error);color:var(--c-ink);font-size:14px}
+.sscap-form__fail[hidden]{display:none}
+.sscap-form__ok h3{font-size:28px;margin:16px 0 8px}
+.sscap-form__aside{flex:1 1 320px;min-width:0;background:var(--c-aside);border:1px solid var(--c-line);color:var(--c-ink);border-radius:var(--r-panel);padding:28px;display:flex;flex-direction:column;gap:20px}
+.sscap-form__aside h3{font-size:20px}
+.sscap-form__aside ul{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:16px;font-size:15px}
+.sscap-form__aside li{display:flex;gap:12px;padding:12px;border-radius:18px;background:var(--c-soft);border:1px solid var(--c-soft-2)}
+.sscap-form__aside .n{color:var(--c-link);font-weight:600}
+.sscap-form__aside .trust{border-top:1px solid var(--c-line-2);padding-top:16px;font-size:13px;color:var(--c-ink-3)}
+
+/* ============ 3 · PROBLEM ============ */
+.sscap-problem{padding:var(--s-10) 0;background:var(--c-bg-2);border-top:1px solid var(--c-line)}
+.sscap-problem__grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:24px}
+.sscap-problem__card{border:1px solid var(--c-line);border-radius:var(--r-card);padding:28px;background:var(--c-surface)}
+.sscap-problem__card svg{width:32px;height:32px;color:var(--c-ink-2)}
+.sscap-problem__card h3{font-size:20px;margin:16px 0 8px}
+.sscap-problem__card p{margin:0;color:var(--c-ink-2)}
+.sscap-problem__bridge{margin:var(--s-5) 0 0;font-size:24px;font-weight:600;line-height:1.35}
+
+/* ============ 4 · HOW IT WORKS ============ */
+.sscap-how{padding:var(--s-10) 0;background:var(--c-bg)}
+.sscap-how ol{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:1fr;gap:0}
+.sscap-how ol{gap:12px}.sscap-how li{padding:22px;border-radius:24px;background:var(--c-surface);border:1px solid var(--c-line)}
+.sscap-how li b{display:block;margin:0 0 8px;font-size:22px;line-height:28px;font-weight:400;color:var(--c-ink)}
+.sscap-how li p{margin:0}
+@media (min-width:768px){.sscap-how ol{grid-template-columns:repeat(4,minmax(0,1fr))}}
+
+/* ============ 5 · FEATURE BLOCKS ============ */
+.sscap-features{padding:var(--s-10) 0;background:var(--c-bg-2);border-top:1px solid var(--c-line)}
+.sscap-feature{display:flex;flex-wrap:wrap;gap:40px;align-items:center;margin-top:var(--s-10)}
+.sscap-feature--rev{flex-direction:row-reverse}
+.sscap-feature__text{flex:1 1 360px;min-width:0}
+.sscap-feature__text h3{font-size:var(--fs-28);margin-bottom:12px}
+.sscap-feature__text p{margin:0 0 16px;color:var(--c-ink-2)}
+.sscap-feature__text ul{margin:0;padding-left:20px;line-height:1.8}
+.sscap-feature__vis{flex:1 1 420px;min-width:0;background:var(--c-surface);border:1px solid var(--c-line);border-radius:var(--r-panel);padding:24px}
+.sscap-feature__vis--wide{flex:2 1 540px}
+.mini-pipes{display:flex;height:64px;align-items:center}
+.mini-pipes > div{flex:1 1 0;display:flex;flex-direction:column;align-items:center;gap:8px}
+.mini-pipes .p{width:100%;transition:background-color var(--d-slow) var(--ease)}
+.mini-pipes .p.t0{background:repeating-linear-gradient(90deg,var(--t-grey) 0 3px,transparent 3px 6px)}
+.mini-pipes .p.t1{background:var(--t-green)} .mini-pipes .p.t2{background:var(--t-yellow)}
+.mini-pipes .p.t3{background:var(--t-orange);box-shadow:0 0 0 1.5px var(--t-casing)}
+.mini-pipes .p.t4{background:repeating-linear-gradient(90deg,var(--t-red) 0 8px,transparent 8px 11px)}
+.sscap-feature input[type=range]{width:100%;height:44px;accent-color:var(--c-accent)}
+.bars{position:relative;height:240px;display:flex;align-items:flex-end;gap:12px;padding-left:8px;border-bottom:1px solid var(--c-ink)}
+.bars .line{position:absolute;left:0;right:0;border-top:2px dashed var(--t-red)}
+.bars .line span{position:absolute;right:0;top:-18px;font-size:11px;font-weight:600;color:var(--c-error)}
+.bars .bar{flex:1 1 0;display:flex;flex-direction:column;justify-content:flex-end;height:100%;position:relative;z-index:1}
+.bars .bar b{text-align:center;font-size:12px;margin-bottom:4px}
+.bars .seg-0{background:#5E6678}.bars .seg-1{background:#4C8DFF}.bars .seg-2{background:#7FB0FF}.bars .seg-3{background:#B4CEFF}.bars .seg-4{background:#8B5CF6}
+.bars .bar i{display:block;border-top:1px solid var(--c-surface)}
+.bar-labels{display:flex;gap:12px;padding-left:8px;margin-top:6px}
+.bar-labels span{flex:1 1 0;text-align:center;font-size:11px;line-height:1.25;color:var(--c-ink-2)}
+.keys{display:flex;flex-wrap:wrap;gap:12px;margin-top:14px;font-size:11px}
+.keys span{display:inline-flex;align-items:center;gap:6px}
+.keys i{width:12px;height:12px;border-radius:2px;border:1px solid rgba(15,27,42,.3)}
+.sheet{overflow-x:auto;background:var(--c-surface-2);border-radius:20px;border:1px solid var(--c-line)}
+.sheet caption{text-align:left;padding:10px;font:600 12px var(--f-sans)}
+.sheet thead tr{background:var(--c-surface-2)}
+.sheet tbody tr{opacity:0;transform:translateY(-6px);transition:opacity 500ms var(--ease),transform 500ms var(--ease)}
+.sheet tbody tr.in{opacity:1;transform:none}
+.sscap-file{padding:12px}
+.sscap-file__preview{display:block;border-radius:20px;overflow:hidden;background:#FFFFFF;box-shadow:0 1px 2px rgba(0,0,0,.12)}
+.sscap-file__preview img{display:block;width:100%;height:auto;aspect-ratio:1600/659;transition:transform var(--d-med) var(--ease)}
+.sscap-file__preview:hover img{transform:scale(1.015)}
+.sscap-file__bar{display:flex;flex-wrap:wrap;align-items:center;gap:12px 16px;padding:16px 8px 6px}
+.sscap-file__type{width:40px;height:40px;border-radius:8px;background:var(--c-surface-2);color:var(--c-ink-2);display:grid;place-items:center;font:700 11px var(--f-sans);flex-shrink:0}
+.sscap-file__meta{flex:1 1 220px;min-width:0}
+.sscap-file__name{font-size:16px;line-height:24px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.sscap-file__info{font-size:14px;line-height:20px;color:var(--c-ink-3)}
+.sscap-file__actions{display:flex;gap:8px}
+.sscap-file__actions .btn{min-height:40px;padding:0 20px;font-size:14px;font-weight:500}
+.oacs-strip{display:flex;gap:2px;height:22px;margin-bottom:20px}
+.oacs-strip i{flex:1 1 0}
+.oacs-strip i.t0{background:repeating-linear-gradient(90deg,var(--t-grey) 0 3px,transparent 3px 6px);outline:1px solid var(--c-field);outline-offset:-1px}
+.oacs-strip i.t1{background:var(--t-green)}.oacs-strip i.t2{background:var(--t-yellow)}.oacs-strip i.t3{background:var(--t-orange);box-shadow:inset 0 0 0 1.5px var(--t-casing)}
+.oacs-strip i.t4{background:repeating-linear-gradient(90deg,var(--t-red) 0 8px,transparent 8px 11px)}
+.reline{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:6px;font-size:13px}
+.reline li{display:flex;flex-wrap:wrap;align-items:center;gap:10px;background:var(--c-soft);border:1px solid var(--c-line);border-radius:16px;padding:10px 12px}
+.reline li span:nth-child(2){flex-grow:1}
+.svgvis{display:block;width:100%;height:auto;background:var(--c-surface-2);border-radius:20px}
+.svgvis text{font-family:var(--f-mono);font-size:11px;fill:var(--c-ink)}
+.sscap-next{margin-top:var(--s-10);border:1px dashed var(--c-line-3);background:linear-gradient(135deg,rgba(139,92,246,.10),rgba(76,141,255,.06));border-radius:var(--r-panel);padding:28px;display:flex;flex-wrap:wrap;gap:32px}
+.sscap-next > div{flex:2 1 300px}.sscap-next > div:first-child{flex:1 1 200px}
+.sscap-next h3{font-size:20px;margin-bottom:6px}
+.sscap-next p{margin:0;color:var(--c-ink-2)}
+.tag{display:inline-block;font-size:12px;letter-spacing:.08em;text-transform:uppercase;font-weight:600;padding:6px 12px;border-radius:var(--r-pill);background:rgba(139,92,246,.18);color:var(--c-next-ink)}
+
+/* ============ 6 · ROLE TABS ============ */
+.sscap-roles{padding:var(--s-10) 0;background:var(--c-bg)}
+.sscap-roles [role=tablist]{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:24px}
+.sscap-roles [role=tab]{min-height:44px;padding:0 18px;border-radius:var(--r-pill);font-size:15px;font-weight:500;cursor:pointer;background:var(--c-soft-2);color:var(--c-ink-2);border:1px solid var(--c-line-2)}
+.sscap-roles [role=tab][aria-selected=true]{background:var(--c-pill-on);color:var(--c-pill-on-ink);border-color:var(--c-pill-on)}
+.sscap-roles [role=tabpanel]{background:radial-gradient(ellipse at 0% 0%,rgba(76,141,255,.14),transparent 60%),var(--c-surface);border:1px solid var(--c-line);border-radius:var(--r-panel);padding:28px;display:flex;flex-wrap:wrap;gap:32px}
+.sscap-roles [role=tabpanel] p{flex:1 1 280px;margin:0;font-size:var(--fs-28);line-height:1.25;font-weight:600}
+.sscap-roles [role=tabpanel] ul{flex:1 1 340px;margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:10px}
+.sscap-roles [role=tabpanel] li{padding:12px 16px;border-radius:16px;background:var(--c-soft);border:1px solid var(--c-line);color:var(--c-ink-2)}
+
+/* ============ 7 · INTEGRATIONS ============ */
+.sscap-int{padding:var(--s-10) 0;background:var(--c-bg-2);border-top:1px solid var(--c-line)}
+.sscap-int__lede{margin:-16px 0 32px;max-width:720px;font-size:18px;color:var(--c-ink-2)}
+.sscap-int ul{margin:0;padding:0;list-style:none;display:flex;flex-wrap:wrap;gap:10px}
+.sscap-int li{padding:12px 18px;border-radius:var(--r-chip);border:1px solid var(--c-line-2);background:var(--c-surface);font-size:15px;font-weight:500}
+.sscap-int li.is-flag{border-style:dashed;border-color:var(--c-flag)}
+
+/* ============ 8 · TRUST ============ */
+.sscap-trust{padding:var(--s-10) 0;background:var(--c-bg)}
+.sscap-trust__grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:20px}
+.sscap-trust__tile{background:var(--c-surface);border:1px solid var(--c-line);border-radius:var(--r-card);padding:24px}
+.sscap-trust__tile h3{font-size:18px;margin-bottom:8px}
+.sscap-trust__tile p{margin:0;color:var(--c-ink-2);font-size:15px}
+
+/* ============ 9 · PROOF ============ */
+.sscap-proof{padding:var(--s-10) 0;background:var(--c-proof);color:var(--c-ink)}
+.sscap-proof .eyebrow{color:var(--c-link)}
+.sscap-proof__metrics{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;margin:0 0 12px}
+.sscap-proof__metrics div{background:var(--c-soft);border:1px solid var(--c-line);border-radius:var(--r-card);padding:24px}
+.sscap-proof__metrics b{display:block;font-size:44px;font-weight:300}
+.sscap-proof__metrics span{color:var(--c-ink-3);font-size:15px}
+.sscap-proof__note{margin:0 0 24px;font-size:13px;color:var(--c-ink-3)}
+.sscap-proof__case{border:1px dashed var(--c-line-3);border-radius:var(--r-panel);padding:28px;display:flex;flex-wrap:wrap;gap:32px}
+.sscap-proof__case > div{flex:1 1 240px}
+.sscap-proof__case h3{font-size:24px;margin-top:8px}
+.sscap-proof__case dl{flex:2 1 380px;margin:0;display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:16px 24px}
+.sscap-proof__case dt{font-weight:600;margin-bottom:4px}.sscap-proof__case dd{margin:0;color:var(--c-ink-3)}
+
+
+/* ============ 10 · FAQ ============ */
+.sscap-faq{padding:var(--s-10) 0;background:var(--c-bg)}
+.sscap-faq .wrap{max-width:880px}
+.sscap-faq details{background:var(--c-surface);border:1px solid var(--c-line);border-radius:22px;padding:4px 20px;margin-bottom:10px}
+.sscap-faq summary{display:flex;align-items:center;gap:16px;min-height:56px;font-size:18px;font-weight:600;cursor:pointer;list-style:none;padding:8px 0}
+.sscap-faq summary::-webkit-details-marker{display:none}
+.sscap-faq summary h3{font-size:inherit;flex-grow:1;letter-spacing:0}
+.sscap-faq summary svg{transition:transform var(--d-fast) var(--ease);flex-shrink:0}
+.sscap-faq details[open] summary svg{transform:rotate(180deg)}
+.sscap-faq details p{margin:0 0 20px;color:var(--c-ink-2);max-width:760px}
+
+/* ============ 11 · CTA + FOOTER ============ */
+.sscap-cta{padding:24px 0 var(--s-10);background:var(--c-bg);color:var(--c-ink)}
+.sscap-cta .wrap{border-radius:var(--r-panel);padding:56px 32px;background:var(--c-pill-on);color:var(--c-pill-on-ink);border:0}
+.sscap-cta .wrap{display:flex;flex-wrap:wrap;gap:32px;align-items:center}
+.sscap-cta h2{flex:1 1 480px;font-size:28px;line-height:1.15}
+@media (min-width:768px){.sscap-cta h2{font-size:var(--fs-40)}}
+.sscap-cta .btn{background:var(--c-accent);color:var(--c-accent-ink);min-height:56px;padding:0 28px;box-shadow:none}
+.sscap-footer{padding:56px 0 32px;background:#05070C;border-top:1px solid var(--c-line);color:#AEB8CC;font-size:14px}
+.sscap-footer a{color:#AEB8CC}
+.sscap-footer__top{display:flex;flex-wrap:wrap;gap:40px}
+.sscap-footer__top > div{flex:2 1 260px}
+.sscap-footer__top nav,.sscap-footer__top address{flex:1 1 180px;display:flex;flex-direction:column;gap:8px;font-style:normal;line-height:1.6}
+.sscap-footer .label{color:#FFFFFF}
+.sscap-footer__bottom{margin-top:40px;padding-top:20px;border-top:1px solid rgba(255,255,255,.15);display:flex;flex-wrap:wrap;gap:20px;font-size:13px}
+.sscap-footer__bottom span:last-child{margin-left:auto;display:flex;gap:16px}
+
+/* MapLibre controls, night styling */
+.sscap-hero .maplibregl-ctrl-bottom-right{right:440px;bottom:16px}
+@media (max-width:767px){.sscap-hero .maplibregl-ctrl-bottom-right{right:8px;bottom:8px}}
+.sscap-hero .maplibregl-ctrl-group{background:var(--glass-bg);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);border:1px solid var(--c-line-2);border-radius:18px;overflow:hidden;box-shadow:var(--shadow)}
+.sscap-hero .maplibregl-ctrl-group button{width:44px;height:44px;display:grid;place-items:center}
+.sscap-hero .maplibregl-ctrl-bottom-right{display:flex;flex-direction:column-reverse;align-items:flex-end}
+.sscap-hero .maplibregl-ctrl-group button+button{border-top:1px solid var(--c-line)}
+[data-theme="dark"] .sscap-hero .maplibregl-ctrl-group button .maplibregl-ctrl-icon{filter:invert(1) brightness(1.6)}
+.sscap-hero .maplibregl-ctrl-attrib{background:var(--c-chip-bg);color:var(--c-ink-3)}
+.sscap-hero .maplibregl-ctrl-attrib a{color:var(--c-ink-2)}
+.sscap-hero__gl .maplibregl-canvas{cursor:grab}.sscap-hero__gl .maplibregl-canvas:active{cursor:grabbing}
+
+/* Store-style cards: flat tonal surfaces, no outlines */
+.sscap-problem__card,.sscap-feature__vis,.sscap-trust__tile,.sscap-roles [role=tabpanel],.sscap-how li,.sscap-proof__metrics div,.sscap-faq details,.sscap-form__card,.sscap-form__aside,.sscap-int li,.sscap-roles [role=tabpanel] li,.sscap-form__aside li,.reline li{border:0}
+.sscap-roles [role=tabpanel]{background:var(--c-surface)}
+.sscap-hero__legend,.sscap-hero__ctrl{border:0}
+
+/* ============ CONSENT ============ */
+.sscap-consent{position:fixed;left:16px;right:16px;bottom:16px;z-index:90;max-width:560px;margin:0 auto;background:var(--glass-bg);-webkit-backdrop-filter:blur(18px);backdrop-filter:blur(18px);color:var(--c-ink);border:1px solid var(--c-line);border-radius:24px;box-shadow:var(--shadow);padding:16px;display:flex;flex-wrap:wrap;gap:12px;align-items:center;font-size:14px}
+.sscap-consent[hidden]{display:none}
+.sscap-consent p{margin:0;flex:1 1 280px}
+.sscap-consent .btn{min-height:44px;padding:0 16px;font-size:14px}
+</style>
+</head>
+<body>
+<a class="sr-only sr-only-focusable" href="#demo">Skip to the demo request form</a>
+
+<header class="sscap-nav">
+  <nav class="sscap-nav__in" aria-label="Primary">
+    <a class="sscap-nav__brand" href="#top" aria-label="SSCAP by Smart City Water, back to top">
+      <svg width="35" height="26" viewBox="0 0 473 350" fill="none" aria-hidden="true"><path d="M269.887 122.706C259.703 85.667 240.006 55.2465 211.346 32.2839C187.641 13.2934 161.265 2.71418 132.853 0.726105C131.164 0.654247 115.551 0.00389874 111.18 0.00389874H76.3609C73.9856 -9.33776e-05 71.5662 1.87589e-07 69.0911 1.87589e-07C68.2367 1.87589e-07 67.387 0.00389874 66.5326 0.00389874H0.00390625V25.4215V38.2604V50.9833V349.996H72.1017H109.783C121.716 349.996 132.043 349.138 141.357 347.373C192.476 337.68 230.76 309.867 255.136 264.705C278.785 220.895 283.747 173.118 269.887 122.706ZM184.927 223.187C175.944 242.026 162.906 255.742 146.179 263.954C137.496 268.218 128.362 270.418 119.032 270.494C114.665 270.526 110.298 270.538 105.934 270.538L89.4386 270.521C88.9635 270.521 88.4893 270.494 87.9464 270.462L81.8257 270.138V130.422V82.8802V80.6766H93.4268C95.0156 80.6686 96.601 80.6642 98.1898 80.6522C101.04 80.6322 103.891 80.6122 106.741 80.6122C109.5 80.6122 111.999 80.6327 114.326 80.6727C116.797 80.7166 119.076 80.7844 121.244 80.8803C139.049 81.6547 154.945 89.2275 168.49 103.388C182.331 117.859 190.983 136.19 194.204 157.876C197.657 181.066 194.532 203.043 184.927 223.187Z" fill="#8F8F8F"/><path d="M211.346 32.2839C187.641 13.2934 161.265 2.71418 132.853 0.726112C131.164 0.654254 115.551 0.00390625 111.18 0.00390625H98.1898H81.8257H0V45.6218C0 64.9676 15.6807 80.6483 35.0265 80.6483H81.8218V80.6727H93.4229C95.0117 80.6647 96.5971 80.6603 98.1859 80.6483C101.036 80.6283 103.886 80.6083 106.736 80.6083C109.495 80.6083 111.995 80.6289 114.322 80.6688C116.793 80.7127 119.072 80.7806 121.24 80.8764C139.045 81.6508 154.941 89.2236 168.487 103.384C182.327 117.855 190.979 136.187 194.2 157.872C194.576 160.391 194.859 162.89 195.075 165.377H277.152C276.269 151.389 273.851 137.153 269.879 122.702C259.703 85.6671 240.006 55.2425 211.346 32.2839Z" fill="#8F8F8F"/><path d="M35.0304 80.6483C15.6846 80.6483 0.00390625 64.9676 0.00390625 45.6218V350H81.8296V80.6726V80.6483H35.0304Z" fill="url(#navLogo0_linear_1026_4057)"/><path d="M195.545 176.156C195.509 192.655 191.973 208.416 184.927 223.187C175.944 242.026 162.906 255.742 146.179 263.954C137.496 268.218 128.362 270.418 119.032 270.494C114.665 270.526 110.298 270.538 105.934 270.538L89.4386 270.521C88.9635 270.521 88.4893 270.494 87.9464 270.462L81.8257 270.138V350H109.779C121.712 350 132.039 349.142 141.353 347.377C192.472 337.684 230.756 309.871 255.132 264.708C270.254 236.7 277.703 207.063 277.507 176.16L195.545 176.156Z" fill="url(#navLogo1_linear_1026_4057)"/><path d="M365.656 349.996C372.259 349.996 378.966 349.602 385.598 348.828C418.036 345.025 447.25 332.541 472.502 311.705L418.084 249.67C403.038 261.731 384.477 268.331 365.385 268.331C348.512 268.331 332.197 263.22 318.212 253.556C291.284 234.943 277.655 208.402 277.69 174.679C277.726 142.999 290.45 117.36 315.511 98.476C329.879 87.6514 347.861 81.6864 366.147 81.6864C381.58 81.6864 396.435 85.8511 409.111 93.7312C412.319 95.7262 415.286 98.0128 418.155 100.239L472.483 38.2959C441.202 12.8801 405.906 0 367.523 0C359.24 0 350.674 0.602472 342.068 1.78748C300.345 7.53697 264.986 27.3872 236.973 60.7909C191.615 114.882 182.69 190.922 214.238 254.518C243.457 313.409 301.474 349.996 365.656 349.996Z" fill="url(#navLogo2_linear_1026_4057)"/><path d="M365.389 268.33C348.516 268.33 332.201 263.219 318.216 253.556C291.288 234.943 277.659 208.406 277.695 174.679C277.731 142.999 290.454 117.36 315.515 98.4756C329.883 87.651 347.865 81.686 366.151 81.686C381.584 81.686 396.439 85.8507 409.115 93.7308C412.323 95.7258 415.292 98.0124 418.16 100.239C418.16 100.239 382.498 65.7535 312.195 63.1361C249.147 60.7861 195.929 110.836 195.566 173.929C195.406 201.312 201.543 228.922 214.243 254.517C243.457 313.413 301.474 350 365.656 350C372.26 350 378.967 349.605 385.598 348.831C418.036 345.029 447.25 332.544 472.503 311.713L418.084 249.673C403.038 261.731 384.477 268.33 365.389 268.33Z" fill="url(#navLogo3_linear_1026_4057)"/><defs><linearGradient id="navLogo0_linear_1026_4057" x1="40.9151" y1="257.998" x2="40.9151" y2="2.15012" gradientUnits="userSpaceOnUse"><stop stop-color="#8F8F8F"/><stop offset="1"/></linearGradient><linearGradient id="navLogo1_linear_1026_4057" x1="179.078" y1="263.078" x2="30.5309" y2="263.078" gradientUnits="userSpaceOnUse"><stop stop-color="#8F8F8F"/><stop offset="1"/></linearGradient><linearGradient id="navLogo2_linear_1026_4057" x1="334.025" y1="0" x2="334.025" y2="349.996" gradientUnits="userSpaceOnUse"><stop stop-color="#01FEFF"/><stop offset="0.495" stop-color="#3A93FC"/></linearGradient><linearGradient id="navLogo3_linear_1026_4057" x1="331.206" y1="343.134" x2="361.13" y2="23.9396" gradientUnits="userSpaceOnUse"><stop stop-color="#3A84FC"/><stop offset="0.39" stop-color="#3A84FC"/><stop offset="0.809116" stop-color="#084657"/></linearGradient></defs></svg>
+      <b><span class="ss">SS</span><span class="cap">CAP</span></b><span>by Smart City Water</span>
+    </a>
+    <div class="sscap-nav__links">
+      <a href="#features">Features</a><a href="#how-it-works">How it works</a><a href="#integrations">Integrations</a><a href="#faq">FAQ</a>
+    </div>
+    <button type="button" class="theme-btn" id="theme-toggle" aria-pressed="false" aria-label="Switch to dark mode" title="Switch to dark mode">
+      <svg class="moon" width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 14.5A8 8 0 1 1 9.5 4a6.5 6.5 0 0 0 10.5 10.5z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>
+      <svg class="sun" width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4V2M12 22v-2M4 12H2M22 12h-2M5.6 5.6 4.2 4.2M19.8 19.8l-1.4-1.4M5.6 18.4l-1.4 1.4M19.8 4.2l-1.4 1.4M12 7a5 5 0 1 0 .01 0" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+      <span id="theme-label">Dark</span>
+    </button>
+    <a class="btn btn--primary" href="#demo" data-cta="nav">Book a demo</a>
+  </nav>
+</header>
+
+<main id="top">
+
+<!-- ================= 1 · HERO: INTERACTIVE CAPACITY MAP (synced pattern: hero) ================= -->
+<section class="sscap-hero" aria-labelledby="hero-h1">
+  <div class="sscap-hero__map" id="hero-map">
+    <img class="sscap-hero__poster" id="hero-poster" src="hero-poster.svg" data-light="hero-poster.svg" data-dark="hero-poster-dark.svg" width="1600" height="900" fetchpriority="high" decoding="async" alt="Illustrative sanitary sewer network on Manhattan's East Side in 3D, each pipe coloured by used capacity; most pipes are under 50 percent.">
+    <script>if(document.documentElement.dataset.theme==="dark")document.getElementById("hero-poster").src="hero-poster-dark.svg"</script>
+    <div class="sscap-hero__gl" id="hero-gl" aria-label="Interactive 3D capacity map. Use the controls to change layer and scenario." role="region"></div>
+    <div class="sscap-hero__legend glass" id="hero-legend" role="group" aria-labelledby="legend-title">
+      <div class="label" id="legend-title">Used capacity · Q/Qcap</div>
+      <ul id="legend-list"></ul>
+    </div>
+    <div class="sscap-hero__badge">
+      <p>Illustrative demo network around Vaughan Metropolitan Centre — not real municipal data.</p>
+      <a href="#map-table" class="sr-only sr-only-focusable" id="table-link">View as table</a>
+    </div>
+    <button type="button" class="btn btn--primary sscap-hero__interact" id="hero-interact" hidden>Interact with map</button>
+    <div class="sscap-hero__tip glass tnum" id="hero-tip" role="tooltip" hidden></div>
+    <div class="sscap-hero__tour glass" id="hero-tour" role="status" hidden>
+      <span class="tnum label" id="tour-num">1 / 4</span>
+      <strong id="tour-cap"></strong>
+      <button type="button" class="btn btn--primary" id="tour-next">Next</button>
+      <button type="button" class="btn btn--ghost" id="tour-skip">Skip tour</button>
+    </div>
+  </div>
+
+  <div class="sscap-hero__panel glass" id="hero-panel">
+    <p class="eyebrow">SSCAP · Smart Sewer Capacity Analysis &amp; Planning</p>
+    <!-- A/B: data-variant="A|B|C" on <h1>; see HEADLINES in the page script -->
+    <h1 class="sscap-hero__h1" id="hero-h1" data-variant="A">See every pipe's capacity before you approve the next development.</h1>
+    <p class="sscap-hero__sub">SSCAP combines your hydraulic model, development applications and CCTV condition data so engineers can test servicing capacity for every application, alone and cumulatively, in one place.</p>
+    <div class="sscap-hero__ctas">
+      <a class="btn btn--primary" href="#demo" data-cta="hero">Book a live demo</a>
+      <button type="button" class="btn btn--ghost" id="tour-start">Explore the map ↓</button>
+    </div>
+  </div>
+  <button type="button" class="btn btn--ghost glass sscap-hero__about" id="hero-about" hidden>About SSCAP</button>
+
+  <div class="sscap-hero__ctrl glass" id="hero-ctrl" aria-label="Map controls" role="region">
+    <div class="app-head">
+      <span class="ico" aria-hidden="true" style="color:var(--c-ink-2)"><svg width="20" height="20" viewBox="0 0 24 24"><path d="M4 11 12 4l8 7v9h-6v-6h-4v6H4z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg></span>
+      <div class="name">Demo network<div class="status tnum"><span class="dot" id="status-dot"></span><span id="status-text">Loading network…</span></div></div>
+      <button type="button" class="sq" id="view-3d" aria-pressed="true" aria-label="Toggle 3D city view">3D</button>
+      <button type="button" class="play" id="tour-play" aria-label="Start the guided tour"><svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5l11 7-11 7z" fill="currentColor"/></svg></button>
+    </div>
+    <button type="button" class="sscap-hero__ctrl-toggle label" id="ctrl-toggle" aria-expanded="false" aria-controls="ctrl-body">Map controls <span aria-hidden="true">▴</span></button>
+    <div class="sscap-hero__ctrl-body" id="ctrl-body" hidden>
+      <div role="group" aria-label="Scenario · subject DA.24.017" id="scn-group">
+        <div class="steps" id="step-seg"><button type="button" data-step="0" aria-pressed="true" aria-label="Existing"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3a9 9 0 1 0 .01 0M12 8a4 4 0 1 0 .01 0" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Existing</span></button><button type="button" data-step="1" aria-pressed="false" aria-label="Add subject application"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20V9l7-4v15M2 20h12M18 9v6M15 12h6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg><span>+ Subject</span></button><button type="button" data-step="2" aria-pressed="false" aria-label="Add active applications"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7l8-4 8 4-8 4zM4 12l8 4 8-4M4 17l8 4 8-4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg><span>+ Active</span></button><button type="button" data-step="3" aria-pressed="false" aria-label="Add approved applications"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3a9 9 0 1 0 .01 0M8 12l3 3 5-6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg><span>+ Approved</span></button><button type="button" data-step="4" aria-pressed="false" aria-label="Masterplan 2051"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h16v14H4zM4 10h16M8 3v4M16 3v4M8 14h2M14 14h2" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg><span>2051</span></button></div>
+      </div>
+      <div class="seg" id="layer-seg" role="group" aria-label="Map layer">
+        <button type="button" data-layer="capacity" aria-pressed="true">Capacity <span class="badge" id="badge-capacity"></span></button>
+        <button type="button" data-layer="condition" aria-pressed="false">Condition <span class="badge" id="badge-condition"></span></button>
+        <button type="button" data-layer="applications" aria-pressed="false">Applications <span class="badge" id="badge-applications"></span></button>
+        <button type="button" data-layer="manholes" aria-pressed="false">Manholes / HGL <span class="badge" id="badge-manholes"></span></button>
+        <button type="button" data-layer="monitors" aria-pressed="false">Monitors <span class="badge" id="badge-monitors"></span></button>
+      </div>
+      <div role="group" aria-labelledby="lbl-storm">
+        <div class="app-label" id="lbl-storm" style="margin-bottom:8px">Design storm · RDII</div>
+        <div class="pills" id="storm-seg">
+          <button type="button" data-storm="0" aria-pressed="true">Dry</button>
+          <button type="button" data-storm="1" aria-pressed="false">2-yr</button>
+          <button type="button" data-storm="2" aria-pressed="false">5-yr</button>
+          <button type="button" data-storm="3" aria-pressed="false">25-yr</button>
+          <button type="button" data-storm="4" aria-pressed="false">100-yr</button>
+        </div>
+      </div>
+      <div class="counter" aria-label="Scenario summary">
+        <div><div class="label">≥ 100%</div><div class="tnum" id="c100">–</div><small>conduits</small></div>
+        <div><div class="label">75–100%</div><div class="tnum" id="c75">–</div><small>conduits</small></div>
+        <div><div class="label">Over capacity</div><div class="tnum" id="ckm">–</div><small>km</small></div>
+      </div>
+      <div class="app-label" id="cards-title">Most loaded conduits</div>
+      <div class="cards" id="cards" aria-live="off"></div>
+      <p class="sr-only" aria-live="polite" id="live"></p>
+      <span class="sr-only">Subject application: <span id="subject-file">DA.24.017</span></span>
+    </div>
+  </div>
+
+  <aside class="sscap-hero__side glass" id="app-panel" aria-label="Development application details" hidden>
+    <div class="sscap-hero__side-head">
+      <div><div class="tnum" style="font-size:20px;font-weight:600" id="ap-file"></div><div style="font-size:14px;color:var(--c-ink-2)" id="ap-addr"></div></div>
+      <button type="button" class="iconbtn" id="ap-close" aria-label="Close application panel"><svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M2 2 12 12M12 2 2 12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button>
+    </div>
+    <div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:10px"><span class="status-chip" id="ap-status"></span><span class="status-chip" style="border:0;background:rgba(15,27,42,.08);font-weight:400">Fictional demo record</span></div>
+    <div class="kv">
+      <div><div class="label">Population</div><div class="tnum" style="font-weight:600" id="ap-pop"></div></div>
+      <div><div class="label">Catchment</div><div class="tnum" style="font-weight:600" id="ap-area"></div></div>
+      <div><div class="label">Developer</div><div style="font-size:12px;font-weight:600" id="ap-dev"></div></div>
+    </div>
+    <div style="font-size:13px"><span class="label" style="color:var(--c-ink-2)">Land use · </span><span id="ap-use"></span></div>
+    <div class="limit tnum" id="ap-limit"></div>
+    <div class="label" style="margin-bottom:6px;color:var(--c-ink-2)">Sanitary design sheet · flow path to outlet</div>
+    <div class="minisheet"><table class="tnum"><caption class="sr-only">Design sheet rows along the flow path, upstream to downstream</caption><thead><tr><th scope="col">Conduit</th><th scope="col">Pop.</th><th scope="col">PF</th><th scope="col">Q (L/s)</th><th scope="col">Ø (mm)</th><th scope="col">Qcap (L/s)</th><th scope="col">Used</th></tr></thead><tbody id="ap-rows"></tbody></table></div>
+  </aside>
+
+  <aside class="sscap-hero__side glass" id="mh-panel" aria-label="Manhole hydraulic grade line profile" hidden>
+    <div class="sscap-hero__side-head">
+      <div><div class="tnum" style="font-size:18px;font-weight:600" id="mh-id"></div><div style="font-size:13px;color:var(--c-ink-2)">HGL long-profile · 5 up / 5 down</div></div>
+      <button type="button" class="iconbtn" id="mh-close" aria-label="Close profile"><svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M2 2 12 12M12 2 2 12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button>
+    </div>
+    <svg class="hgl" id="mh-svg" viewBox="0 0 352 160" role="img" aria-label=""></svg>
+    <div style="display:flex;flex-wrap:wrap;gap:12px;font-size:11px;margin:6px 0 8px;color:var(--c-ink-2)"><span>— Ground</span><span>— Crown / invert</span><span style="color:var(--c-accent);font-weight:600">- - HGL</span></div>
+    <div class="tnum" style="font-size:12px;line-height:1.6" id="mh-rows"></div>
+  </aside>
+
+  <dialog class="sscap-hero__dialog" id="map-table" aria-labelledby="dt-title">
+    <header><h2 id="dt-title">Capacity map as a table</h2><button type="button" class="iconbtn" id="dt-close" aria-label="Close table"><svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M2 2 12 12M12 2 2 12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button></header>
+    <div class="dtable"><table class="tnum"><caption class="sr-only" id="dt-cap"></caption><thead><tr><th scope="col">Conduit</th><th scope="col">SMA</th><th scope="col">Diameter (mm)</th><th scope="col">Q (L/s)</th><th scope="col">Qcap (L/s)</th><th scope="col">Used capacity (%)</th><th scope="col">Tier</th><th scope="col">OACS</th></tr></thead><tbody id="dt-rows"></tbody></table></div>
+  </dialog>
+</section>
+
+<!-- ================= 2 · LIVE DEMO REQUEST FORM (synced pattern: form) ================= -->
+<section class="sscap-form" id="demo" aria-labelledby="demo-h2">
+  <div class="wrap">
+    <p class="eyebrow sscap-form__eyebrow">Live demo · 30 minutes</p>
+    <h2 class="h2" id="demo-h2" style="margin-bottom:12px">See SSCAP on your own network.</h2>
+    <p class="sscap-form__lede">Book a 30-minute live demo with our engineering team. Bring an upcoming development application, and we'll show you how SSCAP answers the servicing question. <span class="flag">CONFIRM: offer to load a sample of your data</span></p>
+    <div class="sscap-form__grid">
+      <div class="sscap-form__card" id="form-card">
+        <form id="lead-form" novalidate aria-describedby="privacy-line">
+          <div class="sscap-form__fields">
+            <div class="field"><label class="label" for="f-first">Full name</label><input id="f-first" name="full_name" autocomplete="name" required aria-describedby="e-first"><p class="err" id="e-first" role="alert"></p></div>
+            <div class="field"><label class="label" for="f-email">Work email</label><input id="f-email" name="email" type="email" autocomplete="email" inputmode="email" required aria-describedby="e-email"><p class="err" id="e-email" role="alert"></p></div>
+            <div class="field"><label class="label" for="f-org">Organization</label><input id="f-org" name="organization" autocomplete="organization" required aria-describedby="e-org"><p class="err" id="e-org" role="alert"></p></div>
+            <div class="field"><label class="label" for="f-phone">Phone <span class="opt">(optional)</span></label><input id="f-phone" name="phone" type="tel" autocomplete="tel" inputmode="tel" placeholder="+1 (555) 555-0123" aria-describedby="e-phone"><p class="err" id="e-phone" role="alert"></p></div>
+            <div class="hp" aria-hidden="true"><label for="f-website">Leave this field empty</label><input id="f-website" name="company_website" tabindex="-1" autocomplete="off"></div>
+            <input type="hidden" name="utm_source"><input type="hidden" name="utm_medium"><input type="hidden" name="utm_campaign"><input type="hidden" name="utm_term"><input type="hidden" name="utm_content">
+            <input type="hidden" name="referrer"><input type="hidden" name="landing_page">
+            <input type="hidden" name="sscap_last_layer" value="capacity"><input type="hidden" name="sscap_last_scenario" value="Existing">
+            <div class="full consent"><input id="f-consent" type="checkbox" name="casl_consent" value="yes"><label for="f-consent">I agree to receive emails from Smart City Water about SSCAP. I can unsubscribe at any time.</label></div>
+            <div class="full sscap-form__fail" id="form-fail" role="alert" hidden>We couldn't send your request. <button type="button" class="btn btn--ghost" id="form-retry" style="min-height:40px;margin:0 8px">Try again</button> or email <a href="mailto:solutions@smartcitywater.ca?subject=SSCAP%20live%20demo%20request">solutions@smartcitywater.ca</a>.</div>
+            <div class="full submit">
+              <button type="submit" class="btn btn--primary" id="form-submit">Request my live demo</button>
+              <p class="privacy" id="privacy-line">We use your information only to arrange your demo. See our <a href="/privacy-policy/">Privacy Policy</a>.</p>
+            </div>
+          </div>
+        </form>
+        <div class="sscap-form__ok" id="form-ok" role="status" tabindex="-1" hidden>
+          <svg width="40" height="40" viewBox="0 0 40 40" aria-hidden="true"><circle cx="20" cy="20" r="18" fill="none" stroke="currentColor" stroke-width="2.5"/><path d="M12 20.5 18 26 28 14" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <h3 id="ok-title">Thanks.</h3>
+          <p>An SSCAP specialist will contact you within one business day to schedule your demo. <span class="flag">CONFIRM SLA</span></p>
+          <p><a href="#calendar" id="ok-cal">Prefer to pick a time now? Open our calendar</a> <span class="flag">CONFIRM calendar link</span></p>
+          <p><a href="#sample-report" id="ok-report">Download a sample capacity report</a> <span class="flag">CONFIRM asset exists</span></p>
+        </div>
+      </div>
+      <aside class="sscap-form__aside" aria-labelledby="see-h3">
+        <h3 id="see-h3">What you'll see</h3>
+        <ul>
+          <li><span class="n tnum">01</span><span><strong>Capacity map.</strong> Every conduit coloured by used capacity (Q/Qcap).</span></li>
+          <li><span class="n tnum">02</span><span><strong>Cumulative scenarios.</strong> Subject → Active → Approved → Masterplan, on the same network.</span></li>
+          <li><span class="n tnum">03</span><span><strong>Sanitary design sheet.</strong> Generated conduit by conduit, upstream to downstream.</span></li>
+          <li><span class="n tnum">04</span><span><strong>Condition and risk.</strong> PACP-scored CCTV, LOF, COF and OACS on the same map.</span></li>
+        </ul>
+        <p class="trust" style="margin:0">Built in Ontario by Smart City Water · Makers of VO SWMM &amp; DataCurrent</p>
+      </aside>
+    </div>
+  </div>
+</section>
+
+<!-- ================= 3 · THE PROBLEM ================= -->
+<section class="sscap-problem" aria-labelledby="problem-h2">
+  <div class="wrap">
+    <p class="eyebrow">Development servicing capacity today</p>
+    <h2 class="h2" id="problem-h2">Why sanitary sewer capacity assessment is slow and risky</h2>
+    <div class="sscap-problem__grid">
+      <article class="sscap-problem__card"><svg width="32" height="32" viewBox="0 0 32 32" aria-hidden="true"><rect x="4" y="5" width="24" height="22" rx="2" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M4 11H28M4 17H28M4 23H28M12 5V27M20 5V27" stroke="currentColor" stroke-width="1.2"/></svg><h3>Spreadsheet design sheets don't scale.</h3><p>Every application means a manual sanitary design sheet that's hard to audit.</p></article>
+      <article class="sscap-problem__card"><svg width="32" height="32" viewBox="0 0 32 32" aria-hidden="true"><rect x="5" y="20" width="22" height="6" rx="1" fill="none" stroke="currentColor" stroke-width="1.8"/><rect x="5" y="12" width="22" height="6" rx="1" fill="none" stroke="currentColor" stroke-width="1.8" stroke-dasharray="3 2"/><rect x="5" y="4" width="22" height="6" rx="1" fill="none" stroke="currentColor" stroke-width="1.8" stroke-dasharray="3 2"/></svg><h3>Cumulative impact is invisible.</h3><p>Each application gets reviewed alone, while the queue fills the same trunk sewer.</p></article>
+      <article class="sscap-problem__card"><svg width="32" height="32" viewBox="0 0 32 32" aria-hidden="true"><circle cx="16" cy="16" r="11" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M16 9V16L21 19" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg><h3>Models live with specialists.</h3><p>Every capacity question waits in line for a modeller or consultant.</p></article>
+    </div>
+    <p class="sscap-problem__bridge">SSCAP puts the model, the queue and the pipe condition on one map.</p>
+  </div>
+</section>
+
+<!-- ================= 4 · HOW IT WORKS ================= -->
+<section class="sscap-how" id="how-it-works" aria-labelledby="how-h2">
+  <div class="wrap">
+    <p class="eyebrow">How it works</p>
+    <h2 class="h2" id="how-h2">From model to defensible servicing decision in four steps</h2>
+    <ol>
+      <li><b class="tnum">01 · Connect</b><p>Import your hydraulic model (InfoWorks ICM, SWMM), GIS and CCTV data.</p></li>
+      <li><b class="tnum">02 · Register</b><p>Load development applications by SMA and status.</p></li>
+      <li><b class="tnum">03 · Simulate</b><p>Stack scenarios from Subject to Masterplan.</p></li>
+      <li><b class="tnum">04 · Decide &amp; report</b><p>Export the design sheet and capacity report.</p></li>
+    </ol>
+  </div>
+</section>
+
+<!-- ================= 5 · FEATURE DEEP-DIVES (synced pattern: feature block ×6) ================= -->
+<section class="sscap-features" id="features" aria-labelledby="features-h2">
+  <div class="wrap">
+    <p class="eyebrow">Features</p>
+    <h2 class="h2" id="features-h2" style="max-width:820px;margin-bottom:0">Sewer capacity analysis software that works the way servicing engineers do</h2>
+
+    <div class="sscap-feature">
+      <div class="sscap-feature__text">
+        <h3>Network capacity map</h3>
+        <p>Every conduit is coloured by used capacity, Q/Qcap, from a model-grade EPA SWMM run. You see where the network has room and where it doesn't, before anyone opens a spreadsheet.</p>
+        <ul><li>Five tiers: not computed, &lt;50%, 50–75%, 75–100%, ≥100%</li><li>Line width follows diameter, from 200 mm laterals to the trunk</li><li>Pattern and casing back up colour, so no tier relies on hue alone</li></ul>
+      </div>
+      <div class="sscap-feature__vis">
+        <div class="mini-pipes" id="mini1" role="img" aria-label="Five conduits in series and their used capacity"></div>
+        <label class="label" for="mini1-range" style="display:block;margin-top:16px">Upstream load · <span class="tnum" id="mini1-val">100%</span> of today</label>
+        <input id="mini1-range" type="range" min="40" max="150" step="5" value="100">
+        <p style="margin:0;font-size:12px;color:var(--c-ink-2)">Five conduits in series, 250–525 mm. Drag to load them.</p>
+      </div>
+    </div>
+
+    <div class="sscap-feature sscap-feature--rev">
+      <div class="sscap-feature__text">
+        <h3>Cumulative scenario stacking</h3>
+        <p>Run the same network under Subject Application, Subject + Active, Subject + Active + Approved, and Masterplan + Subject. One development's impact and the combined impact of everything ahead of it in the queue sit side by side.</p>
+        <ul><li>Cumulative impact on sewer capacity, not one application at a time</li><li>Statuses drive scenarios: Proposed, Draft Approved, Approved, Occupied, Sandbox</li><li>Masterplan horizons show where growth runs out of capacity</li></ul>
+      </div>
+      <div class="sscap-feature__vis">
+        <div class="label tnum" style="margin-bottom:12px" id="mini2-title">Trunk segment · used capacity</div>
+        <div class="bars" id="mini2" role="img" aria-label="Used capacity of a trunk segment across five scenarios"></div>
+        <div class="bar-labels" aria-hidden="true"><span>Existing</span><span>+ Subject</span><span>+ Active</span><span>+ Approved</span><span>Masterplan 2051</span></div>
+        <div class="keys" aria-hidden="true"><span><i class="seg-0" style="background:#5B6878"></i>Existing</span><span><i style="background:var(--c-accent)"></i>Subject</span><span><i style="background:#4F8FD6"></i>Active</span><span><i style="background:#9DC0EA"></i>Approved</span><span><i style="background:#D3E3F5"></i>Masterplan</span></div>
+      </div>
+    </div>
+
+    <div class="sscap-feature">
+      <div class="sscap-feature__text" style="flex-basis:320px">
+        <h3>Automated Sanitary Design Sheet</h3>
+        <p>One row per conduit, upstream to downstream, generated from the model and the application roster. Sanitary design sheet automation replaces the hand-built spreadsheet with one your reviewers can audit.</p>
+        <ul><li>Harmon peaking factor, ICI flow and infiltration per row</li><li>Manning full-flow capacity and velocity per conduit</li><li>Export for development submissions and council packages</li></ul>
+      </div>
+      <div class="sscap-feature__vis sscap-feature__vis--wide sscap-file">
+        <a class="sscap-file__preview" href="sample-design-sheet.pdf" target="_blank" rel="noopener" aria-label="Open the sample sanitary design sheet, PDF, 1 page">
+          <img src="design-sheet-preview.webp" width="1600" height="659" loading="lazy" decoding="async" alt="Preview of a sample sanitary design sheet for DA.24.017: 22 pipe segments listed upstream to downstream with residential, ICI, flow calculation and pipe data columns, ending at 57.4 L/s and 41% used capacity.">
+        </a>
+        <div class="sscap-file__bar">
+          <span class="sscap-file__type" aria-hidden="true">PDF</span>
+          <div class="sscap-file__meta">
+            <div class="sscap-file__name">Sample_Sanitary_Design_Sheet_DA.24.017.pdf</div>
+            <div class="sscap-file__info">PDF · 1 page · 66 KB · Subject + Active + Approved · flow path to outlet</div>
+          </div>
+          <div class="sscap-file__actions">
+            <a class="btn btn--ghost" href="sample-design-sheet.pdf" target="_blank" rel="noopener" data-cta="design-sheet-open">Open</a>
+            <a class="btn btn--primary" href="sample-design-sheet.pdf" download="Sample_Sanitary_Design_Sheet_DA.24.017.pdf" data-cta="design-sheet-download">Download</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="sscap-feature sscap-feature--rev">
+      <div class="sscap-feature__text">
+        <h3>Manhole results and HGL profiles</h3>
+        <p>Hydraulic grade line, surcharge depth and freeboard to ground at every node, with invert and ground elevations. The long-profile shows where the hydraulic controls actually are.</p>
+        <ul><li>Surcharged nodes flagged with freeboard in metres</li><li>Five upstream and five downstream nodes per profile</li><li>Dry weather, wet-weather RDII and design storms</li></ul>
+      </div>
+      <div class="sscap-feature__vis">
+        <svg class="svgvis" viewBox="0 0 480 220" role="img" aria-label="Long-profile across six manholes. The hydraulic grade line rises above the pipe crown between the third and fifth manholes, with 0.6 m freeboard left at the fourth.">
+          <path d="M20 40 100 48 180 58 260 66 340 78 420 88 460 92V210H20Z" style="fill:var(--c-surface-2)" />
+          <path d="M20 40 100 48 180 58 260 66 340 78 420 88 460 92" fill="none" stroke-width="1.5" style="stroke:var(--c-ink-3)" />
+          <path d="M20 120 100 132 180 144 260 156 340 168 420 180 460 186" fill="none" stroke-width="1.5" style="stroke:var(--c-ink)" />
+          <path d="M20 150 100 162 180 174 260 186 340 198 420 208 460 212" fill="none" stroke-width="1.5" style="stroke:var(--c-ink)" />
+          <path d="M20 138 100 146 180 120 260 92 340 118 420 186 460 194" fill="none" stroke-width="2.5" stroke-dasharray="6 3" style="stroke:var(--c-accent)" />
+          <g style="stroke:var(--c-ink)"><path d="M100 48V162M180 58V174M260 66V186M340 78V198M420 88V208"/></g>
+          <circle cx="260" cy="92" r="6" style="fill:var(--t-red)" />
+          <text x="268" y="88">Surcharged · freeboard 0.6 m</text><text x="24" y="34">Ground</text><text x="24" y="114">Crown</text><text x="24" y="170">Invert</text><text x="380" y="150" style="fill:var(--c-accent);font-weight:600">HGL</text>
+        </svg>
+      </div>
+    </div>
+
+    <div class="sscap-feature">
+      <div class="sscap-feature__text">
+        <h3>Asset condition and risk (OACS)</h3>
+        <p>CCTV inspections scored to NASSCO PACP give every pipe a Likelihood of Failure (1–6) and a Consequence of Failure. The Overall Asset Condition Score blends that risk with the simulated d/D capacity score, so sewer asset condition and capacity sit in one ranking.</p>
+        <ul><li>OACS tiers: &lt;0.5, 0.5–0.7, 0.7–0.9, ≥0.9</li><li>Never-inspected pipes stay grey and unscored, never "good"</li><li>Ranks relining, replacement and capital-plan priorities</li></ul>
+      </div>
+      <div class="sscap-feature__vis">
+        <div class="label" style="margin-bottom:10px">OACS along the DA.24.017 flow path</div>
+        <div class="oacs-strip" id="oacs-strip" role="img" aria-label="OACS along the flow path"></div>
+        <div class="label" style="margin-bottom:8px">Reline first</div>
+        <ol class="reline tnum" id="reline"></ol>
+      </div>
+    </div>
+
+    <div class="sscap-feature sscap-feature--rev">
+      <div class="sscap-feature__text">
+        <h3>Monitoring and rainfall data (DataCurrent)</h3>
+        <p>Flow monitors, rain gauges from Environment Canada and NOAA, and radar rainfall come in through DataCurrent. I/I event analysis and IDF curves keep the wet-weather RDII calibration honest.</p>
+        <ul><li>Flow monitors and rain gauges as map markers</li><li>RDII by the RTK method, plus design storms</li><li>I/I event analysis next to the capacity result</li></ul>
+      </div>
+      <div class="sscap-feature__vis">
+        <svg class="svgvis" viewBox="0 0 480 240" role="img" aria-label="Rainfall hyetograph over a flow hydrograph. Flow at monitor FM-02 rises from about 42 L/s dry-weather to a 118 L/s peak about two hours after the rainfall peak.">
+          <g style="fill:var(--c-accent)"><rect x="120" y="14" width="10" height="10"/><rect x="132" y="14" width="10" height="26"/><rect x="144" y="14" width="10" height="44"/><rect x="156" y="14" width="10" height="62"/><rect x="168" y="14" width="10" height="38"/><rect x="180" y="14" width="10" height="22"/><rect x="192" y="14" width="10" height="12"/><rect x="204" y="14" width="10" height="6"/></g>
+          <text x="24" y="26">Rain (mm/h)</text>
+          <path d="M20 214H460" style="stroke:var(--c-ink)" />
+          <path d="M20 170C60 160 90 176 130 168S170 164 190 150 230 74 250 80 300 140 340 158 420 168 460 166" fill="none" stroke-width="2" style="stroke:var(--c-ink)" />
+          <path d="M20 170C60 160 90 176 130 168S170 172 220 170 300 166 340 168 420 172 460 168" fill="none" stroke-width="1.5" stroke-dasharray="4 3" style="stroke:var(--c-ink-3)" />
+          <text x="256" y="72">Peak 118 L/s</text><text x="24" y="232">FM-02 flow (L/s) · dashed = dry-weather baseline</text>
+        </svg>
+      </div>
+    </div>
+
+    <div class="sscap-next" aria-labelledby="next-tag">
+      <div><span class="tag" id="next-tag">Coming next · Preview</span><p style="margin-top:12px"><span class="flag">CONFIRM before publishing</span></p></div>
+      <div><h3>SSCAP Assistant</h3><p>Ask the network questions in plain language: "Which conduits exceed capacity downstream of DA.20.041 under the Approved scenario?" It reads live SSCAP results and does not invent numbers.</p></div>
+      <div><h3>Historical storm replay</h3><p>Pick a past storm event and see a network-wide, colour-coded capacity snapshot at the event peak.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= 6 · BENEFITS BY ROLE (synced pattern: role tabs) ================= -->
+<section class="sscap-roles" aria-labelledby="roles-h2">
+  <div class="wrap">
+    <p class="eyebrow">Benefits by role</p>
+    <h2 class="h2" id="roles-h2">One wastewater digital twin, five ways to use it</h2>
+    <div role="tablist" aria-label="Roles" id="role-tabs">
+      <button role="tab" id="tab-0" aria-controls="panel-0" aria-selected="true">Development Engineering</button>
+      <button role="tab" id="tab-1" aria-controls="panel-1" aria-selected="false" tabindex="-1">Infrastructure Planning</button>
+      <button role="tab" id="tab-2" aria-controls="panel-2" aria-selected="false" tabindex="-1">Asset Management</button>
+      <button role="tab" id="tab-3" aria-controls="panel-3" aria-selected="false" tabindex="-1">Consultants</button>
+      <button role="tab" id="tab-4" aria-controls="panel-4" aria-selected="false" tabindex="-1">Leadership &amp; Council</button>
+    </div>
+    <div role="tabpanel" id="panel-0" aria-labelledby="tab-0" tabindex="0"><p>Defensible servicing decisions, faster.</p><ul><li>Defensible servicing decisions backed by the model, not judgement</li><li>Consistent, auditable sanitary design sheets for every application</li><li>Faster review cycles across the whole application queue</li></ul></div>
+    <div role="tabpanel" id="panel-1" aria-labelledby="tab-1" tabindex="0" hidden><p>See where growth runs out of capacity before it does.</p><ul><li>Spot the trunk segments the queue will push past 100%</li><li>Test masterplan horizons on the same network</li><li>Sequence growth against the capital plan</li></ul></div>
+    <div role="tabpanel" id="panel-2" aria-labelledby="tab-2" tabindex="0" hidden><p>Prioritise relining and replacement on condition and capacity together.</p><ul><li>PACP-scored CCTV turned into LOF, COF and OACS</li><li>Unscored pipes stay visible as gaps, never as "good"</li><li>A ranked list for relining, replacement and capital planning</li></ul></div>
+    <div role="tabpanel" id="panel-3" aria-labelledby="tab-3" tabindex="0" hidden><p>One source of truth with the municipality.</p><ul><li>Work from the same network and roster the reviewer uses</li><li>Less back-and-forth on servicing submissions</li><li>Export design sheets and capacity reports in the expected format</li></ul></div>
+    <div role="tabpanel" id="panel-4" aria-labelledby="tab-4" tabindex="0" hidden><p>A clear, map-based answer with an audit trail.</p><ul><li>One map that shows the capacity answer in plain terms</li><li>An audit trail behind every servicing decision</li><li>A position the team can defend at council or the Ontario Land Tribunal <span class="flag">CONFIRM wording</span></li></ul></div>
+  </div>
+</section>
+
+<!-- ================= 7 · INTEGRATIONS ================= -->
+<section class="sscap-int" id="integrations" aria-labelledby="int-h2">
+  <div class="wrap">
+    <p class="eyebrow">Integrations &amp; data</p>
+    <h2 class="h2" id="int-h2">Works with the models and data you already have</h2>
+    <p class="sscap-int__lede">Built on the EPA SWMM engine (Smart City Water's VO SWMM lineage). Accepts InfoWorks ICM network imports and supports dry-weather flow, wet-weather RDII (RTK method) and design storms.</p>
+    <ul>
+      <li>InfoWorks ICM</li><li>EPA SWMM</li><li>VO SWMM</li><li>GIS (Shapefile / GeoJSON)</li><li>CCTV / NASSCO PACP</li><li class="is-flag">AMANDA <span class="flag">CONFIRM</span></li><li>Environment Canada</li><li>NOAA</li><li>DataCurrent</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ================= 8 · TRUST & SECURITY ================= -->
+<section class="sscap-trust" aria-labelledby="trust-h2">
+  <div class="wrap">
+    <p class="eyebrow">Trust &amp; security</p>
+    <h2 class="h2" id="trust-h2">Built for municipal data, by hydraulic modellers</h2>
+    <div class="sscap-trust__grid">
+      <div class="sscap-trust__tile"><h3>Cloud-hosted on Microsoft Azure</h3><span class="flag">CONFIRM</span></div>
+      <div class="sscap-trust__tile"><h3>Canadian data residency</h3><span class="flag">CONFIRM</span></div>
+      <div class="sscap-trust__tile"><h3>Role-based access</h3><span class="flag">CONFIRM</span></div>
+      <div class="sscap-trust__tile"><h3>Built by hydraulic modellers</h3><p>Smart City Water makes VO SWMM and VO OTTHYMO, used by engineers across North America.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= 9 · PROOF ================= -->
+<section class="sscap-proof" aria-labelledby="proof-h2">
+  <div class="wrap">
+    <p class="eyebrow">Proof</p>
+    <h2 class="h2" id="proof-h2">Development servicing capacity, measured</h2>
+    <div class="sscap-proof__metrics">
+      <div><b class="tnum">{N}</b><span>development applications managed</span></div>
+      <div><b class="tnum">{N} km</b><span>of sanitary network modelled</span></div>
+      <div><b class="tnum">{N}</b><span>Sewershed Management Areas</span></div>
+      <div><b class="tnum">{X}%</b><span>faster capacity reviews</span></div>
+    </div>
+    <p class="sscap-proof__note">Placeholder figures. Publish only approved numbers.</p>
+    <article class="sscap-proof__case">
+      <div><div class="label" style="color:var(--c-link)">Case study · placeholder</div><h3>[Municipality name]</h3><p style="margin:8px 0 0"><span class="flag">CONFIRM client permission</span></p></div>
+      <dl><div><dt>Challenge</dt><dd>[Challenge]</dd></div><div><dt>Outcome</dt><dd>[Outcome]</dd></div><div style="grid-column:1/-1"><dt>Quote</dt><dd>"[Approved client quote]" · [Name, title]</dd></div></dl>
+    </article>
+  </div>
+</section>
+
+<!-- ================= 10 · FAQ (synced pattern: FAQ) ================= -->
+<section class="sscap-faq" id="faq" aria-labelledby="faq-h2">
+  <div class="wrap">
+    <p class="eyebrow">FAQ</p>
+    <h2 class="h2" id="faq-h2">Questions engineers ask before a demo</h2>
+    <details><summary><h3>Do we need our own hydraulic model?</h3><svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 6 8 11 13 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></summary><p>SSCAP runs on the EPA SWMM engine and imports InfoWorks ICM networks, so an existing model is the fastest start. Options for municipalities without a current model: [ANSWER NEEDED].</p></details>
+    <details><summary><h3>Which model formats do you import?</h3><svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 6 8 11 13 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></summary><p>InfoWorks ICM network imports and EPA SWMM / VO SWMM models, plus GIS layers (Shapefile / GeoJSON) and CCTV / NASSCO PACP inspection exports. Monitoring data comes in through DataCurrent.</p></details>
+    <details><summary><h3>How is cumulative impact calculated?</h3><svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 6 8 11 13 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></summary><p>The same network is run under stacked scenarios: Subject Application, Subject + Active, Subject + Active + Approved, and Masterplan + Subject. Application loads accumulate downstream, so each scenario shows the combined effect of everything ahead of the subject in the queue.</p></details>
+    <details><summary><h3>How are capacity thresholds set?</h3><svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 6 8 11 13 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></summary><p>Used capacity is Q/Qcap, shown in tiers: under 50%, 50–75%, 75–100%, and 100% or more (surcharged / over capacity). Grey means not computed. Whether each municipality can configure its own thresholds: [ANSWER NEEDED].</p></details>
+    <details><summary><h3>How do you handle pipes without CCTV data?</h3><svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 6 8 11 13 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></summary><p>They are shown grey and unscored, never as "good". OACS is only calculated where PACP-scored inspection data exists.</p></details>
+    <details><summary><h3>Where is our data hosted?</h3><svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 6 8 11 13 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></summary><p>Cloud-hosted on Microsoft Azure with Canadian data residency. <span class="flag">CONFIRM both</span></p></details>
+    <details><summary><h3>How long does onboarding take?</h3><svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 6 8 11 13 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></summary><p>[ANSWER NEEDED]</p></details>
+    <details><summary><h3>Can consultants access the platform?</h3><svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 6 8 11 13 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></summary><p>SSCAP is designed as a shared source of truth between municipalities and the consultants who prepare servicing reports. Access is role-based <span class="flag">CONFIRM</span>; consultant licensing details: [ANSWER NEEDED].</p></details>
+  </div>
+</section>
+
+<!-- ================= 11 · FINAL CTA (synced pattern: CTA band) ================= -->
+<section class="sscap-cta" aria-labelledby="cta-h2">
+  <div class="wrap">
+    <h2 id="cta-h2">Your next development application is already in the queue. See its impact today.</h2>
+    <a class="btn" href="#demo" data-cta="final">Book a live demo</a>
+  </div>
+</section>
+</main>
+
+<footer class="sscap-footer" id="footer">
+  <div class="wrap">
+    <div class="sscap-footer__top">
+      <div><div style="font-size:20px;font-weight:700;color:#FFFFFF">Smart City Water</div><p style="margin:8px 0 0">Changing the Way We Plan and Operate.</p></div>
+      <nav aria-label="Products"><span class="label">Products</span><a href="#top">SSCAP</a><a href="https://www.smartcitywater.ca/datacurrent/">DataCurrent</a><a href="https://www.smartcitywater.ca/vo-swmm/">VO SWMM</a><a href="https://www.smartcitywater.ca/visual-otthymo/">VO OTTHYMO</a></nav>
+      <address><span class="label">Contact</span><a href="mailto:solutions@smartcitywater.ca">solutions@smartcitywater.ca</a><a href="tel:+18664730453">+1 (866) 473-0453</a><span>155 Winges Rd, Unit 8<br>Woodbridge, ON L4L 6C7</span></address>
+    </div>
+    <div class="sscap-footer__bottom">
+      <span>© 2026 Smart City Water Inc.</span><a href="/privacy-policy/">Privacy</a><a href="/legal/">Legal</a><button type="button" id="consent-reopen" style="background:none;border:0;padding:0;color:#D5DCE5;text-decoration:underline;cursor:pointer;font-size:13px">Cookie settings</button>
+      <span><a href="https://www.linkedin.com/company/smart-city-water/" rel="noopener">LinkedIn</a><a href="https://www.youtube.com/@smartcitywater" rel="noopener">YouTube</a><a href="https://x.com/smartcitywater" rel="noopener">X</a></span>
+    </div>
+  </div>
+</footer>
+
+<div class="sscap-consent" id="consent" role="region" aria-label="Cookie consent" hidden>
+  <p>We'd like to use analytics cookies to understand how this page is used. Nothing is set until you agree. <a href="/privacy-policy/">Privacy Policy</a></p>
+  <button type="button" class="btn btn--ghost" id="consent-no">Decline</button>
+  <button type="button" class="btn btn--primary" id="consent-yes">Accept analytics</button>
+</div>
+
+<!-- ================= PAGE SCRIPT (no map dependency) ================= -->
+<script>
+(() => {
+'use strict';
+const $ = (s, r = document) => r.querySelector(s), $$ = (s, r = document) => Array.from(r.querySelectorAll(s));
+const store = { get(k) { try { return localStorage.getItem(k); } catch (e) { return null; } }, set(k, v) { try { localStorage.setItem(k, v); } catch (e) {} } };
+const reducedMotion = () => window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+/* ---------- consent + analytics (vendor-agnostic dataLayer) ---------- */
+window.dataLayer = window.dataLayer || [];
+let consent = store.get('sscap_consent'); // 'granted' | 'denied' | null
+const consentListeners = [];
+const SSCAP = window.SSCAP = window.SSCAP || {};
+SSCAP.onConsent = fn => { consentListeners.push(fn); if (consent === 'granted') fn(); };
+SSCAP.track = (event, params = {}) => { if (consent === 'granted') window.dataLayer.push(Object.assign({ event }, params)); };
+// Hook: load GTM / analytics vendor here once consent is granted, e.g.
+// SSCAP.onConsent(() => { const s = document.createElement('script'); s.async = true; s.src = 'https://www.googletagmanager.com/gtm.js?id=GTM-XXXX'; document.head.appendChild(s); });
+const banner = $('#consent');
+const setConsent = v => { consent = v; store.set('sscap_consent', v); banner.hidden = true; window.dataLayer.push({ event: 'consent_update', analytics_storage: v }); if (v === 'granted') consentListeners.forEach(fn => fn()); };
+if (!consent) banner.hidden = false;
+$('#consent-yes').addEventListener('click', () => setConsent('granted'));
+$('#consent-no').addEventListener('click', () => setConsent('denied'));
+$('#consent-reopen').addEventListener('click', () => { banner.hidden = false; $('#consent-yes').focus(); });
+
+/* ---------- A/B headline ---------- */
+const HEADLINES = {
+  A: "See every pipe's capacity before you approve the next development.",
+  B: 'Sewer capacity, answered on the map, not in a spreadsheet.',
+  C: 'The living digital twin of your sanitary network.'
+};
+const params = new URLSearchParams(location.search);
+const hv = (params.get('h') || '').toUpperCase();
+if (HEADLINES[hv]) { const h1 = $('#hero-h1'); h1.textContent = HEADLINES[hv]; h1.dataset.variant = hv; }
+
+/* ---------- CTA → form with focus ---------- */
+$$('.sscap-file a').forEach(a => a.addEventListener('click', () => SSCAP.track('cta_click', { location: a.dataset.cta || 'design-sheet-preview' })));
+$$('a[href="#demo"]').forEach(a => a.addEventListener('click', e => {
+  e.preventDefault();
+  SSCAP.track('cta_click', { location: a.dataset.cta || 'inline' });
+  const form = $('#demo');
+  form.scrollIntoView({ behavior: reducedMotion() ? 'auto' : 'smooth', block: 'start' });
+  history.replaceState(null, '', '#demo');
+  const first = $('#f-first');
+  setTimeout(() => first && first.focus({ preventScroll: true }), reducedMotion() ? 0 : 450);
+}));
+
+/* ---------- form ---------- */
+const form = $('#lead-form');
+const FREE = ['gmail.com', 'googlemail.com', 'yahoo.com', 'yahoo.ca', 'hotmail.com', 'hotmail.ca', 'outlook.com', 'live.com', 'live.ca', 'msn.com', 'icloud.com', 'me.com', 'aol.com', 'proton.me', 'protonmail.com', 'gmx.com', 'mail.com', 'yandex.com', 'zoho.com', 'shaw.ca', 'rogers.com', 'sympatico.ca', 'bell.net'];
+const MSG = {
+  full_name: 'Enter your name.', organization: 'Enter your organization so we can prepare the right demo.'
+};
+function validate(el) {
+  const name = el.name, v = (el.value || '').trim();
+  let msg = '';
+  if (name === 'email') {
+    const dom = (v.split('@')[1] || '').toLowerCase();
+    if (!v) msg = 'Enter your work email so we can schedule the demo.';
+    else if (!/^[^@\s]+@[^@\s]+\.[^@\s]{2,}$/.test(v)) msg = 'Check the address: it should look like name@yourtown.ca.';
+    else if (FREE.includes(dom)) msg = 'Please use your work email (for example name@yourtown.ca) so we can prepare a demo for your organization.';
+  } else if (name === 'phone') {
+    if (v && v.replace(/\D/g, '').length < 7) msg = 'Check the number: include the area code, for example +1 (905) 555-0123.';
+  } else if (el.required && !v) msg = MSG[name] || 'This field is required.';
+  const err = document.getElementById(el.getAttribute('aria-describedby'));
+  el.setAttribute('aria-invalid', msg ? 'true' : 'false');
+  if (err) err.textContent = msg;
+  if (msg) SSCAP.track('form_field_error', { field: name });
+  return !msg;
+}
+let formStarted = false, formShownAt = Date.now();
+form.addEventListener('focusin', () => { if (!formStarted) { formStarted = true; formShownAt = Math.min(formShownAt, Date.now()); SSCAP.track('form_start'); } });
+$$('input[required], #f-phone', form).forEach(el => {
+  el.addEventListener('blur', () => validate(el));
+  el.addEventListener('input', () => { if (el.getAttribute('aria-invalid') === 'true') validate(el); });
+});
+// hidden attribution fields
+['utm_source', 'utm_medium', 'utm_campaign', 'utm_term', 'utm_content'].forEach(k => { const v = params.get(k) || store.get('sscap_' + k); if (v) { form.elements[k].value = v; store.set('sscap_' + k, v); } });
+form.elements.referrer.value = document.referrer || '';
+form.elements.landing_page.value = location.href.split('#')[0];
+SSCAP.setMapContext = (layer, scenario) => { form.elements.sscap_last_layer.value = layer; form.elements.sscap_last_scenario.value = scenario; };
+
+/**
+ * submitLead(payload) — the single integration point. [CONFIRM CRM]
+ * HubSpot Forms API: POST https://api.hsforms.com/submissions/v3/integration/submit/{portalId}/{formGuid}
+ *   body { fields: Object.entries(payload).map(([name, value]) => ({ name, value: String(value) })),
+ *          context: { pageUri: payload.landing_page, pageName: document.title },
+ *          legalConsentOptions: { consent: { consentToProcess: true, text: 'We use your information only to arrange your demo.',
+ *            communications: [{ value: payload.casl_consent === 'yes', subscriptionTypeId: 0, text: 'I agree to receive emails from Smart City Water about SSCAP.' }] } } }
+ * WordPress: POST to admin-ajax.php / a REST route with the same JSON.
+ */
+const LEAD_ENDPOINT = '/api/sscap-lead'; // placeholder
+async function submitLead(payload) {
+  const res = await fetch(LEAD_ENDPOINT, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload), credentials: 'same-origin' });
+  if (!res.ok) throw new Error('HTTP ' + res.status);
+  return res;
+}
+SSCAP.submitLead = submitLead;
+const btn = $('#form-submit'), fail = $('#form-fail');
+async function doSubmit() {
+  const fields = $$('input[required], #f-phone', form);
+  const ok = fields.map(validate).every(Boolean);
+  if (!ok) { const bad = fields.find(f => f.getAttribute('aria-invalid') === 'true'); bad && bad.focus(); return; }
+  const fd = new FormData(form);
+  const payload = Object.fromEntries(fd.entries());
+  payload.casl_consent = fd.get('casl_consent') === 'yes' ? 'yes' : 'no';
+  payload.submitted_at = new Date().toISOString();
+  // spam checks: honeypot + time-to-submit (silently "succeed" for bots)
+  const tooFast = Date.now() - formShownAt < 3000;
+  if (payload.company_website || tooFast) { showSuccess(payload.full_name); return; }
+  delete payload.company_website;
+  btn.setAttribute('aria-busy', 'true'); btn.disabled = true; btn.textContent = 'Sending…'; fail.hidden = true;
+  try {
+    await submitLead(payload);
+    SSCAP.track('form_submit_success');
+    showSuccess(payload.full_name);
+  } catch (err) {
+    SSCAP.track('form_submit_error', { reason: String(err.message || err) });
+    fail.hidden = false;
+    $('#form-retry').focus();
+  } finally {
+    btn.removeAttribute('aria-busy'); btn.disabled = false; btn.textContent = 'Request my live demo';
+  }
+}
+function showSuccess(first) {
+  $('#ok-title').textContent = 'Thanks, ' + ((first || '').trim().split(/\s+/)[0] || 'there') + '.';
+  form.hidden = true;
+  const ok = $('#form-ok'); ok.hidden = false; ok.focus({ preventScroll: true });
+}
+form.addEventListener('submit', e => { e.preventDefault(); doSubmit(); });
+$('#form-retry').addEventListener('click', doSubmit);
+
+/* ---------- role tabs (WAI-ARIA tabs, automatic activation) ---------- */
+const tabs = $$('#role-tabs [role=tab]');
+const activate = (i, focus) => {
+  tabs.forEach((t, k) => { const on = k === i; t.setAttribute('aria-selected', on); t.tabIndex = on ? 0 : -1; document.getElementById(t.getAttribute('aria-controls')).hidden = !on; });
+  if (focus) tabs[i].focus();
+};
+tabs.forEach((t, i) => {
+  t.addEventListener('click', () => activate(i));
+  t.addEventListener('keydown', e => {
+    const n = tabs.length;
+    if (e.key === 'ArrowRight' || e.key === 'ArrowDown') { e.preventDefault(); activate((i + 1) % n, true); }
+    else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') { e.preventDefault(); activate((i - 1 + n) % n, true); }
+    else if (e.key === 'Home') { e.preventDefault(); activate(0, true); }
+    else if (e.key === 'End') { e.preventDefault(); activate(n - 1, true); }
+  });
+});
+
+/* ---------- mini visual 1: capacity tiers slider ---------- */
+const tierOf = u => u < 0.5 ? 1 : u < 0.75 ? 2 : u < 1 ? 3 : 4;
+const mini1 = $('#mini1'), m1r = $('#mini1-range'), m1v = $('#mini1-val');
+const M1 = [[250, 32], [300, 48], [375, 61], [450, 79], [525, 93]];
+mini1.innerHTML = M1.map(() => '<div><div class="p"></div><span class="tnum" style="font-size:12px;font-weight:600"></span></div>').join('');
+const drawMini1 = () => {
+  const f = +m1r.value; m1v.textContent = f + '%';
+  const us = M1.map(([d, u], i) => { const v = u * f / 100, cell = mini1.children[i]; cell.firstChild.className = 'p t' + tierOf(v / 100); cell.firstChild.style.height = Math.round(d / 40) + 'px'; cell.lastChild.textContent = Math.round(v) + '%'; return Math.round(v); });
+  mini1.setAttribute('aria-label', 'Five conduits in series at ' + us.join('%, ') + '% used capacity.');
+};
+m1r.addEventListener('input', drawMini1); drawMini1();
+})();
+</script>
+
+<!-- ================= MAP + MODEL SCRIPT (lazy: MapLibre & data load after first paint) ================= -->
+<script>
+(() => {
+'use strict';
+const CONFIG = {
+  dataUrl: 'demo-network.geojson',                       // swap for the open-data demo city model
+  maplibreJs: { src: 'https://cdn.jsdelivr.net/npm/maplibre-gl@4.7.1/dist/maplibre-gl.js', integrity: 'sha384-SYKAG6cglRMN0RVvhNeBY0r3FYKNOJtznwA0v7B5Vp9tr31xAHsZC0DqkQ/pZDmj' },
+  maplibreCss: { href: 'https://cdn.jsdelivr.net/npm/maplibre-gl@4.7.1/dist/maplibre-gl.css', integrity: 'sha384-MinO0mNliZ3vwppuPOUnGa+iq619pfMhLVUXfC4LHwSCvF9H+6P/KO4Q7qBOYV5V' },
+  basemap: 'https://tiles.openfreemap.org/styles/positron', // OpenFreeMap: free, keyless vector tiles with 3D building heights (dark variant derived at runtime)
+  camera: { bearing: -16.7, pitch: 58 },                  // York Region concession grid, 3D tilt
+  tierLight: ['#A3A9B1', '#2A9D8F', '#F2C230', '#E8772E', '#A51D24'],
+  tierDark: ['#5E6678', '#22A699', '#F7D154', '#F2913F', '#FF4D6D'],
+  get tierColors() { return document.documentElement.dataset.theme === 'dark' ? this.tierDark : this.tierLight; },
+  casing: '#7A3A0C'
+};
+const $ = (s, r = document) => r.querySelector(s), $$ = (s, r = document) => Array.from(r.querySelectorAll(s));
+const SSCAP = window.SSCAP || {};
+const track = (e, p) => SSCAP.track && SSCAP.track(e, p);
+const mq = q => window.matchMedia(q).matches;
+const reducedMotion = () => mq('(prefers-reduced-motion: reduce)');
+const isMobile = () => !mq('(min-width: 768px)');
+const isDark = () => document.documentElement.dataset.theme === 'dark'; // light is the default theme
+const fmt = (n, d = 0) => Number(n).toLocaleString('en-CA', { minimumFractionDigits: d, maximumFractionDigits: d });
+
+/* ======================= HYDRAULIC ENGINE ======================= */
+const STEPS = ['Existing', '+ Subject', '+ Active', '+ Approved', 'Masterplan 2051'];
+const STEP_NAMES = ['Existing', 'Subject Application', 'Subject + Active', 'Subject + Active + Approved', 'Masterplan 2051 + Subject'];
+const STORMS = [['Dry weather', 0], ['2-yr', 0.08], ['5-yr', 0.14], ['25-yr', 0.22], ['100-yr', 0.30]]; // illustrative RDII, L/s/ha
+const GRP = s => /^Proposed/.test(s) ? 'active' : /Approved/.test(s) ? 'approved' : s === 'Occupied' ? 'occupied' : 'sandbox';
+const qcap = (d, s, n) => { const D = d / 1000, A = Math.PI * D * D / 4, R = D / 4; return 1000 * (1 / n) * A * Math.pow(R, 2 / 3) * Math.sqrt(s / 100); };
+const harmon = (P, cap) => Math.min(cap, 1 + 14 / (4 + Math.sqrt(P / 1000)));
+const DD = [[0, 0], [0.1, 0.22], [0.25, 0.34], [0.5, 0.5], [0.75, 0.64], [1, 0.82], [1.08, 0.94]];
+const dOverD = u => { if (u >= 1.08) return 1; for (let i = 1; i < DD.length; i++) if (u <= DD[i][0]) { const [a0, a1] = DD[i - 1], [b0, b1] = DD[i]; return a1 + (b1 - a1) * (u - a0) / (b0 - a0); } return 1; };
+const capT = u => u == null ? 0 : u < 0.5 ? 1 : u < 0.75 ? 2 : u < 1 ? 3 : 4;
+const oacsT = o => o == null ? 0 : o < 0.5 ? 1 : o < 0.7 ? 2 : o < 0.9 ? 3 : 4;
+const TIER_NAMES = ['Not computed', '< 50%', '50–75%', '75–100%', '≥ 100%'];
+
+function buildModel(gj) {
+  const meta = gj.metadata || {}, D = meta.design || { domestic_L_cap_day: 370, infiltration_L_s_ha: 0.26, ici_L_s_ha: 0.35, harmon_cap: 4, manning_n: 0.013, density_p_ha: 55 };
+  const N = [], P = [], apps = [], monitors = [], smas = [];
+  for (const f of gj.features) {
+    const p = f.properties;
+    if (p.kind === 'manhole' || p.kind === 'outlet') N[p.n] = { n: p.n, id: p.kind === 'outlet' ? 'OUTFALL-1' : 'SANMH-' + (1000 + p.n), pop: p.pop || 0, ici: p.ici || 0, g: p.g, sma: p.sma, c: f.geometry.coordinates, down: null, ups: [], outlet: p.kind === 'outlet' };
+    else if (p.kind === 'conduit') P.push({ us: p.us, ds: p.ds, d: p.d, len: p.len, s: p.s, lof: p.lof ?? null, cof: p.cof ?? null, trunk: !!p.trunk, c: f.geometry.coordinates });
+    else if (p.kind === 'application') apps.push(Object.assign({}, p, { grp: GRP(p.status), geom: f.geometry }));
+    else if (p.kind === 'monitor') monitors.push(Object.assign({}, p, { c: f.geometry.coordinates }));
+    else if (p.kind === 'sma') smas.push({ name: p.name, geom: f.geometry });
+  }
+  N.forEach(n => { n.area = n.pop / D.density_p_ha; });
+  const pipeOf = {};
+  P.forEach((p, k) => { p.k = k; p.id = N[p.us].id + '.1'; N[p.us].down = p.ds; N[p.ds].ups.push(p.us); pipeOf[p.us] = k; p.cap = qcap(p.d, p.s, D.manning_n); p.vel = p.cap / 1000 / (Math.PI * Math.pow(p.d / 1000, 2) / 4); p.sma = N[p.us].sma; });
+  const depth = []; const dep = k => { if (depth[k] != null) return depth[k]; let d = 0, j = k; const chain = []; while (N[j].down != null && depth[j] == null) { chain.push(j); j = N[j].down; } let base = depth[j] != null ? depth[j] : 0; for (let i = chain.length - 1; i >= 0; i--) depth[chain[i]] = ++base; if (depth[k] == null) depth[k] = 0; return depth[k]; };
+  N.forEach((n, k) => dep(k));
+  const order = N.map((n, k) => k).sort((a, b) => depth[b] - depth[a]);
+  apps.forEach(a => { a.nodeIdx = parseInt(String(a.node).replace('SANMH-', ''), 10) - 1000; });
+  const smaNames = meta.sma_names || smas.map(s => s.name);
+  const subj0 = Math.max(0, apps.findIndex(a => a.file === meta.subject_default));
+  return { D, N, P, apps, monitors, smas, smaNames, pipeOf, order, cache: new Map(), subj0, meta };
+}
+function flowsFor(m, loads, rdii) {
+  const { N, D } = m, Pp = new Float64Array(N.length), A = new Float64Array(N.length), I = new Float64Array(N.length);
+  N.forEach((n, k) => { const L = loads[k] || 0; Pp[k] = n.pop + L; A[k] = n.area + L / 70; I[k] = n.ici; });
+  for (const k of m.order) { const d = N[k].down; if (d != null) { Pp[d] += Pp[k]; A[d] += A[k]; I[d] += I[k]; } }
+  return m.P.map(p => {
+    const k = p.us, P = Pp[k], pf = harmon(Math.max(P, 1), D.harmon_cap);
+    const qr = pf * P * D.domestic_L_cap_day / 86400, qi = D.ici_L_s_ha * I[k], inf = D.infiltration_L_s_ha * A[k] + rdii * A[k];
+    return { P, A: A[k], pf, qr, qi, inf, Q: qr + qi + inf };
+  });
+}
+function loadsFor(m, step, subj) {
+  const L = {}, add = a => { L[a.nodeIdx] = (L[a.nodeIdx] || 0) + a.population; };
+  if (step >= 1) add(m.apps[subj]);
+  m.apps.forEach((a, k) => { if (k === subj) return; if (step >= 2 && a.grp === 'active') add(a); if (step >= 3 && a.grp === 'approved') add(a); });
+  if (step >= 4) m.N.forEach((n, k) => { if (n.pop > 0) L[k] = (L[k] || 0) + n.pop * 0.35; }); // masterplan growth: +35% on every catchment
+  return L;
+}
+function scenario(m, step, storm, subj) {
+  const key = step + '|' + storm + '|' + subj;
+  if (!m.cache.has(key)) { const F = flowsFor(m, loadsFor(m, step, subj), STORMS[storm][1]); m.cache.set(key, { F, U: F.map((f, k) => f.Q / m.P[k].cap) }); }
+  return m.cache.get(key);
+}
+const pathOf = (m, node) => { const out = []; while (m.N[node].down != null) { out.push(m.pipeOf[node]); node = m.N[node].down; } return out; };
+const oacsOf = (p, u) => p.lof == null ? null : Math.min(1, 0.65 * (p.lof * p.cof / 30) + 0.35 * Math.min(1, dOverD(u)));
+const sheetRows = (m, path, S) => path.map(k => { const p = m.P[k], f = S.F[k], u = S.U[k]; return { id: p.id, a: fmt(f.A, 1), units: fmt(f.P / 2.6), pop: fmt(f.P), pf: fmt(f.pf, 2), qr: fmt(f.qr, 1), qi: fmt(f.qi, 1), inf: fmt(f.inf, 1), q: fmt(f.Q, 1), d: p.d, len: p.len, s: fmt(p.s, 2), cap: fmt(p.cap, 1), v: fmt(p.vel, 2), u: fmt(u * 100), t: capT(u) }; });
+
+/* ======================= DATA (shared promise) ======================= */
+let dataP = null;
+const loadData = () => dataP || (dataP = fetch(CONFIG.dataUrl).then(r => { if (!r.ok) throw new Error('data ' + r.status); return r.json(); }).then(gj => ({ gj, m: buildModel(gj) })));
+SSCAP.engine = { loadData, scenario, pathOf, oacsOf, capT, oacsT, STEP_NAMES };
+
+/* ======================= FEATURE MINI-VISUALS FROM THE MODEL ======================= */
+function drawModelVisuals({ m }) {
+  const s0 = m.subj0;
+  // mini 2: worst trunk segment across scenarios
+  const Ss = [0, 1, 2, 3, 4].map(st => scenario(m, st, 0, s0));
+  let tk = -1; m.P.forEach((p, k) => { if (p.trunk && (tk < 0 || Ss[4].U[k] > Ss[4].U[tk])) tk = k; });
+  const us = Ss.map(S => S.U[tk]), scale = 150, bars = $('#mini2');
+  $('#mini2-title').textContent = 'Trunk segment ' + m.P[tk].id + ' · ' + m.P[tk].d + ' mm · used capacity';
+  bars.innerHTML = '<div class="line" style="bottom:' + scale + 'px"><span>100% full-flow capacity</span></div>' + us.map((u, i) => '<div class="bar"><b class="tnum">' + fmt(u * 100) + '%</b>' + us.slice(0, i + 1).map((v, j) => '<i class="seg-' + j + '" style="height:' + Math.max(1, Math.round((v - (j ? us[j - 1] : 0)) * scale)) + 'px"></i>').reverse().join('') + '</div>').join('');
+  bars.setAttribute('aria-label', 'Used capacity of trunk segment ' + m.P[tk].id + ' by scenario: ' + us.map((u, i) => STEPS[i] + ' ' + fmt(u * 100) + '%').join(', ') + '.');
+  // OACS strip + reline list
+  const S0 = scenario(m, 0, 0, s0), path0 = pathOf(m, m.apps[s0].nodeIdx);
+  const strip = $('#oacs-strip');
+  strip.innerHTML = path0.map(k => '<i class="t' + oacsT(oacsOf(m.P[k], S0.U[k])) + '"></i>').join('');
+  strip.setAttribute('aria-label', 'OACS along ' + path0.length + ' conduits of the flow path: ' + path0.map(k => { const o = oacsOf(m.P[k], S0.U[k]); return o == null ? 'unscored' : fmt(o, 2); }).join(', ') + '.');
+  const ranked = m.P.map((p, k) => ({ p, o: oacsOf(p, S0.U[k]) })).filter(x => x.o != null).sort((a, b) => b.o - a.o).slice(0, 4);
+  $('#reline').innerHTML = ranked.map((x, i) => '<li><span style="font-weight:600;width:18px">' + (i + 1) + '</span><span>' + x.p.id + ' · ' + x.p.d + ' mm</span><span>LOF ' + x.p.lof + ' · COF ' + x.p.cof + '</span><span class="chip chip--' + oacsT(x.o) + '">' + fmt(x.o, 2) + '</span></li>').join('');
+}
+
+/* ======================= HERO MAP ======================= */
+const ui = {
+  map: $('#hero-map'), gl: $('#hero-gl'), poster: $('#hero-poster'), panel: $('#hero-panel'), about: $('#hero-about'),
+  legendTitle: $('#legend-title'), legend: $('#legend-list'), tip: $('#hero-tip'), live: $('#live'),
+  interact: $('#hero-interact'), ctrlToggle: $('#ctrl-toggle'), ctrlBody: $('#ctrl-body'),
+  appPanel: $('#app-panel'), mhPanel: $('#mh-panel'), tour: $('#hero-tour'), view3d: $('#view-3d')
+};
+const state = { layer: 'capacity', step: 0, storm: 0, sel: null, mh: null, tour: 0, is3d: true };
+let M = null, map = null, active = 'a', pendingFade = null, appMarkers = [], monMarkers = [], tourTimer = null, pulseRAF = null;
+
+// mobile: controls are a bottom sheet under the map
+const syncSheet = () => { const mob = isMobile(); ui.ctrlBody.hidden = mob ? ui.ctrlToggle.getAttribute('aria-expanded') !== 'true' : false; };
+ui.ctrlToggle.addEventListener('click', () => { const ex = ui.ctrlToggle.getAttribute('aria-expanded') === 'true'; ui.ctrlToggle.setAttribute('aria-expanded', String(!ex)); syncSheet(); });
+window.matchMedia('(min-width: 768px)').addEventListener('change', syncSheet); syncSheet();
+
+function renderLegend() {
+  const L = state.layer;
+  const tiers = (title, rows) => { ui.legendTitle.textContent = title; ui.legend.innerHTML = rows.map(([t, name, range]) => '<li><span class="lg-mark"><span class="sw sw--' + t + '"></span></span><span>' + name + '</span><span class="tnum">' + range + '</span></li>').join(''); };
+  if (L === 'capacity' || L === 'manholes') tiers(L === 'manholes' ? 'Manholes · HGL (pipes: Q/Qcap)' : 'Used capacity · Q/Qcap', [[4, 'Surcharged / over', '≥ 100%'], [3, 'High', '75–100%'], [2, 'Moderate', '50–75%'], [1, 'Available', '< 50%'], [0, 'Not computed', '—']]);
+  else if (L === 'condition') tiers('Condition · OACS', [[4, 'Critical', '≥ 0.9'], [3, 'Poor', '0.7–0.9'], [2, 'Fair', '0.5–0.7'], [1, 'Good', '< 0.5'], [0, 'Unscored (never inspected)', '—']]);
+  else if (L === 'applications') { ui.legendTitle.textContent = 'Application status'; ui.legend.innerHTML = [['dashed', 2, 'Proposed (active)'], ['solid', 2, 'Draft Approved / Approved'], ['double', 4, 'Occupied'], ['dotted', 2, 'Sandbox']].map(([s, w, n]) => '<li><span class="lg-mark"><span style="display:inline-block;width:26px;height:14px;border:' + w + 'px ' + s + ' currentColor;background:rgba(11,92,173,.12)"></span></span><span>' + n + '</span></li>').join(''); }
+  else { ui.legendTitle.textContent = 'Monitoring · DataCurrent'; ui.legend.innerHTML = '<li><span class="lg-mark"><span class="sscap-hero__mon"><i></i></span></span><span>Flow monitor</span></li><li><span class="lg-mark"><span class="sscap-hero__mon"><i class="rg"></i></span></span><span>Rain gauge (Env. Canada / NOAA)</span></li>'; }
+  if (L === 'capacity' || L === 'manholes') ui.legend.insertAdjacentHTML('beforeend', '<li><span class="lg-mark"><span style="display:inline-block;width:18px;height:18px;border-radius:50%;background:radial-gradient(circle,#FFE296 0,#FF783C 30%,rgba(235,40,50,0) 72%)"></span></span><span>Glow = surcharged hot spot</span></li>');
+  if (L === 'manholes') ui.legend.insertAdjacentHTML('beforeend', '<li><span class="lg-mark"><span style="display:inline-block;width:12px;height:12px;border-radius:50%;background:' + CONFIG.tierColors[4] + ';border:2px solid currentColor"></span></span><span>Surcharged node (HGL above crown)</span></li>');
+}
+renderLegend();
+
+function setPressed(groupSel, attr, val) { $$(groupSel + ' button').forEach(b => { const on = b.dataset[attr] == String(val); b.setAttribute('aria-pressed', String(on)); if (attr === 'step') b.classList.toggle('is-past', +b.dataset.step < +val); }); }
+
+/* ---------- map styles ---------- */
+const widthExpr = mult => ['interpolate', ['linear'], ['zoom'], 13, ['*', mult * 0.55, ['+', 0.8, ['/', ['get', 'd'], 380]]], 17, ['*', mult * 2.4, ['+', 0.8, ['/', ['get', 'd'], 380]]]];
+const tierExpr = () => ['match', ['get', 't'], 0, CONFIG.tierColors[0], 1, CONFIG.tierColors[1], 2, CONFIG.tierColors[2], 3, CONFIG.tierColors[3], 4, CONFIG.tierColors[4], isDark() ? 'rgba(238,241,245,0.45)' : 'rgba(15,27,42,0.45)'];
+const SETS = ['a', 'b'];
+const glowK = () => isDark() ? 0.55 : 0.25; // conduit halo: neon at night, a soft wash by day
+const setLayers = s => [s + '-glow', s + '-neutral', s + '-casing', s + '-line', s + '-red', s + '-grey'];
+
+function brightenBasemap(style) {
+  // reference look: white massing, harbour-blue water, green parks, grey asphalt
+  style.layers.forEach(l => {
+    const p = l.paint = l.paint || {}, id = l.id;
+    if (l.type === 'background') p['background-color'] = '#E7E6E2';
+    else if (l.type === 'fill') {
+      if (/water/.test(id)) p['fill-color'] = '#4A7C9C';
+      else if (/park|grass|wood|forest|green|cemetery|pitch/.test(id)) p['fill-color'] = '#9CCB86';
+      else if (/building/.test(id)) p['fill-color'] = '#FFFFFF';
+      else if (/landuse|landcover/.test(id)) p['fill-color'] = '#E2E1DD';
+    } else if (l.type === 'line') {
+      if (/water|river|waterway/.test(id)) p['line-color'] = '#4A7C9C';
+      else if (/road|street|highway|bridge|tunnel|path|rail/.test(id) && !/casing/.test(id)) p['line-color'] = /motorway|trunk|primary/.test(id) ? '#7F868D' : '#9AA0A6';
+    } else if (l.type === 'symbol' && /water/.test(id)) { p['text-color'] = '#EEF4F8'; p['text-halo-color'] = '#2E5D7E'; }
+  });
+  return style;
+}
+function darkenBasemap(style) {
+  // derive a dark variant from the light basemap so both share one tile source
+  style.layers.forEach(l => {
+    const p = l.paint = l.paint || {};
+    if (l.type === 'background') p['background-color'] = '#0C111C';
+    else if (l.type === 'fill') p['fill-color'] = /water/.test(l.id) ? '#05070C' : /park|grass|wood|green/.test(l.id) ? '#10261A' : '#121927';
+    else if (l.type === 'line') { p['line-color'] = /water|river/.test(l.id) ? '#0A1220' : '#1F2839'; if (/boundary/.test(l.id)) l.layout = Object.assign(l.layout || {}, { visibility: 'none' }); }
+    else if (l.type === 'symbol') { p['text-color'] = '#9AA6B4'; p['text-halo-color'] = '#0E1620'; }
+  });
+  return style;
+}
+function addBuildings3D() {
+  const src = Object.keys(map.getStyle().sources).find(id => map.getStyle().sources[id].type === 'vector');
+  if (!src) return;
+  const firstSymbol = (map.getStyle().layers.find(l => l.type === 'symbol') || {}).id;
+  map.getStyle().layers.filter(l => l['source-layer'] === 'building' && l.type === 'fill').forEach(l => map.setLayoutProperty(l.id, 'visibility', 'none'));
+  map.addLayer({
+    id: 'sscap-buildings', type: 'fill-extrusion', source: src, 'source-layer': 'building', minzoom: 13,
+    paint: {
+      // dark slate massing, slightly lighter with height (lit towers)
+      'fill-extrusion-color': isDark() ? ['interpolate', ['linear'], ['coalesce', ['get', 'render_height'], ['get', 'height'], 12], 0, '#3C4E70', 80, '#4A6090', 250, '#6A84B8'] : '#FFFFFF',
+      'fill-extrusion-height': ['coalesce', ['get', 'render_height'], ['get', 'height'], 12],
+      'fill-extrusion-base': ['coalesce', ['get', 'render_min_height'], ['get', 'min_height'], 0],
+      'fill-extrusion-opacity': isDark() ? 0.38 : 0.55, // translucent glass massing: pipes and glow read through the city
+      'fill-extrusion-vertical-gradient': true
+    }
+  }, firstSymbol);
+  map.setLight(isDark() ? { anchor: 'map', color: '#9CB8FF', intensity: 0.35, position: [1.4, 200, 40] } : { anchor: 'map', color: '#FFFFFF', intensity: 0.42, position: [1.4, 200, 40] });
+}
+
+function conduitFC(tiers) { return { type: 'FeatureCollection', features: M.P.map((p, k) => ({ type: 'Feature', id: k, properties: { t: tiers[k], d: p.d, k }, geometry: { type: 'LineString', coordinates: p.c } })) }; }
+function addNetworkLayers() {
+  const tierColor = tierExpr();
+  const empty = { type: 'FeatureCollection', features: [] };
+  const firstSymbol = (map.getStyle().layers.find(l => l.type === 'symbol') || {}).id;
+  map.addSource('sma', { type: 'geojson', data: { type: 'FeatureCollection', features: M.smas.map(s => ({ type: 'Feature', properties: { name: s.name }, geometry: s.geom })) } });
+  map.addLayer({ id: 'sma-line', type: 'line', source: 'sma', paint: { 'line-color': isDark() ? '#9AA6B4' : '#36414F', 'line-width': 1.5, 'line-dasharray': [3, 2], 'line-opacity': 0.7 } }, firstSymbol);
+  SETS.forEach(s => {
+    map.addSource('net-' + s, { type: 'geojson', data: empty });
+    const src = 'net-' + s, op = s === 'a' ? 1 : 0, tr = { duration: 600, delay: 0 };
+    map.addLayer({ id: s + '-glow', type: 'line', source: src, filter: ['>=', ['get', 't'], 1], layout: { 'line-cap': 'round' }, paint: { 'line-color': tierColor, 'line-width': ['+', widthExpr(1), 8], 'line-blur': 8, 'line-opacity': op * glowK(), 'line-opacity-transition': tr } });
+    map.addLayer({ id: s + '-neutral', type: 'line', source: src, filter: ['==', ['get', 't'], -1], layout: { 'line-cap': 'round' }, paint: { 'line-color': tierColor, 'line-width': widthExpr(1), 'line-opacity': op, 'line-opacity-transition': tr } });
+    map.addLayer({ id: s + '-casing', type: 'line', source: src, filter: ['==', ['get', 't'], 3], layout: { 'line-cap': 'round' }, paint: { 'line-color': CONFIG.casing, 'line-width': ['+', widthExpr(1), 3], 'line-opacity': op, 'line-opacity-transition': tr } });
+    map.addLayer({ id: s + '-line', type: 'line', source: src, filter: ['in', ['get', 't'], ['literal', [1, 2, 3]]], layout: { 'line-cap': 'round' }, paint: { 'line-color': tierColor, 'line-width': widthExpr(1), 'line-opacity': op, 'line-opacity-transition': tr } });
+    map.addLayer({ id: s + '-red', type: 'line', source: src, filter: ['==', ['get', 't'], 4], paint: { 'line-color': CONFIG.tierColors[4], 'line-width': widthExpr(1.25), 'line-dasharray': [2.2, 1.1], 'line-opacity': op, 'line-opacity-transition': tr } });
+    map.addLayer({ id: s + '-grey', type: 'line', source: src, filter: ['==', ['get', 't'], 0], layout: { 'line-cap': 'round' }, paint: { 'line-color': CONFIG.tierColors[0], 'line-width': widthExpr(1), 'line-dasharray': [0.4, 1.6], 'line-opacity': op, 'line-opacity-transition': tr } });
+  });
+  // hit layer for hover/tap (static geometry)
+  map.addSource('net-hit', { type: 'geojson', data: conduitFC(M.P.map(() => 1)) });
+  map.addLayer({ id: 'net-hit', type: 'line', source: 'net-hit', paint: { 'line-color': '#000', 'line-width': 14, 'line-opacity': 0.001 } });
+  // traced flow path
+  map.addSource('path', { type: 'geojson', data: empty });
+  map.addLayer({ id: 'path-glow', type: 'line', source: 'path', layout: { 'line-cap': 'round', 'line-join': 'round' }, paint: { 'line-color': isDark() ? '#5DA0EB' : '#0B5CAD', 'line-width': ['+', widthExpr(1), 6], 'line-opacity': 0.35 } });
+  map.addLayer({ id: 'path-line', type: 'line', source: 'path', layout: { 'line-cap': 'round' }, paint: { 'line-color': tierColor, 'line-width': widthExpr(1.3) } });
+  map.addLayer({ id: 'path-pulse', type: 'line', source: 'path', paint: { 'line-color': '#FFFFFF', 'line-width': widthExpr(0.6), 'line-dasharray': [0, 4, 3] } });
+  // applications: 3D volumes + status outlines
+  map.addSource('apps', { type: 'geojson', promoteId: 'file', data: { type: 'FeatureCollection', features: M.apps.map(a => ({ type: 'Feature', properties: { file: a.file, grp: a.grp }, geometry: a.geom })) } });
+  map.addLayer({ id: 'apps-3d', type: 'fill-extrusion', source: 'apps', paint: { 'fill-extrusion-color': isDark() ? '#5DA0EB' : '#0B5CAD', 'fill-extrusion-height': ['case', ['boolean', ['feature-state', 'sel'], false], 75, 40], 'fill-extrusion-opacity': 0.55 } });
+  [['active', [2, 1.5], 0], ['approved', null, 0], ['occupied', null, 2], ['sandbox', [0.4, 1.6], 0]].forEach(([g, dash, gap]) => {
+    const paint = { 'line-color': isDark() ? '#EEF1F5' : '#0F1B2A', 'line-width': 2 }; if (dash) paint['line-dasharray'] = dash; if (gap) paint['line-gap-width'] = gap;
+    map.addLayer({ id: 'apps-' + g, type: 'line', source: 'apps', filter: ['==', ['get', 'grp'], g], paint });
+  });
+  // surcharged hot spots: red-orange glow over the city (drawn above the 3D massing)
+  map.addSource('hot', { type: 'geojson', data: empty });
+  map.addLayer({ id: 'hot', type: 'heatmap', source: 'hot', paint: {
+    'heatmap-weight': ['get', 'w'],
+    'heatmap-intensity': ['interpolate', ['linear'], ['zoom'], 13, 0.9, 16, 1.6],
+    'heatmap-radius': ['interpolate', ['linear'], ['zoom'], 13, 22, 16, 70],
+    'heatmap-opacity': 0.4, // halved so overloaded areas read without washing out the city
+    'heatmap-color': ['interpolate', ['linear'], ['heatmap-density'], 0, 'rgba(255,77,109,0)', 0.2, 'rgba(255,77,109,0.35)', 0.5, 'rgba(255,110,70,0.7)', 0.8, 'rgba(255,170,90,0.85)', 1, 'rgba(255,236,170,0.95)']
+  } });
+  // manholes
+  map.addSource('mh', { type: 'geojson', data: empty });
+  map.addLayer({ id: 'mh', type: 'circle', source: 'mh', layout: { visibility: 'none' }, paint: { 'circle-radius': ['interpolate', ['linear'], ['zoom'], 13, ['case', ['get', 's'], 3.5, 2], 17, ['case', ['get', 's'], 9, 6]], 'circle-color': ['case', ['get', 's'], CONFIG.tierColors[4], '#FFFFFF'], 'circle-stroke-color': '#0F1B2A', 'circle-stroke-width': ['case', ['get', 'on'], 3, 1.5] } });
+}
+
+/* ---------- markers (keyboard-operable application buttons, labels) ---------- */
+function addMarkers() {
+  const ml = GL();
+  const centroid = g => { const r = g.coordinates[0]; let x = 0, y = 0; r.slice(0, -1).forEach(c => { x += c[0]; y += c[1]; }); return [x / (r.length - 1), y / (r.length - 1)]; };
+  const group = document.createElement('div'); // roving tabindex across applications
+  appMarkers = M.apps.map((a, k) => {
+    const el = document.createElement('button');
+    el.type = 'button'; el.className = 'sscap-hero__marker'; el.textContent = a.file; el.tabIndex = k === 0 ? 0 : -1;
+    el.setAttribute('aria-pressed', 'false');
+    el.setAttribute('aria-label', a.file + ', ' + a.address + ', ' + a.status + '. Trace the flow path and open the design sheet. Arrow keys move between applications.');
+    el.addEventListener('click', e => { e.stopPropagation(); selectApp(state.sel === k ? null : k); });
+    el.addEventListener('keydown', e => {
+      const n = M.apps.length; let j = null;
+      if (e.key === 'ArrowRight' || e.key === 'ArrowDown') j = (k + 1) % n; else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') j = (k - 1 + n) % n; else if (e.key === 'Escape') { selectApp(null); return; }
+      if (j != null) { e.preventDefault(); appMarkers.forEach((mk, i) => mk.getElement().tabIndex = i === j ? 0 : -1); appMarkers[j].getElement().focus(); selectApp(j); }
+    });
+    return new ml.Marker({ element: el, anchor: 'bottom', offset: [0, -6] }).setLngLat(centroid(a.geom)).addTo(map);
+  });
+  monMarkers = M.monitors.map(mo => { const el = document.createElement('div'); el.className = 'sscap-hero__mon'; el.innerHTML = '<i class="' + (mo.type === 'rain_gauge' ? 'rg' : '') + '"></i><span class="sscap-hero__label">' + mo.id + (mo.source ? ' · ' + mo.source : '') + '</span>'; el.style.display = 'none'; return new ml.Marker({ element: el, anchor: 'left' }).setLngLat(mo.c).addTo(map); });
+}
+
+/* ---------- state → map ---------- */
+let lastTiers = null;
+function computeTiers() {
+  const subj = state.sel == null ? M.subj0 : state.sel, S = scenario(M, state.step, state.storm, subj), L = state.layer;
+  return { S, subj, tiers: M.P.map((p, k) => L === 'capacity' || L === 'manholes' ? capT(S.U[k]) : L === 'condition' ? oacsT(oacsOf(p, S.U[k])) : -1) };
+}
+function apply(reason) {
+  if (!M) return;
+  const { S, subj, tiers } = computeTiers();
+  // counters (always Q/Qcap)
+  let c100 = 0, c75 = 0, km = 0; S.U.forEach((u, k) => { if (u >= 1) { c100++; km += M.P[k].len; } else if (u >= 0.75) c75++; });
+  $('#c100').textContent = c100; $('#c75').textContent = c75; $('#ckm').textContent = fmt(km / 1000, 1);
+  $('#subject-file').textContent = M.apps[subj].file;
+  $('#scn-group').setAttribute('aria-label', 'Scenario · subject ' + M.apps[subj].file);
+  const surchN = new Set(M.P.filter((p, k) => S.U[k] >= 1).map(p => p.us)).size;
+  const badges = { capacity: c100, condition: M.P.filter((p, k) => oacsT(oacsOf(p, S.U[k])) >= 3).length, applications: M.apps.length, manholes: surchN, monitors: M.monitors.length };
+  Object.entries(badges).forEach(([k, n]) => { const el = $('#badge-' + k); el.textContent = n || ''; el.dataset.n = n; });
+  const dot = $('#status-dot'); dot.style.background = dot.style.color = CONFIG.tierColors[c100 ? 4 : c75 ? 3 : 1];
+  $('#status-text').textContent = c100 + ' of ' + M.P.length + ' over · ' + (state.storm ? STORMS[state.storm][0] + ' storm' : 'Dry weather');
+  const stress = Math.min(1, (c100 * 3 + c75) / 160), mix = (a, b, t) => Math.round(a + (b - a) * t);
+  ui.map.style.setProperty('--mood', stress < 0.5 ? 'rgba(' + mix(76, 255, stress * 2) + ',' + mix(141, 150, stress * 2) + ',' + mix(255, 70, stress * 2) + ',0.20)' : 'rgba(255,' + mix(150, 70, (stress - 0.5) * 2) + ',' + mix(70, 100, (stress - 0.5) * 2) + ',0.26)');
+  renderCards(S);
+  if (reason === 'scenario' || reason === 'storm') ui.live.textContent = STEP_NAMES[state.step] + ' scenario' + (state.storm ? ', ' + STORMS[state.storm][0] + ' storm' : '') + ': ' + c100 + ' conduits over capacity, ' + c75 + ' at 75 to 100 percent, ' + fmt(km / 1000, 1) + ' km over capacity.';
+  if (SSCAP.setMapContext) SSCAP.setMapContext(state.layer, STEP_NAMES[state.step]);
+  if (!map) return;
+  // cross-fade conduit colours (600 ms)
+  const next = active === 'a' ? 'b' : 'a';
+  const changed = !lastTiers || tiers.some((t, k) => t !== lastTiers[k]);
+  lastTiers = tiers;
+  if (changed) { map.getSource('net-' + next).setData(conduitFC(tiers)); pendingFade = next; }
+  else setSetOpacity(active);
+  // manholes
+  const surch = {}; M.P.forEach((p, k) => { if (S.U[k] >= 1) surch[p.us] = true; });
+  if (state.layer === 'manholes') map.getSource('mh').setData({ type: 'FeatureCollection', features: M.N.filter(n => !n.outlet).map(n => ({ type: 'Feature', properties: { n: n.n, s: !!surch[n.n], on: state.mh === n.n }, geometry: { type: 'Point', coordinates: n.c } })) });
+  map.setLayoutProperty('mh', 'visibility', state.layer === 'manholes' ? 'visible' : 'none');
+  const hotOn = state.layer === 'capacity' || state.layer === 'manholes';
+  map.getSource('hot').setData({ type: 'FeatureCollection', features: hotOn ? M.P.map((p, k) => [p, k]).filter(([, k]) => S.U[k] >= 1).map(([p, k]) => ({ type: 'Feature', properties: { w: Math.min(1, 0.35 + (S.U[k] - 1) * 1.5) }, geometry: { type: 'Point', coordinates: [(p.c[0][0] + p.c[1][0]) / 2, (p.c[0][1] + p.c[1][1]) / 2] } })) : [] });
+  map.setPaintProperty('hot', 'heatmap-opacity', state.sel != null ? 0.18 : 0.4);
+  // applications & monitors visibility
+  const showApps = state.layer === 'capacity' || state.layer === 'applications' || state.layer === 'condition';
+  ['apps-3d', 'apps-active', 'apps-approved', 'apps-occupied', 'apps-sandbox'].forEach(id => map.setLayoutProperty(id, 'visibility', showApps ? 'visible' : 'none'));
+  map.setPaintProperty('apps-3d', 'fill-extrusion-opacity', state.layer === 'applications' ? 0.75 : 0.5);
+  appMarkers.forEach((mk, k) => { const el = mk.getElement(); el.style.display = showApps ? '' : 'none'; el.setAttribute('aria-pressed', String(state.sel === k)); });
+  monMarkers.forEach(mk => { mk.getElement().style.display = state.layer === 'monitors' ? 'flex' : 'none'; });
+  M.apps.forEach((a, k) => map.setFeatureState({ source: 'apps', id: a.file }, { sel: state.sel === k }));
+  // selection: path trace + fade the rest to 20%
+  const path = state.sel == null ? [] : pathOf(M, M.apps[state.sel].nodeIdx);
+  map.getSource('path').setData({ type: 'FeatureCollection', features: path.map(k => ({ type: 'Feature', properties: { t: tiers[k] < 0 ? capT(S.U[k]) : tiers[k], d: M.P[k].d }, geometry: { type: 'LineString', coordinates: M.P[k].c } })) });
+  if (path.length) startPulse(); else stopPulse();
+  if (!changed) setSetOpacity(active);
+  renderSide(S, path);
+  renderMh(S);
+  if (ui.dtOpen) fillTable();
+}
+function setSetOpacity(on) {
+  const base = state.sel != null ? 0.2 : state.layer === 'manholes' ? 0.55 : 1;
+  SETS.forEach(s => setLayers(s).forEach(id => map.setPaintProperty(id, 'line-opacity', s === on ? (id.endsWith('-glow') ? base * glowK() : base) : 0)));
+}
+function onSourceData(e) {
+  if (!pendingFade || e.sourceId !== 'net-' + pendingFade || !e.isSourceLoaded) return;
+  active = pendingFade; pendingFade = null; setSetOpacity(active);
+}
+
+/* ---------- flow-pulse animation (traced paths only) ---------- */
+const DASH_SEQ = [[0, 4, 3], [0.5, 4, 2.5], [1, 4, 2], [1.5, 4, 1.5], [2, 4, 1], [2.5, 4, 0.5], [3, 4, 0], [0, 0.5, 3, 3.5], [0, 1, 3, 3], [0, 1.5, 3, 2.5], [0, 2, 3, 2], [0, 2.5, 3, 1.5], [0, 3, 3, 1], [0, 3.5, 3, 0.5]];
+function startPulse() {
+  if (pulseRAF || reducedMotion()) { if (reducedMotion()) map.setPaintProperty('path-pulse', 'line-dasharray', [1, 3]); return; }
+  let step = -1, t0 = 0;
+  const tick = ts => { const s = Math.floor(ts / 60) % DASH_SEQ.length; if (s !== step) { map.setPaintProperty('path-pulse', 'line-dasharray', DASH_SEQ[s]); step = s; } pulseRAF = requestAnimationFrame(tick); };
+  pulseRAF = requestAnimationFrame(tick);
+}
+function stopPulse() { if (pulseRAF) cancelAnimationFrame(pulseRAF); pulseRAF = null; }
+
+/* ---------- device-style conduit cards ---------- */
+function renderCards(S) {
+  const path = state.sel == null ? null : pathOf(M, M.apps[state.sel].nodeIdx);
+  const pool = (path || M.P.map((p, k) => k)).slice().sort((a, b) => S.U[b] - S.U[a]).slice(0, 4);
+  $('#cards-title').textContent = path ? 'Limiting conduits on the flow path' : 'Most loaded conduits';
+  const names = ['Not computed', 'Available', 'Moderate', 'High', 'Surcharged'];
+  $('#cards').innerHTML = pool.map(k => {
+    const p = M.P[k], u = S.U[k], t = capT(u), c = CONFIG.tierColors[t];
+    return '<button type="button" data-k="' + k + '" aria-label="' + p.id + ', ' + fmt(u * 100) + ' percent used, ' + p.d + ' millimetres. Show on map.">'
+      + '<span class="ct tnum">' + p.id + '</span>'
+      + '<span class="cs"><b class="tnum">' + fmt(u * 100) + '%</b><span class="tnum">' + p.d + ' mm</span></span>'
+      + '<span class="tier"><i style="background:' + c + '"></i>' + names[t] + '</span>'
+      + '<span class="bar" aria-hidden="true"><i style="width:' + Math.min(100, Math.round(u / 1.5 * 100)) + '%;background:' + c + '"></i></span></button>';
+  }).join('');
+}
+$('#cards').addEventListener('click', e => {
+  const b = e.target.closest('button[data-k]'); if (!b || !M) return;
+  const k = +b.dataset.k, p = M.P[k];
+  ensureMap().then(() => { map.easeTo({ center: [(p.c[0][0] + p.c[1][0]) / 2, (p.c[0][1] + p.c[1][1]) / 2], zoom: 16, duration: reducedMotion() ? 0 : 900 }); const pt = map.project([(p.c[0][0] + p.c[1][0]) / 2, (p.c[0][1] + p.c[1][1]) / 2]); map.once('moveend', () => { const q = map.project([(p.c[0][0] + p.c[1][0]) / 2, (p.c[0][1] + p.c[1][1]) / 2]); ui.showTip && ui.showTip(q, k); }); }).catch(() => {});
+});
+
+/* ---------- side panels ---------- */
+function renderSide(S, path) {
+  if (state.sel == null) { ui.appPanel.hidden = true; return; }
+  const a = M.apps[state.sel];
+  let worst = path[0]; path.forEach(k => { if (S.U[k] > S.U[worst]) worst = k; });
+  $('#ap-file').textContent = a.file; $('#ap-addr').textContent = a.address + ' · ' + a.sma;
+  const st = $('#ap-status'); st.textContent = a.status; st.dataset.grp = a.grp;
+  $('#ap-pop').textContent = fmt(a.population); $('#ap-area').textContent = fmt(a.area_ha, 1) + ' ha'; $('#ap-dev').textContent = a.developer; $('#ap-use').textContent = a.land_use;
+  $('#ap-limit').textContent = 'Limiting segment: ' + M.P[worst].id + ' · ' + M.P[worst].d + ' mm · ' + fmt(S.U[worst] * 100) + '% used';
+  $('#ap-rows').innerHTML = sheetRows(M, path, S).map(r => '<tr><td>' + r.id + '</td><td>' + r.pop + '</td><td>' + r.pf + '</td><td>' + r.q + '</td><td>' + r.d + '</td><td>' + r.cap + '</td><td><span class="chip chip--' + r.t + '">' + r.u + '%</span></td></tr>').join('');
+  ui.appPanel.hidden = false; ui.mhPanel.hidden = true;
+}
+function renderMh(S) {
+  if (state.mh == null || state.layer !== 'manholes') { ui.mhPanel.hidden = true; return; }
+  const N = M.N, chain = [state.mh]; let k = state.mh;
+  for (let i = 0; i < 5; i++) { const ups = N[k].ups; if (!ups.length) break; k = ups.reduce((b, u) => S.F[M.pipeOf[u]].P > S.F[M.pipeOf[b]].P ? u : b, ups[0]); chain.unshift(k); }
+  k = state.mh; for (let i = 0; i < 5; i++) { if (N[k].down == null) break; k = N[k].down; chain.push(k); }
+  const pts = chain.map(nk => { const n = N[nk], pk = M.pipeOf[nk], p = pk != null ? M.P[pk] : M.P[M.pipeOf[chain[chain.length - 2]]]; const u = pk != null ? S.U[pk] : 0.5, Dm = p.d / 1000, inv = n.g - 2.4 - Dm, crown = inv + Dm; const hgl = u < 1 ? inv + dOverD(u) * Dm : Math.min(n.g, crown + (u - 1) * 4); return { id: n.id, g: n.g, inv, crown, hgl, s: u >= 1 }; });
+  const lo = Math.min(...pts.map(q => q.inv)) - 0.5, hi = Math.max(...pts.map(q => q.g)) + 0.5;
+  const X = i => 16 + i * (320 / Math.max(1, pts.length - 1)), Y = v => 150 - (v - lo) / (hi - lo) * 140;
+  const line = key => pts.map((q, i) => (i ? 'L' : 'M') + X(i).toFixed(1) + ' ' + Y(q[key]).toFixed(1)).join(' ');
+  const svg = $('#mh-svg');
+  svg.innerHTML = '<path d="' + line('g') + ' L' + X(pts.length - 1).toFixed(1) + ' 160 L16 160 Z" style="fill:var(--c-surface-2)" /><path d="' + line('g') + '" fill="none" stroke-width="1.5" style="stroke:var(--c-ink-3)" /><path d="' + line('crown') + '" fill="none" stroke-width="1.5" style="stroke:var(--c-ink)" /><path d="' + line('inv') + '" fill="none" stroke-width="1.5" style="stroke:var(--c-ink)" /><path d="' + line('hgl') + '" fill="none" stroke-width="2.5" stroke-dasharray="6 3" style="stroke:var(--c-accent)" />' + pts.map((q, i) => q.s ? '<circle cx="' + X(i).toFixed(1) + '" cy="' + Y(q.hgl).toFixed(1) + '" r="4.5" fill="' + CONFIG.tierColors[4] + '"/>' : '').join('');
+  const ns = pts.filter(q => q.s).length;
+  svg.setAttribute('aria-label', 'HGL long-profile through ' + pts.length + ' manholes centred on ' + N[state.mh].id + '; ' + ns + ' surcharged.');
+  $('#mh-id').textContent = N[state.mh].id;
+  $('#mh-rows').innerHTML = pts.map(q => '<div style="display:flex;gap:8px"><span style="flex-grow:1">' + q.id + '</span><span>HGL ' + fmt(q.hgl, 2) + ' m</span><span style="width:150px;text-align:right;font-weight:' + (q.s ? 600 : 400) + '">' + (q.s ? 'Surcharged · ' + fmt(q.g - q.hgl, 1) + ' m freeboard' : 'Freeboard ' + fmt(q.g - q.hgl, 1) + ' m') + '</span></div>').join('');
+  ui.mhPanel.hidden = false; ui.appPanel.hidden = true;
+}
+
+/* ---------- accessible table equivalent ---------- */
+const dt = $('#map-table');
+function fillTable() {
+  const { S } = computeTiers();
+  $('#dt-cap').textContent = 'Conduits in the illustrative demo network, ' + STEP_NAMES[state.step] + ' scenario, ' + STORMS[state.storm][0] + '.';
+  $('#dt-rows').innerHTML = M.P.map((p, k) => { const u = S.U[k], o = oacsOf(p, u); return '<tr><th scope="row" style="font-weight:500">' + p.id + '</th><td>' + (M.smaNames[p.sma] || '') + '</td><td>' + p.d + '</td><td>' + fmt(S.F[k].Q, 1) + '</td><td>' + fmt(p.cap, 1) + '</td><td>' + fmt(u * 100) + '</td><td>' + TIER_NAMES[capT(u)] + '</td><td>' + (o == null ? 'Unscored' : fmt(o, 2)) + '</td></tr>'; }).join('');
+}
+$('#table-link').addEventListener('click', async e => {
+  e.preventDefault();
+  if (!M) { const d = await loadData(); M = M || d.m; }
+  fillTable(); ui.dtOpen = true;
+  if (dt.showModal) dt.showModal(); else dt.setAttribute('open', '');
+});
+$('#dt-close').addEventListener('click', () => { dt.close ? dt.close() : dt.removeAttribute('open'); });
+dt.addEventListener('close', () => { ui.dtOpen = false; $('#table-link').focus(); });
+
+/* ---------- controls ---------- */
+const refresh = reason => { ensureMap().catch(() => {}); return loadData().then(d => { M = M || d.m; apply(reason); }).catch(() => {}); };
+const interacted = () => { if (!ui.didInteract) { ui.didInteract = true; track('hero_map_interact'); } };
+$$('#layer-seg button').forEach(b => b.addEventListener('click', () => { interacted(); state.layer = b.dataset.layer; state.mh = null; setPressed('#layer-seg', 'layer', state.layer); renderLegend(); track('layer_change', { layer: state.layer }); refresh('layer'); }));
+$$('#step-seg button').forEach(b => b.addEventListener('click', () => { interacted(); stopTour(); state.step = +b.dataset.step; setPressed('#step-seg', 'step', state.step); track('scenario_change', { scenario: STEP_NAMES[state.step] }); refresh('scenario'); }));
+$$('#storm-seg button').forEach(b => b.addEventListener('click', () => { interacted(); state.storm = +b.dataset.storm; setPressed('#storm-seg', 'storm', state.storm); refresh('storm'); }));
+ui.view3d.addEventListener('click', () => { state.is3d = !state.is3d; ui.view3d.setAttribute('aria-pressed', String(state.is3d)); ui.view3d.textContent = state.is3d ? '3D' : '2D'; if (map) { map.easeTo({ pitch: state.is3d ? CONFIG.camera.pitch : 0, duration: reducedMotion() ? 0 : 800 }); map.setLayoutProperty('sscap-buildings', 'visibility', state.is3d ? 'visible' : 'none'); } });
+$('#ap-close').addEventListener('click', () => selectApp(null));
+$('#mh-close').addEventListener('click', () => { state.mh = null; apply('mh'); });
+function selectApp(k) {
+  state.sel = k; if (k != null) { state.mh = null; track('application_select', { file: M.apps[k].file }); }
+  apply('select');
+  if (k != null && map) { const p = pathOf(M, M.apps[k].nodeIdx); const cs = p.flatMap(i => M.P[i].c); const b = cs.reduce((bb, c) => [[Math.min(bb[0][0], c[0]), Math.min(bb[0][1], c[1])], [Math.max(bb[1][0], c[0]), Math.max(bb[1][1], c[1])]], [[180, 90], [-180, -90]]); map.fitBounds(b, { padding: padding(), bearing: CONFIG.camera.bearing, pitch: state.is3d ? CONFIG.camera.pitch : 0, maxZoom: 15.6, duration: reducedMotion() ? 0 : 900 }); }
+}
+function padding() { return isMobile() ? { top: 40, bottom: 40, left: 24, right: 24 } : { top: 80, bottom: 120, left: ui.panel.classList.contains('is-collapsed') ? 260 : 500, right: 440 }; }
+
+/* ---------- guided tour ---------- */
+const TOUR = [
+  null,
+  { cap: 'Every pipe, coloured by how full it is.', set: () => { state.layer = 'capacity'; state.step = 0; state.sel = null; state.storm = 0; } },
+  { cap: 'Add a development.', set: () => { state.step = 1; state.sel = M.subj0; } },
+  { cap: 'Stack the full application queue.', set: () => { state.step = 3; state.sel = null; } },
+  { cap: 'Find the limiting segment.', set: () => { state.step = 3; state.sel = M.subj0; } }
+];
+function stopTour() { clearTimeout(tourTimer); if (state.tour) { state.tour = 0; ui.tour.hidden = true; } }
+async function goTour(n) {
+  clearTimeout(tourTimer);
+  if (n > 4) { state.tour = 0; ui.tour.hidden = true; track('tour_complete'); return; }
+  const d = await loadData(); M = M || d.m; ensureMap().catch(() => {});
+  state.tour = n; TOUR[n].set();
+  setPressed('#layer-seg', 'layer', state.layer); setPressed('#step-seg', 'step', state.step); setPressed('#storm-seg', 'storm', state.storm); renderLegend();
+  if (state.sel != null) selectApp(state.sel); else { apply('scenario'); map && map.easeTo({ center: M.center, zoom: M.zoom, bearing: CONFIG.camera.bearing, pitch: state.is3d ? CONFIG.camera.pitch : 0, padding: padding(), duration: reducedMotion() ? 0 : 900 }); }
+  ui.tour.hidden = false; $('#tour-num').textContent = n + ' / 4'; $('#tour-cap').textContent = TOUR[n].cap;
+  $('#tour-next').textContent = n === 4 ? 'Finish' : 'Next';
+  if (!reducedMotion()) tourTimer = setTimeout(() => goTour(n + 1), 4500); // reduced motion: static step-through
+}
+$('#tour-play').addEventListener('click', () => $('#tour-start').click());
+$('#tour-start').addEventListener('click', () => { track('tour_start'); ui.panel.classList.add('is-collapsed'); ui.about.hidden = false; if (isMobile()) { ui.map.scrollIntoView({ behavior: reducedMotion() ? 'auto' : 'smooth' }); } goTour(1); $('#tour-next').focus({ preventScroll: true }); });
+$('#tour-next').addEventListener('click', () => goTour(state.tour + 1));
+$('#tour-skip').addEventListener('click', () => { stopTour(); });
+ui.about.addEventListener('click', () => { ui.panel.classList.remove('is-collapsed'); ui.about.hidden = true; stopTour(); });
+
+/* ---------- lazy MapLibre loader ---------- */
+let mapP = null;
+const GL = () => window.maplibregl;
+const GLC = () => 'maplibregl';   // control class prefix
+function loadMapLibre() {
+  if (GL()) return Promise.resolve();
+  return new Promise((res, rej) => {
+    const css = document.createElement('link'); css.rel = 'stylesheet'; css.href = CONFIG.maplibreCss.href; css.integrity = CONFIG.maplibreCss.integrity; css.crossOrigin = 'anonymous'; document.head.appendChild(css);
+    const s = document.createElement('script'); s.src = CONFIG.maplibreJs.src; s.integrity = CONFIG.maplibreJs.integrity; s.crossOrigin = 'anonymous'; s.onload = res; s.onerror = rej; document.head.appendChild(s);
+  });
+}
+function ensureMap() {
+  if (mapP) return mapP;
+  mapP = Promise.all([loadData(), loadMapLibre(), fetch(CONFIG.basemap).then(r => r.json())]).then(([d, , style]) => new Promise(resolve => {
+    M = d.m;
+    const cs = M.P.flatMap(p => p.c), lons = cs.map(c => c[0]), lats = cs.map(c => c[1]);
+    M.bounds = [[Math.min(...lons), Math.min(...lats)], [Math.max(...lons), Math.max(...lats)]];
+    M.center = [(M.bounds[0][0] + M.bounds[1][0]) / 2, (M.bounds[0][1] + M.bounds[1][1]) / 2];
+    M.zoom = isMobile() ? 13.7 : 14.55;
+    if (isDark()) darkenBasemap(style); else brightenBasemap(style);
+    // no map labels: hide every basemap text/icon layer (street, place, water and POI names)
+    style.layers.forEach(l => { if (l.type === 'symbol') l.layout = Object.assign({}, l.layout, { visibility: 'none' }); });
+    const mob = isMobile();
+    const gl = GL();
+    map = new gl.Map({
+      container: ui.gl, style, center: M.center, zoom: M.zoom, bearing: CONFIG.camera.bearing, pitch: CONFIG.camera.pitch, maxPitch: 70,
+      attributionControl: false, dragPan: !mob, touchZoomRotate: true, scrollZoom: !mob, cooperativeGestures: false, fadeDuration: 0, minZoom: 12, maxZoom: 18.5
+    });
+    // pan (drag), zoom (wheel, pinch, + / −), rotate & tilt (right-drag or compass)
+    map.addControl(new gl.AttributionControl({ compact: true }));
+    map.addControl(new gl.NavigationControl({ visualizePitch: true, showCompass: true }), 'bottom-right');
+    // explicit rotate / tilt buttons (right-drag, Ctrl+drag, Shift+arrows and two-finger twist also rotate)
+    const ICON = d => '<svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path d="' + d + '" fill="none" stroke="#EEF1F7" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+    map.addControl({
+      onAdd(mp) {
+        const g = document.createElement('div'); g.className = GLC() + '-ctrl ' + GLC() + '-ctrl-group';
+        const dur = () => reducedMotion() ? 0 : 500;
+        [['Rotate map left', 'M4 10A8 8 0 1 1 6 17M4 4v6h6', () => mp.easeTo({ bearing: mp.getBearing() - 30, duration: dur() })],
+         ['Rotate map right', 'M20 10A8 8 0 1 0 18 17M20 4v6h-6', () => mp.easeTo({ bearing: mp.getBearing() + 30, duration: dur() })],
+         ['Tilt map toward the horizon', 'M3 18 9 8h6l6 10zM12 2v3', () => mp.easeTo({ pitch: Math.min(70, mp.getPitch() + 10), duration: dur() })],
+         ['Tilt map toward top-down', 'M5 5h14v14H5z', () => mp.easeTo({ pitch: Math.max(0, mp.getPitch() - 10), duration: dur() })],
+         ['Reset map view', 'M4 12A8 8 0 1 0 7 5.8M4 4v5h5', () => mp.easeTo({ center: M.center, zoom: M.zoom, bearing: CONFIG.camera.bearing, pitch: state.is3d ? CONFIG.camera.pitch : 0, padding: padding(), duration: dur() })]
+        ].forEach(([label, d, fn]) => { const b = document.createElement('button'); b.type = 'button'; b.title = label; b.setAttribute('aria-label', label); b.innerHTML = ICON(d); b.addEventListener('click', () => { interacted(); fn(); }); g.appendChild(b); });
+        return g;
+      },
+      onRemove() {}
+    }, 'bottom-right');
+    map.on('load', () => {
+      addBuildings3D(); addNetworkLayers(); addMarkers();
+      map.on('sourcedata', onSourceData);
+      map.easeTo({ padding: padding(), duration: 0 });
+      apply('init');
+      map.once('idle', () => { ui.poster.classList.add('is-hidden'); resolve(); });
+    });
+    ui.gl.addEventListener('pointerdown', interacted, { once: true });
+    if (mob) { ui.interact.hidden = false; }
+    // hover / tap tooltip
+    const tipFor = ui.showTip = (pt, k) => {
+      const { S } = computeTiers(), p = M.P[k], u = S.U[k], o = oacsOf(p, u);
+      ui.tip.innerHTML = '<div style="font-weight:600;font-size:13px">' + p.id + '</div><dl><dt>Diameter</dt><dd>' + p.d + ' mm</dd><dt>Length</dt><dd>' + p.len + ' m</dd><dt>Slope</dt><dd>' + fmt(p.s, 2) + ' %</dd><dt>Q</dt><dd>' + fmt(S.F[k].Q, 1) + ' L/s</dd><dt>Qcap</dt><dd>' + fmt(p.cap, 1) + ' L/s</dd><dt>Used capacity</dt><dd style="font-weight:600">' + fmt(u * 100) + ' %</dd><dt>d/D</dt><dd>' + fmt(Math.min(1, dOverD(u)), 2) + '</dd><dt>OACS</dt><dd>' + (o == null ? 'Unscored' : fmt(o, 2)) + '</dd></dl>';
+      const W = ui.map.clientWidth, H = ui.map.clientHeight;
+      ui.tip.style.left = Math.min(W - 252, pt.x + 14) + 'px'; ui.tip.style.top = Math.min(H - 220, pt.y + 14) + 'px'; ui.tip.hidden = false;
+    };
+    map.on('mousemove', e => {
+      if (state.layer === 'manholes') { const f = map.queryRenderedFeatures(e.point, { layers: ['mh'] }); map.getCanvas().style.cursor = f.length ? 'pointer' : ''; }
+      const f = map.queryRenderedFeatures([[e.point.x - 4, e.point.y - 4], [e.point.x + 4, e.point.y + 4]], { layers: ['net-hit'] });
+      if (f.length) { tipFor(e.point, f[0].properties.k); map.getCanvas().style.cursor = map.getCanvas().style.cursor || 'crosshair'; } else ui.tip.hidden = true;
+    });
+    map.on('mouseout', () => { ui.tip.hidden = true; });
+    map.on('click', e => {
+      interacted();
+      if (state.layer === 'manholes') { const f = map.queryRenderedFeatures([[e.point.x - 6, e.point.y - 6], [e.point.x + 6, e.point.y + 6]], { layers: ['mh'] }); if (f.length) { state.mh = f[0].properties.n; state.sel = null; apply('mh'); return; } }
+      const ap = map.queryRenderedFeatures(e.point, { layers: ['apps-3d'] });
+      if (ap.length) { selectApp(M.apps.findIndex(a => a.file === ap[0].properties.file)); return; }
+      const f = map.queryRenderedFeatures([[e.point.x - 8, e.point.y - 8], [e.point.x + 8, e.point.y + 8]], { layers: ['net-hit'] });
+      if (f.length) tipFor(e.point, f[0].properties.k); else ui.tip.hidden = true;
+    });
+  }));
+  mapP.catch(err => { console.warn('SSCAP map failed to load; poster stays in place.', err); });
+  return mapP;
+}
+/* ---------- theme switch (light default; saved per visitor) ---------- */
+const themeBtn = $('#theme-toggle');
+function syncThemeUi() {
+  const dark = isDark(), label = dark ? 'Switch to light mode' : 'Switch to dark mode';
+  themeBtn.setAttribute('aria-pressed', String(dark)); themeBtn.setAttribute('aria-label', label); themeBtn.title = label;
+  $('#theme-label').textContent = dark ? 'Light' : 'Dark';
+  $('#meta-theme').setAttribute('content', dark ? '#07090F' : '#F0EEE9');
+  ui.poster.src = dark ? ui.poster.dataset.dark : ui.poster.dataset.light;
+}
+syncThemeUi();
+themeBtn.addEventListener('click', () => {
+  const next = isDark() ? 'light' : 'dark';
+  if (next === 'dark') document.documentElement.dataset.theme = 'dark'; else delete document.documentElement.dataset.theme;
+  try { localStorage.setItem('sscap_theme', next); } catch (e) {}
+  track('theme_change', { theme: next });
+  syncThemeUi();
+  if (M) { renderLegend(); apply('theme'); }
+  if (map) {
+    // the basemap, buildings and tier colours are baked into the style, so rebuild the map in the new theme
+    const cam = { center: map.getCenter(), zoom: map.getZoom(), bearing: map.getBearing(), pitch: map.getPitch() };
+    stopPulse(); appMarkers = []; monMarkers = []; lastTiers = null; active = 'a'; pendingFade = null;
+    ui.poster.classList.remove('is-hidden');
+    map.remove(); map = null; mapP = null;
+    ensureMap().then(() => { map.jumpTo(cam); }).catch(() => {});
+  }
+});
+
+ui.interact.addEventListener('click', () => { if (!map) return; map.dragPan.enable(); map.touchZoomRotate.enable(); ui.interact.hidden = true; interacted(); });
+
+// Load after first paint: idle callback, or the first interaction with the hero
+const kick = () => { ensureMap().catch(() => {}); loadData().then(d => { if (!M) { M = d.m; apply('init'); } }).catch(() => {}); };
+const idle = window.requestIdleCallback || (fn => setTimeout(fn, 1200));
+if (document.readyState === 'complete') idle(kick, { timeout: 3500 }); else window.addEventListener('load', () => idle(kick, { timeout: 3500 }), { once: true });
+['pointerdown', 'keydown', 'focusin'].forEach(ev => $('.sscap-hero').addEventListener(ev, kick, { once: true, passive: true }));
+// model-driven mini-visuals in the features section
+const feat = $('#features');
+if ('IntersectionObserver' in window) { const io = new IntersectionObserver(es => { if (es.some(e => e.isIntersecting)) { io.disconnect(); loadData().then(drawModelVisuals).catch(() => {}); } }, { rootMargin: '600px' }); io.observe(feat); } else loadData().then(drawModelVisuals);
+})();
+</script>
+</body>
+</html>
