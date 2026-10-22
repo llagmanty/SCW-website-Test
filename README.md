@@ -42,14 +42,14 @@ Landing page for **SSCAP — Smart Sewer Capacity Analysis & Planning** by Smart
 
 ## Hero map
 
-- A night "control app" look: a dark 3D city (pitch 58°, bearing −16.7° along York Region's concession grid) over a Mapbox basemap of Vaughan Metropolitan Centre, with a glass control card. The card has scenario tiles, layer chips with live counts, a storm selector, and glowing cards for the most loaded conduits.
+- A night "control app" look: a dark 3D city (pitch 58°, bearing −16.7° along York Region's concession grid) over OpenFreeMap vector tiles of Vaughan Metropolitan Centre, with a glass control card. The card has scenario tiles, layer chips with live counts, a storm selector, and glowing cards for the most loaded conduits.
 - Camera:
   - pan: drag;
   - zoom: wheel, pinch or + / −;
   - rotate and tilt: right-drag, Ctrl+drag, two-finger twist, or the rotate and tilt buttons;
   - compass resets north, and "Reset" returns to the default view.
 - The network is **synthetic**. It is laid out around Vaughan Metropolitan Centre (trunk along the Hwy 407 edge from Hwy 400 towards Keele St, laterals north across Hwy 7) on the rotated concession grid, and is not the City of Vaughan's or any municipality's data. It won't line up exactly with real streets. A badge on the map says so.
-- **Mapbox:** paste a public token (`pk.…`, URL-restricted) into `CONFIG.mapbox.token` in `index.html` to load Mapbox GL JS v3 and the `mapbox/light-v11` style. Without a token the page falls back to MapLibre GL JS and OpenFreeMap tiles. Add Mapbox's integrity hash to `CONFIG.mapbox.js` / `css` when you pin the version.
+- **Basemap:** OpenFreeMap vector tiles (Positron style, re-tinted per theme) through MapLibre GL JS. No API key or account, no usage limits, commercial use allowed; keep the OpenStreetMap / OpenFreeMap attribution visible.
 - Flows follow Ontario design conventions: 370 L/cap/day, Harmon PF capped at 4.0, 0.26 L/s/ha infiltration, ICI by area, and Manning full-flow capacity with n = 0.013. Each scenario recomputes Q/Qcap in the browser.
 - Indicators:
   - conduits are coloured by tier, with patterns as a non-colour backup;

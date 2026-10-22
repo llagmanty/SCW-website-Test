@@ -21,9 +21,9 @@
       thresholds, onboarding time, consultant licensing
   16. Privacy Policy / Legal / social URLs, canonical URL, og:image host        [CONFIRM URLs]
   17. Hero map placement: illustrative network drawn around Vaughan Metropolitan
-      Centre on a Mapbox basemap (CONFIG.mapbox.token; OpenFreeMap fallback), 3D
+      Centre on OpenFreeMap vector tiles (MapLibre GL JS, no API key), 3D
       buildings. Network, flows and applications are synthetic — not the City of
-      Vaughan's or any municipality's data.                                     [CONFIRM placement, token]
+      Vaughan's or any municipality's data.                                     [CONFIRM placement]
 -->
 <html lang="en">
 <head>
@@ -520,16 +520,7 @@ button:not(:disabled):active{filter:brightness(0.92)}
 [data-theme="dark"] .sscap-hero .maplibregl-ctrl-group button .maplibregl-ctrl-icon{filter:invert(1) brightness(1.6)}
 .sscap-hero .maplibregl-ctrl-attrib{background:var(--c-chip-bg);color:var(--c-ink-3)}
 .sscap-hero .maplibregl-ctrl-attrib a{color:var(--c-ink-2)}
-.sscap-hero .mapboxgl-ctrl-bottom-right{right:440px;bottom:16px}
-@media (max-width:767px){.sscap-hero .mapboxgl-ctrl-bottom-right{right:8px;bottom:8px}}
-.sscap-hero .mapboxgl-ctrl-group{background:var(--glass-bg);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);border:1px solid var(--c-line-2);border-radius:18px;overflow:hidden;box-shadow:var(--shadow)}
-.sscap-hero .mapboxgl-ctrl-group button{width:44px;height:44px;display:grid;place-items:center}
-.sscap-hero .mapboxgl-ctrl-bottom-right{display:flex;flex-direction:column-reverse;align-items:flex-end}
-.sscap-hero .mapboxgl-ctrl-group button+button{border-top:1px solid var(--c-line)}
-[data-theme="dark"] .sscap-hero .mapboxgl-ctrl-group button .mapboxgl-ctrl-icon{filter:invert(1) brightness(1.6)}
-.sscap-hero .mapboxgl-ctrl-attrib{background:var(--c-chip-bg);color:var(--c-ink-3)}
-.sscap-hero .mapboxgl-ctrl-attrib a{color:var(--c-ink-2)}
-.sscap-hero__gl .maplibregl-canvas,.sscap-hero__gl .mapboxgl-canvas{cursor:grab}.sscap-hero__gl .maplibregl-canvas:active,.sscap-hero__gl .mapboxgl-canvas:active{cursor:grabbing}
+.sscap-hero__gl .maplibregl-canvas{cursor:grab}.sscap-hero__gl .maplibregl-canvas:active{cursor:grabbing}
 
 /* Store-style cards: flat tonal surfaces, no outlines */
 .sscap-problem__card,.sscap-feature__vis,.sscap-trust__tile,.sscap-roles [role=tabpanel],.sscap-how li,.sscap-proof__metrics div,.sscap-faq details,.sscap-form__card,.sscap-form__aside,.sscap-int li,.sscap-roles [role=tabpanel] li,.sscap-form__aside li,.reline li{border:0}
@@ -1150,17 +1141,7 @@ const CONFIG = {
   dataUrl: 'demo-network.geojson',                       // swap for the open-data demo city model
   maplibreJs: { src: 'https://cdn.jsdelivr.net/npm/maplibre-gl@4.7.1/dist/maplibre-gl.js', integrity: 'sha384-SYKAG6cglRMN0RVvhNeBY0r3FYKNOJtznwA0v7B5Vp9tr31xAHsZC0DqkQ/pZDmj' },
   maplibreCss: { href: 'https://cdn.jsdelivr.net/npm/maplibre-gl@4.7.1/dist/maplibre-gl.css', integrity: 'sha384-MinO0mNliZ3vwppuPOUnGa+iq619pfMhLVUXfC4LHwSCvF9H+6P/KO4Q7qBOYV5V' },
-  basemap: 'https://tiles.openfreemap.org/styles/positron', // fallback basemap when no Mapbox token is set (dark variant derived at runtime)
-  // Mapbox basemap for Vaughan Metropolitan Centre. Paste a public token (pk.…) restricted to this site's URL;
-  // with no token the map falls back to MapLibre + OpenFreeMap above. [CONFIRM token and Mapbox plan]
-  mapbox: {
-    token: '',
-    style: 'mapbox/light-v11',
-    js: 'https://api.mapbox.com/mapbox-gl-js/v3.8.0/mapbox-gl.js',   // add the integrity hash from Mapbox's install page
-    css: 'https://api.mapbox.com/mapbox-gl-js/v3.8.0/mapbox-gl.css'
-  },
-  get useMapbox() { return /^pk\./.test(this.mapbox.token); },
-  get styleUrl() { return this.useMapbox ? 'https://api.mapbox.com/styles/v1/' + this.mapbox.style + '?access_token=' + encodeURIComponent(this.mapbox.token) : this.basemap; },
+  basemap: 'https://tiles.openfreemap.org/styles/positron', // OpenFreeMap: free, keyless vector tiles with 3D building heights (dark variant derived at runtime)
   camera: { bearing: -16.7, pitch: 58 },                  // York Region concession grid, 3D tilt
   tierLight: ['#A3A9B1', '#2A9D8F', '#F2C230', '#E8772E', '#A51D24'],
   tierDark: ['#5E6678', '#22A699', '#F7D154', '#F2913F', '#FF4D6D'],
@@ -1593,22 +1574,20 @@ $('#tour-next').addEventListener('click', () => goTour(state.tour + 1));
 $('#tour-skip').addEventListener('click', () => { stopTour(); });
 ui.about.addEventListener('click', () => { ui.panel.classList.remove('is-collapsed'); ui.about.hidden = true; stopTour(); });
 
-/* ---------- lazy map library loader: Mapbox GL JS with a token, else MapLibre ---------- */
+/* ---------- lazy MapLibre loader ---------- */
 let mapP = null;
-const GL = () => (CONFIG.useMapbox ? window.mapboxgl : window.maplibregl);
-const GLC = () => (CONFIG.useMapbox ? 'mapboxgl' : 'maplibregl');   // control class prefix
+const GL = () => window.maplibregl;
+const GLC = () => 'maplibregl';   // control class prefix
 function loadMapLibre() {
   if (GL()) return Promise.resolve();
-  const mb = CONFIG.useMapbox;
   return new Promise((res, rej) => {
-    const css = document.createElement('link'); css.rel = 'stylesheet'; css.href = mb ? CONFIG.mapbox.css : CONFIG.maplibreCss.href; if (!mb) css.integrity = CONFIG.maplibreCss.integrity; css.crossOrigin = 'anonymous'; document.head.appendChild(css);
-    const s = document.createElement('script'); s.src = mb ? CONFIG.mapbox.js : CONFIG.maplibreJs.src; if (!mb) s.integrity = CONFIG.maplibreJs.integrity; s.crossOrigin = 'anonymous';
-    s.onload = () => { if (mb) window.mapboxgl.accessToken = CONFIG.mapbox.token; res(); }; s.onerror = rej; document.head.appendChild(s);
+    const css = document.createElement('link'); css.rel = 'stylesheet'; css.href = CONFIG.maplibreCss.href; css.integrity = CONFIG.maplibreCss.integrity; css.crossOrigin = 'anonymous'; document.head.appendChild(css);
+    const s = document.createElement('script'); s.src = CONFIG.maplibreJs.src; s.integrity = CONFIG.maplibreJs.integrity; s.crossOrigin = 'anonymous'; s.onload = res; s.onerror = rej; document.head.appendChild(s);
   });
 }
 function ensureMap() {
   if (mapP) return mapP;
-  mapP = Promise.all([loadData(), loadMapLibre(), fetch(CONFIG.styleUrl).then(r => r.json())]).then(([d, , style]) => new Promise(resolve => {
+  mapP = Promise.all([loadData(), loadMapLibre(), fetch(CONFIG.basemap).then(r => r.json())]).then(([d, , style]) => new Promise(resolve => {
     M = d.m;
     const cs = M.P.flatMap(p => p.c), lons = cs.map(c => c[0]), lats = cs.map(c => c[1]);
     M.bounds = [[Math.min(...lons), Math.min(...lats)], [Math.max(...lons), Math.max(...lats)]];
