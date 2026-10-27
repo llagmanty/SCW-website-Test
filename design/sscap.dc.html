@@ -510,8 +510,8 @@ main>section:not(:first-of-type){padding:56px 16px!important}
 <ol style="list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px">
 <sc-for list="{{howSteps}}" as="hw" hint-placeholder-count="3">
 <li style="padding: 28px; border-radius: 28px; background: var(--surface); border: 1px solid var(--line)">
-<span style="display: block; font-size: 12px; line-height: 16px; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; color: var(--link)">{{hw.n}}</span>
-<h3 style="margin: 8px 0 8px; font-size: 22px; line-height: 28px">{{hw.t}}</h3>
+<span class="tnum" aria-hidden="true" style="display: block; font-size: 36px; line-height: 44px; font-weight: 400; color: var(--link)">{{hw.n}}</span>
+<h3 style="margin: 4px 0 8px; font-size: 22px; line-height: 28px"><span class="sr-only">Step {{hw.k}}: </span>{{hw.t}}</h3>
 <p style="margin: 0; font-size: 16px; line-height: 1.55; color: var(--ink3)">{{hw.d}}</p>
 </li>
 </sc-for>
@@ -970,9 +970,9 @@ var SEE = [
   { t: 'Condition and risk.', d: 'PACP-scored CCTV, LOF, COF and OACS on the same map.', icon: 'M12 3 L20 6 V12 C20 16 16.5 19.5 12 21 C7.5 19.5 4 16 4 12 V6 Z M9 12 L11 14 L15 10' }
 ];
 var HOW = [
-  { n: 'Step 1', t: 'Connect', d: 'We bring in your existing model, monitoring, inspections, and development applications.' },
-  { n: 'Step 2', t: 'Validate', d: 'Measured flow checks the picture continuously. Anything outside the prediction band is flagged, not hidden.' },
-  { n: 'Step 3', t: 'Manage', d: 'SSCAP runs beside your current process. Our engineers stay with you throughout.' }
+  { n: '01', k: 1, t: 'Connect', d: 'We bring in your existing model, monitoring, inspections, and development applications.' },
+  { n: '02', k: 2, t: 'Validate', d: 'Measured flow checks the picture continuously. Anything outside the prediction band is flagged, not hidden.' },
+  { n: '03', k: 3, t: 'Manage', d: 'SSCAP runs beside your current process. Our engineers stay with you throughout.' }
 ];
 var INTEGRATIONS = ['InfoWorks ICM', 'EPA SWMM', 'VO SWMM', 'GIS (Shapefile / GeoJSON)', 'CCTV / NASSCO PACP', 'AMANDA · CONFIRM', 'Environment Canada', 'NOAA', 'DataCurrent'];
 var ROLES = [
