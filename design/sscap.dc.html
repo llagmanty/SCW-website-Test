@@ -122,7 +122,6 @@ main>section:not(:first-of-type){padding:56px 16px!important}
 </a>
 <div class="nav-links" style="display: flex; gap: 24px; margin-left: auto; font-size: 14px; font-weight: 500">
 <a href="#how-it-works" style="color: var(--ink2); text-decoration: none">How it works</a>
-<a href="#integrations" style="color: var(--ink2); text-decoration: none">Integrations</a>
 <a href="#faq" style="color: var(--ink2); text-decoration: none">FAQ</a>
 </div>
 <button type="button" class="theme-btn" onClick="{{toggleTheme}}" aria-pressed="{{isDarkTheme}}" aria-label="{{themeLabel}}" title="{{themeLabel}}" style="min-height: 44px; padding: 0 14px 0 12px; border-radius: 999px; border: 1px solid var(--line2); background: var(--soft2); color: var(--ink); cursor: pointer; display: inline-flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 600"><svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path d="{{themeIcon}}" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"></path></svg><span class="m-hide">{{themeText}}</span></button>
@@ -652,61 +651,6 @@ main>section:not(:first-of-type){padding:56px 16px!important}
 <p style="margin: auto 0 0; border-top: 1px solid var(--line2); padding-top: 14px; font-size: 13px; line-height: 1.5; color: var(--ink4)">Missing some of this is normal. Pilots start with one study area and adjust to what you have.</p>
 </article>
 </div>
-</div>
-</section>
-
-<!-- ===== 7 · INTEGRATIONS ===== -->
-<section id="integrations" aria-labelledby="int-h2" style="padding: 88px 24px; background: var(--bg); border-top: 1px solid var(--soft2)">
-<div style="max-width: 1200px; margin: 0 auto">
-<p style="margin: 0 0 8px; font-size: 12px; letter-spacing: 0; text-transform: none; font-weight: 600; color: var(--ink4)">Integrations &amp; data</p>
-<h2 id="int-h2" style="margin: 0 0 12px; font-size: 40px; line-height: 1.1; letter-spacing: -0.015em">Works with the models and data you already have</h2>
-<p style="margin: 0 0 32px; max-width: 720px; font-size: 18px; line-height: 1.55; color: var(--ink3)">Built on the EPA SWMM engine (Smart City Water's VO SWMM lineage). Accepts InfoWorks ICM network imports and supports dry-weather flow, wet-weather RDII (RTK method) and design storms.</p>
-<ul style="margin: 0; padding: 0; list-style: none; display: flex; flex-wrap: wrap; gap: 10px">
-<sc-for list="{{integrations}}" as="ig" hint-placeholder-count="9">
-<li style="padding: 12px 18px; border-radius: 8px; background: var(--surface); font-size: 15px; font-weight: 500; {{ig.css}}">{{ig.t}}</li>
-</sc-for>
-</ul>
-</div>
-</section>
-
-<!-- ===== 8 · TRUST & SECURITY ===== -->
-<section aria-labelledby="trust-h2" style="padding: 88px 24px; background: var(--bg2); border-top: 1px solid var(--soft2)">
-<div style="max-width: 1200px; margin: 0 auto">
-<p style="margin: 0 0 8px; font-size: 12px; letter-spacing: 0; text-transform: none; font-weight: 600; color: var(--ink4)">Trust &amp; security</p>
-<h2 id="trust-h2" style="margin: 0 0 32px; font-size: 40px; line-height: 1.1; letter-spacing: -0.015em">Built for municipal data, by hydraulic modellers</h2>
-<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 12px">
-<div style="background: var(--surface); border: 0; border-radius: 28px; padding: 24px"><h3 style="margin: 0 0 10px; font-size: 18px">Cloud-hosted on Microsoft Azure</h3><span style="font-size: 12px; border: 1px dashed var(--flag); color: var(--flag); padding: 1px 6px; border-radius: 4px">CONFIRM</span></div>
-<div style="background: var(--surface); border: 0; border-radius: 28px; padding: 24px"><h3 style="margin: 0 0 10px; font-size: 18px">Canadian data residency</h3><span style="font-size: 12px; border: 1px dashed var(--flag); color: var(--flag); padding: 1px 6px; border-radius: 4px">CONFIRM</span></div>
-<div style="background: var(--surface); border: 0; border-radius: 28px; padding: 24px"><h3 style="margin: 0 0 10px; font-size: 18px">Role-based access</h3><span style="font-size: 12px; border: 1px dashed var(--flag); color: var(--flag); padding: 1px 6px; border-radius: 4px">CONFIRM</span></div>
-<div style="background: var(--surface); border: 0; border-radius: 28px; padding: 24px"><h3 style="margin: 0 0 10px; font-size: 18px">Built by hydraulic modellers</h3><p style="margin: 0; font-size: 15px; line-height: 1.55; color: var(--ink3)">Smart City Water makes VO SWMM and VO OTTHYMO, used by engineers across North America.</p></div>
-</div>
-</div>
-</section>
-
-<!-- ===== 9 · PROOF ===== -->
-<section aria-labelledby="proof-h2" style="padding: 88px 24px; background: var(--proof)">
-<div style="max-width: 1200px; margin: 0 auto">
-<p style="margin: 0 0 8px; font-size: 12px; letter-spacing: 0; text-transform: none; font-weight: 600; color: var(--link)">Proof</p>
-<h2 id="proof-h2" style="margin: 0 0 32px; font-size: 40px; line-height: 1.1; letter-spacing: -0.015em">Development servicing capacity, measured</h2>
-<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px; margin-bottom: 12px">
-<div style="background: var(--soft); border: 1px solid var(--line); border-radius: 28px; padding: 24px"><div class="tnum" style="font-size: 44px; font-weight: 300">{N}</div><div style="font-size: 15px; color: var(--ink3)">development applications managed</div></div>
-<div style="background: var(--soft); border: 1px solid var(--line); border-radius: 28px; padding: 24px"><div class="tnum" style="font-size: 44px; font-weight: 300">{N} km</div><div style="font-size: 15px; color: var(--ink3)">of sanitary network modelled</div></div>
-<div style="background: var(--soft); border: 1px solid var(--line); border-radius: 28px; padding: 24px"><div class="tnum" style="font-size: 44px; font-weight: 300">{N}</div><div style="font-size: 15px; color: var(--ink3)">Sewershed Management Areas</div></div>
-<div style="background: var(--soft); border: 1px solid var(--line); border-radius: 28px; padding: 24px"><div class="tnum" style="font-size: 44px; font-weight: 300">{X}%</div><div style="font-size: 15px; color: var(--ink3)">faster capacity reviews</div></div>
-</div>
-<p style="margin: 0 0 24px; font-size: 13px; color: var(--ink4)">Placeholder figures. Publish only approved numbers.</p>
-<article style="border: 1px dashed var(--line3); border-radius: 32px; padding: 32px; display: flex; flex-wrap: wrap; gap: 32px">
-<div style="flex: 1 1 260px">
-<div style="font-size: 12px; letter-spacing: 0; text-transform: none; font-weight: 600; color: var(--link)">Case study · placeholder</div>
-<h3 style="margin: 8px 0 0; font-size: 24px">[Municipality name]</h3>
-<p style="margin: 8px 0 0; font-size: 12px"><span style="border: 1px dashed var(--flag); color: var(--flag); padding: 1px 6px; border-radius: 4px">CONFIRM client permission</span></p>
-</div>
-<dl style="flex: 2 1 400px; margin: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px 24px; font-size: 15px">
-<div><dt style="font-weight: 600; margin-bottom: 4px">Challenge</dt><dd style="margin: 0; color: var(--ink3)">[Challenge]</dd></div>
-<div><dt style="font-weight: 600; margin-bottom: 4px">Outcome</dt><dd style="margin: 0; color: var(--ink3)">[Outcome]</dd></div>
-<div style="grid-column: 1 / -1"><dt style="font-weight: 600; margin-bottom: 4px">Quote</dt><dd style="margin: 0; color: var(--ink3)">"[Approved client quote]" · [Name, title]</dd></div>
-</dl>
-</article>
 </div>
 </section>
 
