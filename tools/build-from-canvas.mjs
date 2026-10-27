@@ -46,8 +46,9 @@ const PATCHES = [
   ['<a id="privacy" href="#privacy" style="color: var(--ink3)">Privacy</a><a href="#legal" style="color: var(--ink3)">Legal</a>',
    '<a href="/privacy-policy/" style="color: var(--ink3)">Privacy</a><a href="/legal/" style="color: var(--ink3)">Legal</a><button type="button" data-consent-reopen="" style="background: none; border: 0; padding: 0; font: inherit; color: var(--ink3); text-decoration: underline; cursor: pointer">Cookie settings</button>'],
 ];
+const OPTIONAL = new Set(['/_blob/bbd52348099698ccc1bd60a58e1782be', '/_blob/500d5b755f0904dbbb4c2fb58838867d']); // design-sheet assets: only if the canvas still shows them
 for (const [a, b] of PATCHES) {
-  if (!template.includes(a)) throw new Error('patch target not found: ' + a.slice(0, 60));
+  if (!template.includes(a)) { if (OPTIONAL.has(a)) continue; throw new Error('patch target not found: ' + a.slice(0, 60)); }
   template = template.split(a).join(b);
 }
 template = template.split('href="#privacy"').join('href="/privacy-policy/"');

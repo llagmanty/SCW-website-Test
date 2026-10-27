@@ -121,7 +121,6 @@ main>section:not(:first-of-type){padding:56px 16px!important}
 <span class="m-hide" style="font-size: 14px; line-height: 1; color: var(--ink4); letter-spacing: 0; text-transform: none; white-space: nowrap">by Smart City Water</span>
 </a>
 <div class="nav-links" style="display: flex; gap: 24px; margin-left: auto; font-size: 14px; font-weight: 500">
-<a href="#features" style="color: var(--ink2); text-decoration: none">Features</a>
 <a href="#how-it-works" style="color: var(--ink2); text-decoration: none">How it works</a>
 <a href="#integrations" style="color: var(--ink2); text-decoration: none">Integrations</a>
 <a href="#faq" style="color: var(--ink2); text-decoration: none">FAQ</a>
@@ -656,206 +655,8 @@ main>section:not(:first-of-type){padding:56px 16px!important}
 </div>
 </section>
 
-<!-- ===== 5 · FEATURE DEEP-DIVES ===== -->
-<section id="features" aria-labelledby="features-h2" style="padding: 88px 24px; background: var(--bg); border-top: 1px solid var(--soft2)">
-<div style="max-width: 1200px; margin: 0 auto; display: flex; flex-direction: column; gap: 88px">
-<div>
-<p style="margin: 0 0 8px; font-size: 12px; letter-spacing: 0; text-transform: none; font-weight: 600; color: var(--ink4)">Features</p>
-<h2 id="features-h2" style="margin: 0; font-size: 40px; line-height: 1.1; letter-spacing: -0.015em">Sewer capacity analysis software that works the way servicing engineers do</h2>
-</div>
-
-<div style="display: flex; flex-wrap: wrap; gap: 48px; align-items: center">
-<div style="flex: 1 1 400px; min-width: 0">
-<h3 style="margin: 0 0 12px; font-size: 28px">Network capacity map</h3>
-<p style="margin: 0 0 16px; font-size: 16px; line-height: 1.6; color: var(--ink3)">Every conduit is coloured by used capacity, Q/Qcap, from a model-grade EPA SWMM run. You see where the network has room and where it doesn't, before anyone opens a spreadsheet.</p>
-<ul style="margin: 0; padding-left: 20px; font-size: 16px; line-height: 1.8; color: var(--ink2)">
-<li>Five tiers: Good 0–0.5, Moderate 0.5–0.8, Poor 0.8–1, Critical ≥ 1, and No Data</li>
-<li>Line width follows diameter, from 200 mm laterals to the trunk</li>
-<li>Pattern and casing back up colour, so no tier relies on hue alone</li>
-</ul>
-</div>
-<div style="flex: 1 1 440px; min-width: 0; background: var(--surface); border: 0; border-radius: 28px; padding: 28px">
-<div role="img" aria-label="{{mini1.aria}}" style="display: flex; align-items: center; height: 64px">
-<sc-for list="{{mini1.pipes}}" as="mp" hint-placeholder-count="5">
-<div style="flex: 1 1 0; display: flex; flex-direction: column; align-items: center; gap: 8px">
-<div style="width: 100%; transition: background-color 600ms ease-out, box-shadow 600ms ease-out; {{mp.css}}"></div>
-<span class="tnum" style="font-size: 12px; font-weight: 600">{{mp.u}}%</span>
-</div>
-</sc-for>
-</div>
-<label for="mini1" style="display: block; margin-top: 16px; font-size: 12px; letter-spacing: 0; text-transform: none; font-weight: 600; color: var(--ink2)">Upstream load · <span class="tnum">{{mini1.f}}%</span> of today</label>
-<input id="mini1" type="range" min="40" max="150" step="5" value="{{mini1.f}}" onInput="{{setMini1}}" style="width: 100%; accent-color: #4C8DFF; height: 44px">
-<p style="margin: 0; font-size: 12px; color: var(--ink4)">Five conduits in series, 250–525 mm. Drag to load them.</p>
-</div>
-</div>
-
-<div style="display: flex; flex-wrap: wrap-reverse; gap: 48px; align-items: center; flex-direction: row-reverse">
-<div style="flex: 1 1 400px; min-width: 0">
-<h3 style="margin: 0 0 12px; font-size: 28px">Cumulative scenario stacking</h3>
-<p style="margin: 0 0 16px; font-size: 16px; line-height: 1.6; color: var(--ink3)">Run the same network under Subject Application, Subject + Active, Subject + Active + Approved, and Masterplan + Subject. One development's impact and the combined impact of everything ahead of it in the queue sit side by side.</p>
-<ul style="margin: 0; padding-left: 20px; font-size: 16px; line-height: 1.8; color: var(--ink2)">
-<li>Cumulative impact on sewer capacity, not one application at a time</li>
-<li>Statuses drive scenarios: Proposed, Draft Approved, Approved, Occupied, Sandbox</li>
-<li>Masterplan horizons show where growth runs out of capacity</li>
-</ul>
-</div>
-<div style="flex: 1 1 440px; min-width: 0; background: var(--surface); border: 0; border-radius: 28px; padding: 28px">
-<div class="tnum" style="font-size: 12px; letter-spacing: 0; text-transform: none; font-weight: 600; margin-bottom: 12px; color: var(--ink2)">Trunk segment {{mini2.id}} · {{mini2.d}} mm · used capacity</div>
-<div role="img" aria-label="{{mini2.aria}}" style="position: relative; height: 240px; display: flex; align-items: flex-end; gap: 12px; padding-left: 8px; border-bottom: 1px solid var(--line3)">
-<div style="position: absolute; left: 0; right: 0; bottom: {{mini2.line}}px; border-top: 2px dashed #FF4D6D"></div>
-<span class="tnum" style="position: absolute; left: 0; bottom: {{mini2.lineLabel}}px; z-index: 2; padding: 0 6px 0 0; background: var(--surface); font-size: 11px; font-weight: 600; color: var(--err)">100% full-flow capacity</span>
-<sc-for list="{{mini2.bars}}" as="b" hint-placeholder-count="5">
-<div style="flex: 1 1 0; display: flex; flex-direction: column; justify-content: flex-end; height: 100%; position: relative; z-index: 1">
-<span class="tnum" style="text-align: center; font-size: 12px; font-weight: 600; margin-bottom: 4px; {{b.tag}}">{{b.u}}%</span>
-<sc-for list="{{b.segs}}" as="sg" hint-placeholder-count="3">
-<div style="{{sg.css}}"></div>
-</sc-for>
-</div>
-</sc-for>
-</div>
-<div style="display: flex; gap: 12px; padding-left: 8px; margin-top: 6px">
-<sc-for list="{{mini2.bars}}" as="b" hint-placeholder-count="5">
-<span style="flex: 1 1 0; text-align: center; font-size: 11px; line-height: 1.25; color: var(--ink3)">{{b.label}}</span>
-</sc-for>
-</div>
-<div style="display: flex; flex-wrap: wrap; gap: 12px; margin-top: 14px; font-size: 11px; color: var(--ink2)">
-<sc-for list="{{mini2.keys}}" as="k" hint-placeholder-count="5">
-<span style="display: inline-flex; align-items: center; gap: 6px"><span aria-hidden="true" style="width: 12px; height: 12px; border-radius: 3px; {{k.css}}"></span>{{k.label}}</span>
-</sc-for>
-</div>
-</div>
-</div>
-
-<div style="display: flex; flex-wrap: wrap; gap: 48px; align-items: center">
-<div style="flex: 1 1 360px; min-width: 0">
-<h3 style="margin: 0 0 12px; font-size: 28px">Automated Sanitary Design Sheet</h3>
-<p style="margin: 0 0 16px; font-size: 16px; line-height: 1.6; color: var(--ink3)">One row per conduit, upstream to downstream, generated from the model and the application roster. Sanitary design sheet automation replaces the hand-built spreadsheet with one your reviewers can audit.</p>
-<ul style="margin: 0; padding-left: 20px; font-size: 16px; line-height: 1.8; color: var(--ink2)">
-<li>Harmon peaking factor, ICI flow and infiltration per row</li>
-<li>Manning full-flow capacity and velocity per conduit</li>
-<li>Export for development submissions and council packages</li>
-</ul>
-</div>
-<div style="flex: 2 1 560px; min-width: 0; background: var(--surface); border: 0; border-radius: 28px; padding: 12px">
-<a href="/_blob/bbd52348099698ccc1bd60a58e1782be" target="_blank" rel="noopener" aria-label="Open the sample sanitary design sheet, PDF, 1 page" style="display: block; border-radius: 20px; overflow: hidden; background: #FFFFFF; box-shadow: 0 1px 2px rgba(0,0,0,0.12)">
-<img src="/_blob/500d5b755f0904dbbb4c2fb58838867d" alt="Preview of a sample sanitary design sheet for DA.24.017: 22 pipe segments listed upstream to downstream with residential, ICI, flow calculation and pipe data columns, ending at 57.4 L/s and 41% used capacity." style="display: block; width: 100%; height: auto; aspect-ratio: 1600 / 659">
-</a>
-<div style="display: flex; flex-wrap: wrap; align-items: center; gap: 12px 16px; padding: 16px 8px 6px">
-<span aria-hidden="true" style="width: 40px; height: 40px; border-radius: 8px; background: var(--surface2); color: var(--ink2); display: grid; place-items: center; font-size: 11px; font-weight: 700; flex-shrink: 0">PDF</span>
-<div style="flex: 1 1 220px; min-width: 0">
-<div style="font-size: 16px; line-height: 24px; font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis">Sample_Sanitary_Design_Sheet_DA.24.017.pdf</div>
-<div style="font-size: 14px; line-height: 20px; color: var(--ink4)">PDF · 1 page · 66 KB · Subject + Active + Approved · flow path to outlet</div>
-</div>
-<div style="display: flex; gap: 8px">
-<a href="/_blob/bbd52348099698ccc1bd60a58e1782be" target="_blank" rel="noopener" style="min-height: 40px; display: inline-flex; align-items: center; padding: 0 20px; border-radius: 999px; border: 1px solid var(--line3); color: var(--link); font-size: 14px; font-weight: 500; text-decoration: none">Open</a>
-<a href="/_blob/bbd52348099698ccc1bd60a58e1782be" download="Sample_Sanitary_Design_Sheet_DA.24.017.pdf" style="min-height: 40px; display: inline-flex; align-items: center; padding: 0 20px; border-radius: 999px; background: {{accent}}; color: #FFFFFF; font-size: 14px; font-weight: 500; text-decoration: none">Download</a>
-</div>
-</div>
-</div>
-</div>
-
-<div style="display: flex; flex-wrap: wrap-reverse; gap: 48px; align-items: center; flex-direction: row-reverse">
-<div style="flex: 1 1 400px; min-width: 0">
-<h3 style="margin: 0 0 12px; font-size: 28px">Manhole results and HGL profiles</h3>
-<p style="margin: 0 0 16px; font-size: 16px; line-height: 1.6; color: var(--ink3)">Hydraulic grade line, surcharge depth and freeboard to ground at every node, with invert and ground elevations. The long-profile shows where the hydraulic controls actually are.</p>
-<ul style="margin: 0; padding-left: 20px; font-size: 16px; line-height: 1.8; color: var(--ink2)">
-<li>Surcharged nodes flagged with freeboard in metres</li>
-<li>Five upstream and five downstream nodes per profile</li>
-<li>Dry weather, wet-weather RDII and design storms</li>
-</ul>
-</div>
-<div style="flex: 1 1 440px; min-width: 0; background: var(--surface); border: 0; border-radius: 28px; padding: 20px">
-<svg role="img" aria-label="Long-profile across six manholes. The hydraulic grade line rises above the pipe crown between the third and fifth manholes, with 0.6 m freeboard left at the fourth." width="100%" viewBox="0 0 480 220" style="display: block; background: var(--surface2); border-radius: 20px">
-<path d="M20 40 L100 48 L180 58 L260 66 L340 78 L420 88 L460 92 L460 210 L20 210 Z" style="fill: var(--svg-ground)"></path>
-<path d="M20 40 L100 48 L180 58 L260 66 L340 78 L420 88 L460 92" fill="none" style="stroke: var(--ink4)" stroke-width="1.5"></path>
-<path d="M20 120 L100 132 L180 144 L260 156 L340 168 L420 180 L460 186" fill="none" style="stroke: var(--ink2)" stroke-width="1.5"></path>
-<path d="M20 150 L100 162 L180 174 L260 186 L340 198 L420 208 L460 212" fill="none" style="stroke: var(--ink2)" stroke-width="1.5"></path>
-<path d="M20 138 L100 146 L180 120 L260 92 L340 118 L420 186 L460 194" fill="none" style="stroke: var(--accent-soft)" stroke-width="2.5" stroke-dasharray="6 3"></path>
-<g style="stroke: var(--field)" stroke-width="1"><line x1="100" y1="48" x2="100" y2="162"></line><line x1="180" y1="58" x2="180" y2="174"></line><line x1="260" y1="66" x2="260" y2="186"></line><line x1="340" y1="78" x2="340" y2="198"></line><line x1="420" y1="88" x2="420" y2="208"></line></g>
-<circle cx="260" cy="92" r="10" fill="#FF4D6D" opacity="0.3"></circle>
-<circle cx="260" cy="92" r="5" fill="#FF4D6D"></circle>
-<text x="270" y="86" font-size="11" font-family="Roboto Mono, monospace" style="fill: var(--ink)">Surcharged · freeboard 0.6 m</text>
-<text x="24" y="34" font-size="11" font-family="Roboto Flex, sans-serif" style="fill: var(--ink4)">Ground</text>
-<text x="24" y="114" font-size="11" font-family="Roboto Flex, sans-serif" style="fill: var(--ink4)">Crown</text>
-<text x="24" y="170" font-size="11" font-family="Roboto Flex, sans-serif" style="fill: var(--ink4)">Invert</text>
-<text x="380" y="150" font-size="11" font-weight="600" font-family="Roboto Flex, sans-serif" style="fill: var(--accent-soft)">HGL</text>
-</svg>
-</div>
-</div>
-
-<div style="display: flex; flex-wrap: wrap; gap: 48px; align-items: center">
-<div style="flex: 1 1 400px; min-width: 0">
-<h3 style="margin: 0 0 12px; font-size: 28px">Asset condition and risk (OACS)</h3>
-<p style="margin: 0 0 16px; font-size: 16px; line-height: 1.6; color: var(--ink3)">CCTV inspections scored to NASSCO PACP give every pipe a Likelihood of Failure (1–6) and a Consequence of Failure. The Overall Asset Condition Score blends that risk with the simulated d/D capacity score, so sewer asset condition and capacity sit in one ranking.</p>
-<ul style="margin: 0; padding-left: 20px; font-size: 16px; line-height: 1.8; color: var(--ink2)">
-<li>OACS tiers: &lt;0.5, 0.5–0.7, 0.7–0.9, ≥0.9</li>
-<li>Never-inspected pipes stay grey and unscored, never "good"</li>
-<li>Ranks relining, replacement and capital-plan priorities</li>
-</ul>
-</div>
-<div style="flex: 1 1 440px; min-width: 0; background: var(--surface); border: 0; border-radius: 28px; padding: 24px">
-<div style="font-size: 12px; letter-spacing: 0; text-transform: none; font-weight: 600; margin-bottom: 10px; color: var(--ink2)">OACS along the DA.24.017 flow path</div>
-<div role="img" aria-label="{{oacsAria}}" style="display: flex; gap: 3px; height: 24px; margin-bottom: 20px">
-<sc-for list="{{oacsStrip}}" as="o" hint-placeholder-count="12">
-<div style="flex: 1 1 0; border-radius: 4px; {{o.css}}"></div>
-</sc-for>
-</div>
-<div style="font-size: 12px; letter-spacing: 0; text-transform: none; font-weight: 600; margin-bottom: 8px; color: var(--ink2)">Reline first</div>
-<ol class="tnum" style="margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 8px; font-size: 13px">
-<sc-for list="{{reline}}" as="rl" hint-placeholder-count="4">
-<li style="display: flex; align-items: center; gap: 10px; background: var(--soft); border: 1px solid var(--soft2); border-radius: 16px; padding: 10px 12px">
-<span style="font-weight: 600; width: 18px; color: var(--ink4)">{{rl.rank}}</span>
-<span style="flex-grow: 1">{{rl.id}} · {{rl.d}} mm</span>
-<span style="color: var(--ink3)">LOF {{rl.lof}} · COF {{rl.cof}}</span>
-<span style="font-weight: 600; {{rl.chip}}">{{rl.oacs}}</span>
-</li>
-</sc-for>
-</ol>
-</div>
-</div>
-
-<div style="display: flex; flex-wrap: wrap-reverse; gap: 48px; align-items: center; flex-direction: row-reverse">
-<div style="flex: 1 1 400px; min-width: 0">
-<h3 style="margin: 0 0 12px; font-size: 28px">Monitoring and rainfall data (DataCurrent)</h3>
-<p style="margin: 0 0 16px; font-size: 16px; line-height: 1.6; color: var(--ink3)">Flow monitors, rain gauges from Environment Canada and NOAA, and radar rainfall come in through DataCurrent. I/I event analysis and IDF curves keep the wet-weather RDII calibration honest.</p>
-<ul style="margin: 0; padding-left: 20px; font-size: 16px; line-height: 1.8; color: var(--ink2)">
-<li>Flow monitors and rain gauges as map markers</li>
-<li>RDII by the RTK method, plus design storms</li>
-<li>I/I event analysis next to the capacity result</li>
-</ul>
-</div>
-<div style="flex: 1 1 440px; min-width: 0; background: var(--surface); border: 0; border-radius: 28px; padding: 20px">
-<svg role="img" aria-label="Rainfall hyetograph over a flow hydrograph. Flow at monitor FM-02 rises from about 42 L/s dry-weather to a 118 L/s peak about two hours after the rainfall peak." width="100%" viewBox="0 0 480 240" style="display: block; background: var(--surface2); border-radius: 20px">
-<g style="fill: var(--accent-soft)"><rect x="120" y="14" width="10" height="10" rx="2"></rect><rect x="132" y="14" width="10" height="26" rx="2"></rect><rect x="144" y="14" width="10" height="44" rx="2"></rect><rect x="156" y="14" width="10" height="62" rx="2"></rect><rect x="168" y="14" width="10" height="38" rx="2"></rect><rect x="180" y="14" width="10" height="22" rx="2"></rect><rect x="192" y="14" width="10" height="12" rx="2"></rect><rect x="204" y="14" width="10" height="6" rx="2"></rect></g>
-<text x="24" y="26" font-size="11" font-family="Roboto Mono, monospace" style="fill: var(--ink4)">Rain (mm/h)</text>
-<line x1="20" y1="214" x2="460" y2="214" style="stroke: var(--field)"></line>
-<path d="M20 170 C 60 160, 90 176, 130 168 S 170 164, 190 150 S 230 74, 250 80 S 300 140, 340 158 S 420 168, 460 166" fill="none" stroke="#F2913F" stroke-width="2.5"></path>
-<path d="M20 170 C 60 160, 90 176, 130 168 S 170 172, 220 170 S 300 166, 340 168 S 420 172, 460 168" fill="none" style="stroke: var(--ink4)" stroke-width="1.5" stroke-dasharray="4 3"></path>
-<text x="256" y="72" font-size="11" font-family="Roboto Mono, monospace" style="fill: var(--ink)">Peak 118 L/s</text>
-<text x="24" y="232" font-size="11" font-family="Roboto Mono, monospace" style="fill: var(--ink4)">FM-02 flow (L/s) · dashed = dry-weather baseline</text>
-</svg>
-</div>
-</div>
-
-<div style="border: 1px dashed var(--line3); border-radius: 32px; padding: 28px; display: flex; flex-wrap: wrap; gap: 32px; background: linear-gradient(135deg, rgba(139,92,246,0.10), rgba(76,141,255,0.06))">
-<div style="flex: 1 1 200px">
-<span style="display: inline-block; font-size: 12px; letter-spacing: 0; text-transform: none; font-weight: 600; padding: 6px 12px; border-radius: 999px; background: rgba(139,92,246,0.22); color: var(--next-ink)">Coming next · Preview</span>
-<p style="margin: 12px 0 0; font-size: 12px"><span style="border: 1px dashed var(--flag); color: var(--flag); padding: 1px 6px; border-radius: 4px">CONFIRM before publishing</span></p>
-</div>
-<div style="flex: 2 1 320px">
-<h3 style="margin: 0 0 6px; font-size: 20px">SSCAP Assistant</h3>
-<p style="margin: 0; font-size: 15px; line-height: 1.55; color: var(--ink3)">Ask the network questions in plain language: "Which conduits exceed capacity downstream of DA.20.041 under the Approved scenario?" It reads live SSCAP results and does not invent numbers.</p>
-</div>
-<div style="flex: 2 1 320px">
-<h3 style="margin: 0 0 6px; font-size: 20px">Historical storm replay</h3>
-<p style="margin: 0; font-size: 15px; line-height: 1.55; color: var(--ink3)">Pick a past storm event and see a network-wide, colour-coded capacity snapshot at the event peak.</p>
-</div>
-</div>
-</div>
-</section>
-
 <!-- ===== 6 · BENEFITS BY ROLE ===== -->
-<section aria-labelledby="roles-h2" style="padding: 88px 24px; background: var(--bg2); border-top: 1px solid var(--soft2)">
+<section aria-labelledby="roles-h2" style="padding: 88px 24px; background: var(--bg); border-top: 1px solid var(--soft2)">
 <div style="max-width: 1200px; margin: 0 auto">
 <p style="margin: 0 0 8px; font-size: 12px; letter-spacing: 0; text-transform: none; font-weight: 600; color: var(--ink4)">Benefits by role</p>
 <h2 id="roles-h2" style="margin: 0 0 32px; font-size: 40px; line-height: 1.1; letter-spacing: -0.015em">One wastewater digital twin, five ways to use it</h2>
@@ -874,7 +675,7 @@ main>section:not(:first-of-type){padding:56px 16px!important}
 </section>
 
 <!-- ===== 7 · INTEGRATIONS ===== -->
-<section id="integrations" aria-labelledby="int-h2" style="padding: 88px 24px; background: var(--bg); border-top: 1px solid var(--soft2)">
+<section id="integrations" aria-labelledby="int-h2" style="padding: 88px 24px; background: var(--bg2); border-top: 1px solid var(--soft2)">
 <div style="max-width: 1200px; margin: 0 auto">
 <p style="margin: 0 0 8px; font-size: 12px; letter-spacing: 0; text-transform: none; font-weight: 600; color: var(--ink4)">Integrations &amp; data</p>
 <h2 id="int-h2" style="margin: 0 0 12px; font-size: 40px; line-height: 1.1; letter-spacing: -0.015em">Works with the models and data you already have</h2>
@@ -888,7 +689,7 @@ main>section:not(:first-of-type){padding:56px 16px!important}
 </section>
 
 <!-- ===== 8 · TRUST & SECURITY ===== -->
-<section aria-labelledby="trust-h2" style="padding: 88px 24px; background: var(--bg2); border-top: 1px solid var(--soft2)">
+<section aria-labelledby="trust-h2" style="padding: 88px 24px; background: var(--bg); border-top: 1px solid var(--soft2)">
 <div style="max-width: 1200px; margin: 0 auto">
 <p style="margin: 0 0 8px; font-size: 12px; letter-spacing: 0; text-transform: none; font-weight: 600; color: var(--ink4)">Trust &amp; security</p>
 <h2 id="trust-h2" style="margin: 0 0 32px; font-size: 40px; line-height: 1.1; letter-spacing: -0.015em">Built for municipal data, by hydraulic modellers</h2>
