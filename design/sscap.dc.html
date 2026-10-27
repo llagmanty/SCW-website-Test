@@ -504,23 +504,24 @@ main>section:not(:first-of-type){padding:56px 16px!important}
 </section>
 
 <!-- ===== 4 · HOW IT WORKS ===== -->
-<section id="how-it-works" aria-labelledby="how-h2" style="padding: 88px 24px; background: var(--bg)">
+<section id="how-it-works" aria-labelledby="how-h2" style="padding: 88px 24px; background: var(--bg2); border-top: 1px solid var(--soft2)">
 <div style="max-width: 1200px; margin: 0 auto">
-<p style="margin: 0 0 8px; font-size: 12px; letter-spacing: 0; text-transform: none; font-weight: 600; color: var(--ink4)">How it works</p>
-<h2 id="how-h2" style="margin: 0 0 40px; font-size: 40px; line-height: 1.1; letter-spacing: -0.015em">From model to defensible servicing decision in four steps</h2>
-<ol style="list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 12px">
-<sc-for list="{{howSteps}}" as="hw" hint-placeholder-count="4">
-<li style="padding: 22px; border-radius: 28px; background: var(--surface); border: 0">
-<div style="display: flex; flex-direction: column; gap: 4px; margin-bottom: 8px"><span class="tnum" style="font-size: 36px; line-height: 44px; font-weight: 400; color: var(--link)">{{hw.n}}</span><strong style="font-size: 22px; line-height: 28px; font-weight: 400">{{hw.t}}</strong></div>
-<p style="margin: 0; font-size: 15px; line-height: 1.55; color: var(--ink3)">{{hw.d}}</p>
+<h2 id="how-h2" style="margin: 0 0 40px; font-size: 40px; line-height: 1.1; letter-spacing: -0.015em">How it works</h2>
+<ol style="list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px">
+<sc-for list="{{howSteps}}" as="hw" hint-placeholder-count="3">
+<li style="padding: 28px; border-radius: 28px; background: var(--surface); border: 1px solid var(--line)">
+<span style="display: block; font-size: 12px; line-height: 16px; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; color: var(--link)">{{hw.n}}</span>
+<h3 style="margin: 8px 0 8px; font-size: 22px; line-height: 28px">{{hw.t}}</h3>
+<p style="margin: 0; font-size: 16px; line-height: 1.55; color: var(--ink3)">{{hw.d}}</p>
 </li>
 </sc-for>
 </ol>
+<p style="margin: 40px 0 0; font-size: 24px; font-weight: 600; line-height: 1.35">SSCAP is more than a product. It's an expertly managed service.</p>
 </div>
 </section>
 
 <!-- ===== 5 · FEATURE DEEP-DIVES ===== -->
-<section id="features" aria-labelledby="features-h2" style="padding: 88px 24px; background: var(--bg2); border-top: 1px solid var(--soft2)">
+<section id="features" aria-labelledby="features-h2" style="padding: 88px 24px; background: var(--bg); border-top: 1px solid var(--soft2)">
 <div style="max-width: 1200px; margin: 0 auto; display: flex; flex-direction: column; gap: 88px">
 <div>
 <p style="margin: 0 0 8px; font-size: 12px; letter-spacing: 0; text-transform: none; font-weight: 600; color: var(--ink4)">Features</p>
@@ -718,7 +719,7 @@ main>section:not(:first-of-type){padding:56px 16px!important}
 </section>
 
 <!-- ===== 6 · BENEFITS BY ROLE ===== -->
-<section aria-labelledby="roles-h2" style="padding: 88px 24px; background: var(--bg)">
+<section aria-labelledby="roles-h2" style="padding: 88px 24px; background: var(--bg2); border-top: 1px solid var(--soft2)">
 <div style="max-width: 1200px; margin: 0 auto">
 <p style="margin: 0 0 8px; font-size: 12px; letter-spacing: 0; text-transform: none; font-weight: 600; color: var(--ink4)">Benefits by role</p>
 <h2 id="roles-h2" style="margin: 0 0 32px; font-size: 40px; line-height: 1.1; letter-spacing: -0.015em">One wastewater digital twin, five ways to use it</h2>
@@ -737,7 +738,7 @@ main>section:not(:first-of-type){padding:56px 16px!important}
 </section>
 
 <!-- ===== 7 · INTEGRATIONS ===== -->
-<section id="integrations" aria-labelledby="int-h2" style="padding: 88px 24px; background: var(--bg2); border-top: 1px solid var(--soft2)">
+<section id="integrations" aria-labelledby="int-h2" style="padding: 88px 24px; background: var(--bg); border-top: 1px solid var(--soft2)">
 <div style="max-width: 1200px; margin: 0 auto">
 <p style="margin: 0 0 8px; font-size: 12px; letter-spacing: 0; text-transform: none; font-weight: 600; color: var(--ink4)">Integrations &amp; data</p>
 <h2 id="int-h2" style="margin: 0 0 12px; font-size: 40px; line-height: 1.1; letter-spacing: -0.015em">Works with the models and data you already have</h2>
@@ -751,7 +752,7 @@ main>section:not(:first-of-type){padding:56px 16px!important}
 </section>
 
 <!-- ===== 8 · TRUST & SECURITY ===== -->
-<section aria-labelledby="trust-h2" style="padding: 88px 24px; background: var(--bg)">
+<section aria-labelledby="trust-h2" style="padding: 88px 24px; background: var(--bg2); border-top: 1px solid var(--soft2)">
 <div style="max-width: 1200px; margin: 0 auto">
 <p style="margin: 0 0 8px; font-size: 12px; letter-spacing: 0; text-transform: none; font-weight: 600; color: var(--ink4)">Trust &amp; security</p>
 <h2 id="trust-h2" style="margin: 0 0 32px; font-size: 40px; line-height: 1.1; letter-spacing: -0.015em">Built for municipal data, by hydraulic modellers</h2>
@@ -969,10 +970,9 @@ var SEE = [
   { t: 'Condition and risk.', d: 'PACP-scored CCTV, LOF, COF and OACS on the same map.', icon: 'M12 3 L20 6 V12 C20 16 16.5 19.5 12 21 C7.5 19.5 4 16 4 12 V6 Z M9 12 L11 14 L15 10' }
 ];
 var HOW = [
-  { n: '01', t: 'Connect', d: 'Import your hydraulic model (InfoWorks ICM, SWMM), GIS and CCTV data.' },
-  { n: '02', t: 'Register', d: 'Load development applications by SMA and status.' },
-  { n: '03', t: 'Simulate', d: 'Stack scenarios from Subject to Masterplan.' },
-  { n: '04', t: 'Decide & report', d: 'Export the design sheet and capacity report.' }
+  { n: 'Step 1', t: 'Connect', d: 'We bring in your existing model, monitoring, inspections, and development applications.' },
+  { n: 'Step 2', t: 'Validate', d: 'Measured flow checks the picture continuously. Anything outside the prediction band is flagged, not hidden.' },
+  { n: 'Step 3', t: 'Manage', d: 'SSCAP runs beside your current process. Our engineers stay with you throughout.' }
 ];
 var INTEGRATIONS = ['InfoWorks ICM', 'EPA SWMM', 'VO SWMM', 'GIS (Shapefile / GeoJSON)', 'CCTV / NASSCO PACP', 'AMANDA · CONFIRM', 'Environment Canada', 'NOAA', 'DataCurrent'];
 var ROLES = [
