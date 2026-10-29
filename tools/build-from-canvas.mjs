@@ -40,6 +40,7 @@ const PATCHES = [
   ['/_blob/bbd52348099698ccc1bd60a58e1782be', 'sample-design-sheet.pdf'],
   ['/_blob/500d5b755f0904dbbb4c2fb58838867d', 'design-sheet-preview.webp'],
   ['/_blob/4c0ce387e2649440b12a66a7851e609c', 'see-application-trace.webp'],
+  ['/_blob/2db0d1eaa02df93c326dbc79526f29e0', 'see-flow-verified.webp'],
   // only the city image for the current theme downloads (the other one is display: none)
   ['<img class="city-light" ', '<img class="city-light" loading="lazy" decoding="async" '],
   ['<img class="city-dark" ', '<img class="city-dark" loading="lazy" decoding="async" '],
