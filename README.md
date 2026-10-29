@@ -19,6 +19,7 @@ node tools/build-from-canvas.mjs --no-prerender  # build only
 | `tools/vendor/` | Preact 10.24.3 (MIT), inlined into the page. |
 | `vaughan-city-light.webp`, `vaughan-city-dark.webp` | The City of Vaughan rendered from OpenStreetMap, under the detailed Vaughan Metropolitan Centre map. Only the image for the current theme downloads. |
 | `og-image.png` | 1200×630 share image of the map. |
+| `see-application-trace.webp` | SSCAP screenshot (DA.20.041 traced to its outlet) for the first "See it" card. |
 | `favicon.svg` | Smart City Water mark. |
 | `sample-design-sheet.pdf`, `design-sheet-preview.webp` | Fictional one-page Sanitary Design Sheet and its preview. Rebuild with `node tools/generate-design-sheet.mjs`. |
 

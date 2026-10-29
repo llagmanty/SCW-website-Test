@@ -39,6 +39,7 @@ const PATCHES = [
   ['/_blob/d277f24f73a064b2660cfc32aeb1fadb', 'vaughan-city-dark.webp'],
   ['/_blob/bbd52348099698ccc1bd60a58e1782be', 'sample-design-sheet.pdf'],
   ['/_blob/500d5b755f0904dbbb4c2fb58838867d', 'design-sheet-preview.webp'],
+  ['/_blob/4c0ce387e2649440b12a66a7851e609c', 'see-application-trace.webp'],
   // only the city image for the current theme downloads (the other one is display: none)
   ['<img class="city-light" ', '<img class="city-light" loading="lazy" decoding="async" '],
   ['<img class="city-dark" ', '<img class="city-dark" loading="lazy" decoding="async" '],
