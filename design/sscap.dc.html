@@ -60,6 +60,9 @@ input,select,textarea,button{font:inherit}
 .rail-tip span{opacity:0.8}
 .rail-tip::before{content:"";position:absolute;right:100%;top:50%;margin-top:-5px;border:5px solid transparent;border-right-color:var(--ink)}
 .rail-btn:hover .rail-tip,.rail-btn:focus-visible .rail-tip{opacity:1;visibility:visible;transform:translate(0,-50%)}
+.m-prob>.p3{grid-column:span 2}.m-prob>.p2{grid-column:span 3}
+@media (max-width: 980px){.m-prob{grid-template-columns:1fr 1fr!important}.m-prob>.p3,.m-prob>.p2{grid-column:auto}}
+@media (max-width: 640px){.m-prob{grid-template-columns:1fr!important}}
 /* phones only: the legend folds into a floating button on the map */
 .m-legbtn{display:none}
 .m-phone{display:none}
@@ -426,21 +429,32 @@ main>section:not(:first-of-type){padding:56px 16px!important}
 <div style="max-width: 1200px; margin: 0 auto">
 <p style="margin: 0 0 8px; font-size: 12px; letter-spacing: 0; text-transform: none; font-weight: 600; color: var(--ink4)">The Problem</p>
 <h2 id="problem-h2" style="margin: 0 0 40px; font-size: 40px; line-height: 1.1; letter-spacing: -0.015em">Growth is coming faster than the answers.</h2>
-<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px">
-<article style="border-radius: 28px; padding: 28px; background: var(--surface); border: 1px solid var(--line)">
+<!-- five problem cards: three across, then two wider ones; stacks on narrow screens -->
+<div class="m-prob" style="display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 16px">
+<article class="p3" style="border-radius: 28px; padding: 28px; background: var(--surface); border: 1px solid var(--line)">
+<span style="width: 48px; height: 48px; border-radius: 16px; display: grid; place-items: center; background: var(--bg); color: var(--ink2)"><svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 17 L9 11 L13 15 L21 7 M15 7 H21 V13" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"></path></svg></span>
+<h3 style="margin: 18px 0 8px; font-size: 20px">Growth outruns answers.</h3>
+<p style="margin: 0; font-size: 16px; line-height: 1.55; color: var(--ink3)">Months per servicing approval, several iterations each.</p>
+</article>
+<article class="p3" style="border-radius: 28px; padding: 28px; background: var(--surface); border: 1px solid var(--line)">
 <span style="width: 48px; height: 48px; border-radius: 16px; display: grid; place-items: center; background: var(--bg); color: var(--ink2)"><svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 7 H7 A4 4 0 0 0 7 15 H9 M15 7 H17 A4 4 0 0 1 17 15 H15 M11 4 L10 6 M13 18 L14 20 M4 3 L6 5 M20 21 L18 19" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"></path></svg></span>
 <h3 style="margin: 18px 0 8px; font-size: 20px">Disconnected data.</h3>
-<p style="margin: 0; font-size: 16px; line-height: 1.55; color: var(--ink3)">Flow monitoring, CCTV inspections, the hydraulic model, and development applications in separate workflows, reconciled manually.</p>
+<p style="margin: 0; font-size: 16px; line-height: 1.55; color: var(--ink3)">Flow monitoring data, CCTV inspection records, hydraulic model, and development applications in separate workflows and reconciled manually.</p>
 </article>
-<article style="border-radius: 28px; padding: 28px; background: var(--surface); border: 1px solid var(--line)">
-<span style="width: 48px; height: 48px; border-radius: 16px; display: grid; place-items: center; background: var(--bg); color: var(--ink2)"><svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="5" width="17" height="15" rx="2" fill="none" stroke="currentColor" stroke-width="1.8"></rect><path d="M3.5 10 H20.5 M8 3 V7 M16 3 V7 M8 14 H10 M14 14 H16 M8 17 H10" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"></path></svg></span>
-<h3 style="margin: 18px 0 8px; font-size: 20px">Months per approval.</h3>
-<p style="margin: 0; font-size: 16px; line-height: 1.55; color: var(--ink3)">Every servicing review built by hand, several iterations each, while condition assessment results sit in a spreadsheet.</p>
+<article class="p3" style="border-radius: 28px; padding: 28px; background: var(--surface); border: 1px solid var(--line)">
+<span style="width: 48px; height: 48px; border-radius: 16px; display: grid; place-items: center; background: var(--bg); color: var(--ink2)"><svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 3 L21 21 M10.6 6.1 A9.8 9.8 0 0 1 12 6 C17 6 21 12 21 12 A17.6 17.6 0 0 1 18.4 15.4 M6.6 6.6 C4.2 8.2 3 12 3 12 C3 12 7 18 12 18 C13.6 18 15 17.6 16.2 16.9 M9.9 9.9 A3 3 0 0 0 14.1 14.1" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"></path></svg></span>
+<h3 style="margin: 18px 0 8px; font-size: 20px">Condition assessment results are buried.</h3>
+<p style="margin: 0; font-size: 16px; line-height: 1.55; color: var(--ink3)">Inspections paid for, not referenced for planning.</p>
 </article>
-<article style="border-radius: 28px; padding: 28px; background: var(--surface); border: 1px solid var(--line)">
+<article class="p2" style="border-radius: 28px; padding: 28px; background: var(--surface); border: 1px solid var(--line)">
 <span style="width: 48px; height: 48px; border-radius: 16px; display: grid; place-items: center; background: var(--bg); color: var(--ink2)"><svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 7 V18 A2 2 0 0 0 5 20 H19 A2 2 0 0 0 21 18 V9 A2 2 0 0 0 19 7 H12 L10 5 H5 A2 2 0 0 0 3 7 Z M8 12 H16 M8 15.5 H13" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"></path></svg></span>
 <h3 style="margin: 18px 0 8px; font-size: 20px">Reporting scramble.</h3>
-<p style="margin: 0; font-size: 16px; line-height: 1.55; color: var(--ink3)">Regulatory, customer service, and budget submissions assembled manually from a folder of spreadsheets.</p>
+<p style="margin: 0; font-size: 16px; line-height: 1.55; color: var(--ink3)">Regulatory, customer service, and budget submissions built by hand.</p>
+</article>
+<article class="p2" style="border-radius: 28px; padding: 28px; background: var(--surface); border: 1px solid var(--line)">
+<span style="width: 48px; height: 48px; border-radius: 16px; display: grid; place-items: center; background: var(--bg); color: var(--ink2)"><svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 11 A8 8 0 0 0 5.6 6.4 L4 8 M4 4 V8 H8 M4 13 A8 8 0 0 0 18.4 17.6 L20 16 M20 20 V16 H16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"></path></svg></span>
+<h3 style="margin: 18px 0 8px; font-size: 20px">Incomplete lifecycle view of assets.</h3>
+<p style="margin: 0; font-size: 16px; line-height: 1.55; color: var(--ink3)">Traditional sewer asset management often does not consider historical and potential flow capacity.</p>
 </article>
 </div>
 <p style="margin: 40px 0 0; font-size: 24px; font-weight: 600; line-height: 1.35">SSCAP puts sewer condition, capacity, and growth on one map, analyzed against the system's real data.</p>
