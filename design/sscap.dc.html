@@ -370,7 +370,11 @@ main>section:not(:first-of-type){padding:56px 16px!important}
 <div><p style="margin: 0 0 20px; display: inline-flex; align-items: center; gap: 8px; font-size: 12px; letter-spacing: 0; text-transform: none; font-weight: 600; color: var(--ink3)"><span style="width: 8px; height: 8px; border-radius: 50%; background: #22A699; box-shadow: 0 0 10px #22A699"></span>Sanitary Sewer Condition Assessment Platform</p>
 <h1 id="hero-h1" class="hero-h1" style="margin: 0 0 16px; font-size: 57px; line-height: 64px; letter-spacing: -0.25px; font-weight: 400; color: var(--hero-ink); text-shadow: var(--hero-shadow)">{{headline}}</h1>
 <p style="margin: 0; font-size: 17px; line-height: 1.65; color: var(--hero-ink2); text-shadow: var(--hero-shadow)">Know your collection system hydraulic capacity and asset conditions and make planning decisions with confidence.</p>
-<button type="button" class="m-explore" onClick="{{exploreMap}}" style="margin-top: 32px; min-height: 48px; padding: 0 24px; font-size: 15px; border-radius: 999px; border: 1px solid var(--line3); background: var(--soft2); color: var(--ink); font-weight: 600; cursor: pointer">Explore the map</button>
+<!-- the interactive map is not public yet: the button stays visible but disabled, with a note saying when -->
+<div class="m-explore" style="margin-top: 32px; display: flex; flex-wrap: wrap; align-items: center; gap: 12px">
+<button type="button" disabled="disabled" aria-describedby="map-soon" style="min-height: 48px; padding: 0 24px; font-size: 15px; border-radius: 999px; border: 1px dashed var(--line3); background: transparent; color: var(--ink4); font-weight: 600; cursor: not-allowed">Explore the map</button>
+<span id="map-soon" style="display: inline-flex; align-items: center; gap: 6px; padding: 4px 12px 4px 10px; border-radius: 999px; background: var(--aside); color: var(--link); font-size: 13px; line-height: 20px; font-weight: 600"><svg width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3 A9 9 0 1 0 12.01 3 M12 7 V12 L15.5 14" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"></path></svg>Interactive map coming soon</span>
+</div>
 </div>
 <div class="m-modal-form" style="padding: 32px; border-radius: 6px; border: 1px solid var(--line); background: var(--soft2)">
 <sc-if value="{{notSent}}" hint-placeholder-val="{{true}}">
