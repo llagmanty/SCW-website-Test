@@ -63,6 +63,7 @@ input,select,textarea,button{font:inherit}
 .m-prob>.p3{grid-column:span 2}.m-prob>.p2{grid-column:span 3}
 @media (max-width: 980px){.m-prob{grid-template-columns:1fr 1fr!important}.m-prob>.p3,.m-prob>.p2{grid-column:auto}}
 @media (max-width: 640px){.m-prob{grid-template-columns:1fr!important}}
+.see-track{scrollbar-width:none}.see-track::-webkit-scrollbar{display:none}
 /* phones only: the legend folds into a floating button on the map */
 .m-legbtn{display:none}
 .m-phone{display:none}
@@ -460,23 +461,26 @@ main>section:not(:first-of-type){padding:56px 16px!important}
 <p style="margin: 40px 0 0; font-size: 24px; font-weight: 600; line-height: 1.35">SSCAP puts sewer condition, capacity, and growth on one map, analyzed against the system's real data.</p>
 </div>
 </section>
-<!-- See it: four product views, illustrated -->
+<!-- See it: product screenshots in a horizontal carousel (swipe, scroll or arrow keys), with a progress bar below -->
 <section aria-labelledby="see-h2" style="padding: 88px 24px; background: var(--bg); border-top: 1px solid var(--soft2)">
 <div style="max-width: 1200px; margin: 0 auto">
 <h2 id="see-h2" style="margin: 0 0 40px; font-size: 40px; line-height: 1.1; letter-spacing: -0.015em">See it</h2>
-<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 420px), 1fr)); gap: 40px 24px">
-<figure style="margin: 0">
+<div class="see-track" ref="{{seeRef}}" tabindex="0" role="region" aria-label="SSCAP screenshots, scroll sideways for more" style="display: flex; gap: 24px; overflow-x: auto; scroll-snap-type: x mandatory; scroll-behavior: smooth; padding-bottom: 4px; outline-offset: 4px">
+<figure class="see-card" style="margin: 0; flex: 0 0 min(560px, 82%); scroll-snap-align: start">
 <img src="/_blob/4c0ce387e2649440b12a66a7851e609c" alt="SSCAP screenshot: development application DA.20.041 at 7800 Jane Street traced along the sewers to its outlet in Vaughan Metropolitan Centre, with its flow, population and catchment details" loading="lazy" decoding="async" width="1600" height="900" style="border-radius: 20px; background: var(--surface); border: 1px solid var(--line); overflow: hidden; aspect-ratio: 16 / 9; display: block; width: 100%; height: auto; object-fit: cover; object-position: top left">
 <figcaption style="margin: 14px 0 0; font-size: 16px; line-height: 1.55; color: var(--ink3)"><strong style="color: var(--ink); font-weight: 600">An answer for every application,</strong> in minutes.</figcaption>
 </figure>
-<figure style="margin: 0">
+<figure class="see-card" style="margin: 0; flex: 0 0 min(560px, 82%); scroll-snap-align: start">
 <img src="/_blob/2db0d1eaa02df93c326dbc79526f29e0" alt="SSCAP screenshot: flow monitoring station VAU24_SAN_FM01, measured flow plotted against the modelled flow and the dry-weather flow band over five days, with rainfall at the top and the station details beside it" loading="lazy" decoding="async" width="1600" height="900" style="border-radius: 20px; background: var(--surface); border: 1px solid var(--line); overflow: hidden; aspect-ratio: 16 / 9; display: block; width: 100%; height: auto; object-fit: cover; object-position: top left">
 <figcaption style="margin: 14px 0 0; font-size: 16px; line-height: 1.55; color: var(--ink3)"><strong style="color: var(--ink); font-weight: 600">Flow projections verified</strong> against measured flows, continuously.</figcaption>
 </figure>
-<figure style="margin: 0">
+<figure class="see-card" style="margin: 0; flex: 0 0 min(560px, 82%); scroll-snap-align: start">
 <img src="/_blob/efa1efc62218550c2637de76aea2bea2" alt="SSCAP screenshot: 3D satellite map of Vaughan Metropolitan Centre with sewers coloured by score, and the panel for pipe SANMH52857.1 showing an overall performance score of 0.33 (Good), d/D 0.57 and residual capacity 0.67" loading="lazy" decoding="async" width="1600" height="900" style="border-radius: 20px; background: var(--surface); border: 1px solid var(--line); overflow: hidden; aspect-ratio: 16 / 9; display: block; width: 100%; height: auto; object-fit: cover; object-position: top left">
 <figcaption style="margin: 14px 0 0; font-size: 16px; line-height: 1.55; color: var(--ink3)"><strong style="color: var(--ink); font-weight: 600">One overall performance score for every asset,</strong> considering both asset condition and hydraulic capacity.</figcaption>
 </figure>
+</div>
+<div aria-hidden="true" style="position: relative; height: 2px; margin-top: 32px; max-width: 760px; border-radius: 2px; background: var(--line3); overflow: hidden">
+<span class="see-thumb" style="position: absolute; left: 0; top: 0; bottom: 0; width: 50%; border-radius: 2px; background: var(--ink); transition: left 120ms linear"></span>
 </div>
 </div>
 </section>
@@ -1298,6 +1302,13 @@ class Component extends DCLogic {
       is3d: is3d, buildings: buildings, glows: glows, glowTurn: 'rotateZ(' + (61 - this.view().r) + 'deg) rotateX(-' + this.view().t + 'deg)',
       planeCss: 'transform: ' + this.planeOf(this.view()) + ';',
       mapRef: this._mapRef || (this._mapRef = function (el) { self.wireMap(el); }),
+      // carousel progress bar: sized to the visible share and moved on scroll, straight on the DOM so scrolling never re-renders the page
+      seeRef: this._seeRef || (this._seeRef = function (el) {
+        if (!el || el._wired) return; el._wired = true;
+        var thumb = el.parentNode.querySelector('.see-thumb');
+        var sync = function () { var max = el.scrollWidth - el.clientWidth, share = el.clientWidth / el.scrollWidth; if (!thumb) return; thumb.style.width = (share * 100).toFixed(1) + '%'; thumb.style.left = (max > 0 ? el.scrollLeft / max * (1 - share) * 100 : 0).toFixed(1) + '%'; };
+        el.addEventListener('scroll', sync, { passive: true }); window.addEventListener('resize', sync); setTimeout(sync, 0);
+      }),
       innerRef: this._innerRef || (this._innerRef = function (el) { self._inner = el; if (el) { el.style.transition = ''; } }),
       zoomIn: function () { self.zoomBy(1.3); }, zoomOut: function () { self.zoomBy(1 / 1.3); },
       resetView: function () { self._v = null; if (self._inner) self._inner.style.transition = ''; self.setState({ vx: 38, vy: 77, vz: 1.56, vr: 34, vt: 55 }); },
