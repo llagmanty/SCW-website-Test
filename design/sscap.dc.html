@@ -756,13 +756,8 @@ var ROLES = [
 var FAQS = [
   { q: 'Do we need our own hydraulic model?', a: 'SSCAP runs on the EPA SWMM engine and imports InfoWorks ICM networks, so an existing model is the fastest start. Options for municipalities without a current model: [ANSWER NEEDED].' },
   { q: 'Which model formats do you import?', a: 'InfoWorks ICM network imports and EPA SWMM / VO SWMM models, plus GIS layers (Shapefile / GeoJSON) and CCTV / NASSCO PACP inspection exports. Monitoring data comes in through DataCurrent.' },
-  { q: 'How is cumulative impact calculated?', a: 'The same network is run under stacked scenarios: Subject Application, Subject + Active, Subject + Active + Approved, and Masterplan + Subject. Application loads accumulate downstream, so each scenario shows the combined effect of everything ahead of the subject in the queue.' },
-  { q: 'How are capacity thresholds set?', a: 'Used capacity is Q/Qcap, shown in tiers: Good (0–0.5), Moderate (0.5–0.8), Poor (0.8–1) and Critical (1 or more, surcharged). No Data means the flow was not computed. Whether each municipality can configure its own thresholds: [ANSWER NEEDED].' },
   { q: 'How do you handle pipes without CCTV data?', a: 'They are shown grey and unscored, never as "good". OACS is only calculated where PACP-scored inspection data exists.' },
-  { q: 'Where is our data hosted?', a: 'Cloud-hosted on Microsoft Azure with Canadian data residency [CONFIRM both].' },
-  { q: 'How long does onboarding take?', a: '[ANSWER NEEDED]' },
-  { q: 'How do I make the case to council and budget holders?', a: "We help you do it. Our team works with you to present SSCAP to council and the people who approve the budget in plain, non-technical language: what the map shows, what is at risk, and what the decision is. Ask about council support when you book your demo." },
-  { q: 'Can consultants access the platform?', a: 'SSCAP is designed as a shared source of truth between municipalities and the consultants who prepare servicing reports. Access is role-based [CONFIRM]; consultant licensing details: [ANSWER NEEDED].' }
+  { q: 'How do I make the case to council and budget holders?', a: "We help you do it. Our team works with you to present SSCAP to council and the people who approve the budget in plain, non-technical language: what the map shows, what is at risk, and what the decision is. Ask about council support when you book your demo." }
 ];
 
 function rngOf(seed) { var s = seed; return function () { s = (s * 1664525 + 1013904223) % 4294967296; return s / 4294967296; }; }
