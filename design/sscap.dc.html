@@ -69,6 +69,7 @@ input,select,textarea,button{font:inherit}
 .theme-ph{display:none!important}
 .m-phone{display:none}
 @media (max-width: 860px){
+.m-book-frame{height:820px!important;padding:8px!important;border-radius:20px!important}
 .rail-tip{display:none}
 .m-note{width:auto;max-width:none}
 .hero-text{position:static!important;max-width:none!important;padding:24px 20px!important}
@@ -572,8 +573,25 @@ main>section:not(:first-of-type){padding:56px 16px!important}
 </div>
 </section>
 
+<!-- book a live demo: Microsoft Bookings calendar in place of the form -->
+<section id="book-live" aria-labelledby="book-h2" style="padding: 88px 24px; background: var(--bg2); border-top: 1px solid var(--soft2)">
+<div style="max-width: 1200px; margin: 0 auto">
+<div style="display: flex; flex-wrap: wrap; gap: 40px 48px; align-items: flex-start">
+<div class="m-demo-intro" style="flex: 5 1 360px; min-width: 0; display: flex; flex-direction: column; gap: 20px; padding-top: 8px">
+<h2 id="book-h2" style="margin: 0; font-size: 40px; line-height: 1.15; letter-spacing: -0.015em">Book a live demo.</h2>
+<p style="margin: 0; font-size: 18px; line-height: 1.45; font-weight: 600; color: var(--ink)">Pick a time that works for you.</p>
+<p style="margin: 0; font-size: 17px; line-height: 1.6; color: var(--ink3)">Choose a slot in our calendar and you'll get a confirmation by email with the meeting link.</p>
+<p style="margin: 0; padding-top: 16px; border-top: 1px solid var(--line); font-size: 13px; line-height: 1.5; color: var(--ink4)">Smart City Water · Proudly Made and Operated in Ontario · Creators of Visual OTTHYMO and DataCurrent</p>
+</div>
+<div class="m-book-frame" style="flex: 7 1 520px; min-width: 0; height: 780px; background: var(--surface); border-radius: 28px; padding: 16px; display: flex; flex-direction: column">
+<iframe src="https://bookings.cloud.microsoft/book/SSCAPlivedemo@smartcitywater.ca/?ismsaljsauthenabled" title="Book a live SSCAP demo (Microsoft Bookings)" loading="lazy" width="100%" height="100%" scrolling="yes" style="flex: 1; border: 0; border-radius: 16px; background: #FFFFFF"></iframe>
+</div>
+</div>
+</div>
+</section>
+
 <!-- the presentation, and what we need to start -->
-<section aria-labelledby="pres-sec-h2" style="padding: 88px 24px; background: var(--bg2); border-top: 1px solid var(--soft2)">
+<section aria-labelledby="pres-sec-h2" style="padding: 88px 24px; background: var(--bg); border-top: 1px solid var(--soft2)">
 <div style="max-width: 1200px; margin: 0 auto">
 <h2 id="pres-sec-h2" style="margin: 0 0 40px; font-size: 40px; line-height: 1.1; letter-spacing: -0.015em">The Presentation and What We Need to Start</h2>
 <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 420px), 1fr)); gap: 24px">
@@ -649,7 +667,7 @@ main>section:not(:first-of-type){padding:56px 16px!important}
 </section>
 
 <!-- ===== 10 · FAQ ===== -->
-<section id="faq" aria-labelledby="faq-h2" style="padding: 88px 24px; background: var(--bg); border-top: 1px solid var(--line)">
+<section id="faq" aria-labelledby="faq-h2" style="padding: 88px 24px; background: var(--bg2); border-top: 1px solid var(--line)">
 <div style="max-width: 880px; margin: 0 auto">
 <p style="margin: 0 0 8px; font-size: 12px; letter-spacing: 0; text-transform: none; font-weight: 600; color: var(--ink4)">FAQ</p>
 <h2 id="faq-h2" style="margin: 0 0 32px; font-size: 40px; line-height: 1.1; letter-spacing: -0.015em">Questions engineers ask before a demo</h2>
@@ -665,7 +683,7 @@ main>section:not(:first-of-type){padding:56px 16px!important}
 </section>
 
 <!-- ===== 11 · FINAL CTA ===== -->
-<section aria-labelledby="cta-h2" style="padding: 24px 24px 88px; background: var(--bg)">
+<section aria-labelledby="cta-h2" style="padding: 24px 24px 88px; background: var(--bg2)">
 <div style="max-width: 1200px; margin: 0 auto; border-radius: 40px; padding: 56px 48px; display: flex; flex-wrap: wrap; gap: 32px; align-items: center; background: radial-gradient(ellipse at 85% 15%, rgba(233,185,64,0.30), rgba(0,0,0,0) 50%), radial-gradient(ellipse at 55% 110%, rgba(1,254,255,0.22), rgba(0,0,0,0) 50%), radial-gradient(ellipse at 8% 90%, rgba(58,132,252,0.38), rgba(0,0,0,0) 55%), var(--surface); border: 1px solid var(--line2)">
 <h2 id="cta-h2" style="flex: 1 1 520px; margin: 0; font-size: 40px; line-height: 1.15; letter-spacing: -0.015em">Your next development application is already in the queue. See its impact today.</h2>
 <a href="#demo" onClick="{{bookDemo}}" style="min-height: 52px; display: inline-flex; align-items: center; padding: 0 28px; border-radius: 999px; background: {{accent}}; color: #FFFFFF; font-weight: 600; font-size: 16px; text-decoration: none; box-shadow: none">Book a live demo</a>
