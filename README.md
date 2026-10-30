@@ -22,6 +22,7 @@ node tools/build-from-canvas.mjs --no-prerender  # build only
 | `see-application-trace.webp` | SSCAP screenshot (DA.20.041 traced to its outlet) for the first "See it" card. |
 | `see-flow-verified.webp` | SSCAP screenshot (VAU24_SAN_FM01 measured vs modelled flow) for the second "See it" card. |
 | `see-masterplan-scores.webp` | SSCAP screenshot (Masterplan 2051 capacity condition scores) for the fourth "See it" card. |
+| `see-performance-score.webp` | SSCAP screenshot (pipe SANMH52857.1 overall performance score on the 3D map) for the third "See it" card. |
 | `favicon.svg` | Smart City Water mark. |
 | `sample-design-sheet.pdf`, `design-sheet-preview.webp` | Fictional one-page Sanitary Design Sheet and its preview. Rebuild with `node tools/generate-design-sheet.mjs`. |
 
