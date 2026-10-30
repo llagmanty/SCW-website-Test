@@ -462,10 +462,10 @@ main>section:not(:first-of-type){padding:56px 16px!important}
 </div>
 </section>
 <!-- See it: product screenshots in a horizontal carousel (swipe, scroll or arrow keys), with a progress bar below -->
-<section aria-labelledby="see-h2" style="padding: 88px 24px; background: var(--bg); border-top: 1px solid var(--soft2)">
+<section aria-labelledby="see-h2" style="padding: 88px 24px; background: var(--bg); border-top: 1px solid var(--soft2); overflow-x: clip">
 <div style="max-width: 1200px; margin: 0 auto">
 <h2 id="see-h2" style="margin: 0 0 40px; font-size: 40px; line-height: 1.1; letter-spacing: -0.015em">See it</h2>
-<div class="see-track" ref="{{seeRef}}" tabindex="0" role="region" aria-label="SSCAP screenshots, scroll sideways for more" style="display: flex; gap: 24px; overflow-x: auto; scroll-snap-type: x mandatory; scroll-behavior: smooth; padding-bottom: 4px; outline-offset: 4px">
+<div class="see-track" ref="{{seeRef}}" tabindex="0" role="region" aria-label="SSCAP screenshots, scroll sideways for more" style="display: flex; gap: 24px; overflow-x: auto; scroll-snap-type: x mandatory; scroll-behavior: smooth; margin-inline: calc(50% - 50vw); padding: 0 calc(50vw - 50%) 4px; scroll-padding-inline: max(24px, calc(50vw - 600px)); outline-offset: -4px">
 <figure class="see-card" style="margin: 0; flex: 0 0 min(560px, 82%); scroll-snap-align: start">
 <img src="/_blob/4c0ce387e2649440b12a66a7851e609c" alt="SSCAP screenshot: development application DA.20.041 at 7800 Jane Street traced along the sewers to its outlet in Vaughan Metropolitan Centre, with its flow, population and catchment details" loading="lazy" decoding="async" width="1600" height="900" style="border-radius: 20px; background: var(--surface); border: 1px solid var(--line); overflow: hidden; aspect-ratio: 16 / 9; display: block; width: 100%; height: auto; object-fit: cover; object-position: top left">
 <figcaption style="margin: 14px 0 0; font-size: 16px; line-height: 1.55; color: var(--ink3)"><strong style="color: var(--ink); font-weight: 600">An answer for every application,</strong> in minutes.</figcaption>
