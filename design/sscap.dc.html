@@ -379,46 +379,11 @@ main>section:not(:first-of-type){padding:56px 16px!important}
 <div><p style="margin: 0 0 20px; display: inline-flex; align-items: center; gap: 8px; font-size: 12px; letter-spacing: 0; text-transform: none; font-weight: 600; color: var(--ink3)"><span style="width: 8px; height: 8px; border-radius: 50%; background: #22A699; box-shadow: 0 0 10px #22A699"></span>Sanitary Sewer Condition Assessment Platform</p>
 <h1 id="hero-h1" class="hero-h1" style="margin: 0 0 16px; font-size: 57px; line-height: 64px; letter-spacing: -0.25px; font-weight: 400; color: var(--hero-ink); text-shadow: var(--hero-shadow)">{{headline}}</h1>
 <p style="margin: 0; font-size: 17px; line-height: 1.65; color: var(--hero-ink2); text-shadow: var(--hero-shadow)">Know your collection system hydraulic capacity and asset conditions and make planning decisions with confidence.</p>
-<!-- the interactive map is not public yet: the button stays visible but disabled, with a note saying when -->
 <button type="button" class="m-explore" onClick="{{exploreMap}}" style="margin-top: 32px; min-height: 48px; padding: 0 24px; font-size: 15px; border-radius: 999px; border: 1px solid var(--line3); background: var(--soft2); color: var(--ink); font-weight: 600; cursor: pointer">Explore the map</button>
 </div>
-<div class="m-modal-form" style="padding: 32px; border-radius: 6px; border: 1px solid var(--line); background: var(--soft2)">
-<sc-if value="{{notSent}}" hint-placeholder-val="{{true}}">
-<form onSubmit="{{submit}}" novalidate="novalidate" aria-labelledby="mf-title" class="m-form-grid" style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px">
-<p id="mf-title" style="grid-column: 1 / -1; margin: 0 0 4px; font-size: 20px; line-height: 28px; font-weight: 600; color: var(--ink)">Book a 45-minute presentation and live demonstration</p>
-<div style="display: flex; flex-direction: column; gap: 6px">
-<label for="mf-first" style="font-size: 13px; font-weight: 500; color: var(--ink2)">Full name</label>
-<input id="mf-first" class="fld" name="full_name" autocomplete="name" required="required" onInput="{{setFirst}}" style="min-height: 48px; padding: 0 14px; border: 1px solid var(--field); border-radius: 4px; background: var(--surface3); font-size: 16px; color: var(--ink)">
-</div>
-<div style="display: flex; flex-direction: column; gap: 6px">
-<label for="mf-email" style="font-size: 13px; font-weight: 500; color: var(--ink2)">Work email</label>
-<input id="mf-email" class="fld" type="email" name="email" autocomplete="email" required="required" onBlur="{{checkEmail}}" aria-invalid="{{emailInvalid}}" aria-describedby="mf-email-err" style="min-height: 48px; padding: 0 14px; border: 1px solid {{emailBorder}}; border-radius: 4px; background: var(--surface3); font-size: 16px; color: var(--ink)">
-<span id="mf-email-err" role="alert" style="font-size: 12px; color: var(--err)">{{emailErr}}</span>
-</div>
-<div style="display: flex; flex-direction: column; gap: 6px">
-<label for="mf-org" style="font-size: 13px; font-weight: 500; color: var(--ink2)">Organization</label>
-<input id="mf-org" class="fld" name="organization" autocomplete="organization" required="required" style="min-height: 48px; padding: 0 14px; border: 1px solid var(--field); border-radius: 4px; background: var(--surface3); font-size: 16px; color: var(--ink)">
-</div>
-<div style="display: flex; flex-direction: column; gap: 6px">
-<label for="mf-phone" style="font-size: 13px; font-weight: 500; color: var(--ink2)">Phone <span style="font-weight: 400; color: var(--ink4)">(optional)</span></label>
-<input id="mf-phone" class="fld" type="tel" name="phone" autocomplete="tel" inputmode="tel" placeholder="+1 (555) 555-0123" style="min-height: 48px; padding: 0 14px; border: 1px solid var(--field); border-radius: 4px; background: var(--surface3); font-size: 16px; color: var(--ink)">
-</div>
-<div style="grid-column: 1 / -1; display: flex; gap: 10px; align-items: flex-start">
-<input id="mf-consent" type="checkbox" name="casl_consent" style="width: 18px; height: 18px; margin: 2px 0 0; flex-shrink: 0; accent-color: #4C8DFF">
-<label for="mf-consent" style="font-size: 13px; line-height: 1.5; color: var(--ink2)">I agree to receive emails from Smart City Water about SSCAP. I can unsubscribe at any time.</label>
-</div>
-<div style="grid-column: 1 / -1; display: flex; flex-wrap: wrap; align-items: center; gap: 12px 20px">
-<button type="submit" style="min-height: 48px; padding: 0 24px; border-radius: 999px; border: 0; background: {{accent}}; color: #FFFFFF; font-size: 15px; font-weight: 600; cursor: pointer">Request my live demo</button>
-<p style="flex: 1 1 220px; margin: 0; font-size: 12px; line-height: 18px; color: var(--ink4)">We use your information only to arrange your demo. See our <a href="#privacy">Privacy Policy</a>.</p>
-</div>
-</form>
-</sc-if>
-<sc-if value="{{sent}}" hint-placeholder-val="{{false}}">
-<div role="status" style="display: flex; align-items: center; gap: 14px">
-<span aria-hidden="true" style="width: 40px; height: 40px; flex-shrink: 0; border-radius: 50%; background: {{accent}}; display: grid; place-items: center"><svg width="20" height="20" viewBox="0 0 24 24"><path d="M5 12.5 L10 17 L19 7" fill="none" stroke="#FFFFFF" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"></path></svg></span>
-<p style="margin: 0; font-size: 15px; line-height: 1.5; color: var(--ink2)"><strong style="color: var(--ink)">Thanks, {{firstName}}.</strong> An SSCAP specialist will contact you within one business day to schedule your demo.</p>
-</div>
-</sc-if>
+<div class="m-modal-form" style="height: 600px; padding: 12px; border-radius: 20px; background: var(--surface); display: flex; flex-direction: column">
+<iframe src="https://outlook.office365.com/book/SSCAPlivedemo@smartcitywater.ca/" title="Book a live SSCAP demo (Microsoft Bookings)" loading="lazy" width="100%" height="100%" scrolling="yes" style="flex: 1; border: 0; border-radius: 12px; background: #FFFFFF"></iframe>
+<p style="margin: 10px 6px 0; font-size: 13px; line-height: 18px; color: var(--ink4)">Calendar not showing? <a href="https://outlook.office365.com/book/SSCAPlivedemo@smartcitywater.ca/" target="_blank" rel="noopener" style="font-weight: 600">Open the booking calendar in a new tab ↗</a></p>
 </div>
 </div>
 </div>
