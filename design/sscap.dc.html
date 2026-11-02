@@ -103,7 +103,10 @@ input,select,textarea,button{font:inherit}
 .theme-ph{display:grid!important;place-items:center;right:12px!important;top:12px!important;width:40px;min-height:40px!important;padding:0!important}
 .m-book{margin-left:auto}
 .m-book{padding:0 16px!important;white-space:nowrap}
-.m-explore{position:static!important;margin-top:24px!important;padding-top:0!important}.m-hero-book{display:inline-flex!important}.m-modal-grid{grid-template-columns:1fr!important;gap:28px!important}.m-modal-form{display:none!important}.m-form-grid{grid-template-columns:1fr!important}
+.m-explore{position:static!important;margin-top:24px!important;padding-top:0!important}.m-hero-book{display:inline-flex!important}
+/* phones: the map is not public yet, so drop its disabled button and keep a neutral "coming soon" note */
+.m-explore>button{display:none!important}
+#map-soon{background:var(--surface2)!important;color:var(--ink3)!important}.m-modal-grid{grid-template-columns:1fr!important;gap:28px!important}.m-modal-form{display:none!important}.m-form-grid{grid-template-columns:1fr!important}
 .m-note{left:12px!important;right:12px!important;top:12px!important;transform:none!important}
 .m-note>div{font-size:11px!important;line-height:16px!important}
 .osm-attrib{left:auto!important;right:12px!important;bottom:auto!important;top:60px}
