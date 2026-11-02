@@ -14,9 +14,25 @@
   var listeners = [];
   var SSCAP = window.SSCAP = window.SSCAP || {};
   SSCAP.onConsent = function (fn) { listeners.push(fn); if (consent === 'granted') fn(); };
-  SSCAP.track = function (event, p) { if (consent === 'granted') window.dataLayer.push(Object.assign({ event: event }, p || {})); };
-  // Hook: load GTM / analytics vendor here once consent is granted, e.g.
-  // SSCAP.onConsent(function () { var s = document.createElement('script'); s.async = true; s.src = 'https://www.googletagmanager.com/gtm.js?id=GTM-XXXX'; document.head.appendChild(s); });
+  SSCAP.track = function (event, p) {
+    if (consent !== 'granted') return;
+    window.dataLayer.push(Object.assign({ event: event }, p || {}));
+    if (window.gtag) window.gtag('event', event, p || {});
+  };
+
+  /* ---------- Google Analytics 4 (loads only after the visitor accepts analytics) ---------- */
+  // GA4 web stream Measurement ID (GA4 › Admin › Data streams). Left as the placeholder, nothing loads. [CONFIRM GA4 ID]
+  var GA_MEASUREMENT_ID = 'G-XXXXXXXXXX';
+  SSCAP.onConsent(function () {
+    if (!/^G-[A-Z0-9]+$/.test(GA_MEASUREMENT_ID) || GA_MEASUREMENT_ID === 'G-XXXXXXXXXX' || window.gtag) return;
+    window.gtag = function () { window.dataLayer.push(arguments); };
+    window.gtag('consent', 'default', { analytics_storage: 'granted', ad_storage: 'denied', ad_user_data: 'denied', ad_personalization: 'denied' });
+    window.gtag('js', new Date());
+    window.gtag('config', GA_MEASUREMENT_ID, { page_title: 'SSCAP landing page', content_group: 'SSCAP' });
+    var s = document.createElement('script'); s.async = true;
+    s.src = 'https://www.googletagmanager.com/gtag/js?id=' + encodeURIComponent(GA_MEASUREMENT_ID);
+    document.head.appendChild(s);
+  });
   function banner() { return document.getElementById('consent'); }
   function setConsent(v) {
     consent = v; store.set('sscap_consent', v); banner().hidden = true;
@@ -29,10 +45,13 @@
     document.getElementById('consent-no').addEventListener('click', function () { setConsent('denied'); });
   });
   document.addEventListener('click', function (e) {
-    var t = e.target.closest && e.target.closest('[data-consent-reopen], a[href="#demo"], a[href$=".pdf"]');
+    var t = e.target.closest && e.target.closest('[data-consent-reopen], a[href="#demo"], a[href$=".pdf"], a[href*="/book/"], .m-explore, .see-arrow');
     if (!t) return;
     if (t.hasAttribute('data-consent-reopen')) { banner().hidden = false; document.getElementById('consent-yes').focus(); }
     else if (t.getAttribute('href') === '#demo') SSCAP.track('cta_click', { location: t.textContent.trim().slice(0, 40) });
+    else if (t.classList.contains('m-explore')) SSCAP.track('explore_map');
+    else if (t.classList.contains('see-arrow')) SSCAP.track('carousel_arrow', { direction: t.classList.contains('see-next') ? 'next' : 'previous' });
+    else if (/\/book\//.test(t.getAttribute('href'))) SSCAP.track('booking_calendar_open', { location: t.closest('.m-modal') ? 'hero' : 'booking-section' });
     else SSCAP.track('file_download', { file: t.getAttribute('href') });
   });
 
