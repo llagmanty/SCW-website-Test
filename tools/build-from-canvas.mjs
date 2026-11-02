@@ -135,7 +135,7 @@ body{margin:0}
 <div id="sscap-root">${prerendered}</div>
 
 <div class="sscap-consent" id="consent" role="region" aria-label="Cookie consent" hidden>
-  <p>We'd like to use analytics cookies to understand how this page is used. Nothing is set until you agree. <a href="/privacy-policy/">Privacy Policy</a></p>
+  <p>We'd like to use analytics cookies, heatmaps and session recordings (Google Analytics, Microsoft Clarity) to understand how this page is used. Nothing is set until you agree. <a href="/privacy-policy/">Privacy Policy</a></p>
   <button type="button" class="ghost" id="consent-no">Decline</button>
   <button type="button" class="primary" id="consent-yes">Accept analytics</button>
 </div>

@@ -18,6 +18,7 @@
     if (consent !== 'granted') return;
     window.dataLayer.push(Object.assign({ event: event }, p || {}));
     if (window.gtag) window.gtag('event', event, p || {});
+    if (window.clarity) window.clarity('event', event);
   };
 
   /* ---------- Google Analytics 4 (loads only after the visitor accepts analytics) ---------- */
@@ -31,6 +32,19 @@
     window.gtag('config', GA_MEASUREMENT_ID, { page_title: 'SSCAP landing page', content_group: 'SSCAP' });
     var s = document.createElement('script'); s.async = true;
     s.src = 'https://www.googletagmanager.com/gtag/js?id=' + encodeURIComponent(GA_MEASUREMENT_ID);
+    document.head.appendChild(s);
+  });
+
+  /* ---------- Microsoft Clarity heatmaps + session recordings (also only after consent) ---------- */
+  // Clarity project ID (clarity.microsoft.com › Settings › Overview). Set it to '' to turn Clarity off.
+  var CLARITY_PROJECT_ID = 'z7ijqjvm9b';
+  SSCAP.onConsent(function () {
+    if (!/^[a-z0-9]+$/.test(CLARITY_PROJECT_ID) || window.clarity) return;
+    window.clarity = function () { (window.clarity.q = window.clarity.q || []).push(arguments); };
+    window.clarity('consent');
+    window.clarity('set', 'page', 'sscap-landing');
+    var s = document.createElement('script'); s.async = true;
+    s.src = 'https://www.clarity.ms/tag/' + CLARITY_PROJECT_ID;
     document.head.appendChild(s);
   });
   function banner() { return document.getElementById('consent'); }
