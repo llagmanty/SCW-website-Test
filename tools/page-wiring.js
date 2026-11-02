@@ -69,6 +69,32 @@
     else SSCAP.track('file_download', { file: t.getAttribute('href') });
   });
 
+  /* ---------- scroll depth and section views (each sent once per page view, after consent) ---------- */
+  // sections are looked up on every check because the canvas renderer can replace their nodes
+  var SECTIONS = [['problem-h2', 'problem'], ['see-h2', 'see_it'], ['how-h2', 'how_it_works'], ['book-h2', 'booking'], ['faq-h2', 'faq'], ['cta-h2', 'final_cta']];
+  var DEPTHS = [25, 50, 75, 90, 100];
+  var seen = {}, reached = {}, queued = false, pending = [];
+  // views before the visitor answers the banner are held in memory and sent only if they accept
+  function send(ev, p) { if (consent === 'granted') SSCAP.track(ev, p); else if (consent !== 'denied') pending.push([ev, p]); }
+  function checkScroll() {
+    queued = false;
+    if (consent === 'denied') return;
+    var vh = window.innerHeight, docH = document.documentElement.scrollHeight;
+    var pct = docH > vh ? Math.round((window.scrollY + vh) / docH * 100) : 100;
+    DEPTHS.forEach(function (d) { if (pct >= d && !reached[d]) { reached[d] = true; send('scroll_depth', { percent: d }); } });
+    // a section counts as viewed once 40% of the viewport (or half the section, if shorter) shows it
+    SECTIONS.forEach(function (s, i) {
+      if (seen[s[1]]) return;
+      var el = document.querySelector('section[aria-labelledby="' + s[0] + '"]'); if (!el) return;
+      var r = el.getBoundingClientRect(), visible = Math.min(r.bottom, vh) - Math.max(r.top, 0);
+      if (visible >= Math.min(vh * 0.4, r.height * 0.5)) { seen[s[1]] = true; send('section_view', { section: s[1], section_index: i + 1 }); }
+    });
+  }
+  function queueScroll() { if (!queued) { queued = true; requestAnimationFrame(checkScroll); } }
+  window.addEventListener('scroll', queueScroll, { passive: true });
+  window.addEventListener('resize', queueScroll);
+  SSCAP.onConsent(function () { pending.splice(0).forEach(function (e) { SSCAP.track(e[0], e[1]); }); queueScroll(); });
+
   /* ---------- attribution kept with the lead ---------- */
   var attribution = {};
   ['utm_source', 'utm_medium', 'utm_campaign', 'utm_term', 'utm_content'].forEach(function (k) {
