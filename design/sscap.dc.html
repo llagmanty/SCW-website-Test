@@ -490,8 +490,15 @@ main>section:not(:first-of-type){padding:56px 16px!important}
 <figcaption style="margin: 14px 0 0; font-size: 16px; line-height: 1.55; color: var(--ink3)"><strong style="color: var(--ink); font-weight: 600">One overall performance score for every asset,</strong> considering both asset condition and hydraulic capacity.</figcaption>
 </figure>
 </div>
-<div aria-hidden="true" style="position: relative; height: 2px; margin-top: 32px; max-width: 760px; border-radius: 2px; background: var(--aside); overflow: hidden">
+<!-- progress bar with previous / next arrows -->
+<div style="display: flex; align-items: center; gap: 24px; margin-top: 32px">
+<div aria-hidden="true" style="position: relative; height: 2px; flex: 1 1 auto; max-width: 760px; border-radius: 2px; background: var(--aside); overflow: hidden">
 <span class="see-thumb" style="position: absolute; left: 0; top: 0; bottom: 0; width: 50%; border-radius: 2px; background: var(--link); transition: left 120ms linear"></span>
+</div>
+<div style="margin-left: auto; display: flex; gap: 12px">
+<button type="button" class="see-arrow see-prev" aria-label="Previous screenshot" style="width: 48px; height: 48px; border-radius: 50%; border: 1px solid var(--line2); background: var(--surface3); color: var(--ink); cursor: pointer; display: grid; place-items: center; transition: opacity 150ms"><svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5 L8 12 L15 19" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg></button>
+<button type="button" class="see-arrow see-next" aria-label="Next screenshot" style="width: 48px; height: 48px; border-radius: 50%; border: 1px solid var(--line2); background: var(--surface3); color: var(--ink); cursor: pointer; display: grid; place-items: center; transition: opacity 150ms"><svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5 L16 12 L9 19" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg></button>
+</div>
 </div>
 </div>
 </section>
@@ -1286,8 +1293,13 @@ class Component extends DCLogic {
       // carousel progress bar: sized to the visible share and moved on scroll, straight on the DOM so scrolling never re-renders the page
       seeRef: this._seeRef || (this._seeRef = function (el) {
         if (!el || el._wired) return; el._wired = true;
-        var thumb = el.parentNode.querySelector('.see-thumb');
-        var sync = function () { var max = el.scrollWidth - el.clientWidth, share = el.clientWidth / el.scrollWidth; if (!thumb) return; thumb.style.width = (share * 100).toFixed(1) + '%'; thumb.style.left = (max > 0 ? el.scrollLeft / max * (1 - share) * 100 : 0).toFixed(1) + '%'; };
+        var thumb = el.parentNode.querySelector('.see-thumb'), prev = el.parentNode.querySelector('.see-prev'), next = el.parentNode.querySelector('.see-next');
+        // arrows move one card at a time and dim at either end
+        var step = function (dir) { var card = el.querySelector('.see-card'); el.scrollBy({ left: dir * (card ? card.offsetWidth + 24 : el.clientWidth * 0.8), behavior: 'smooth' }); };
+        var edge = function (b, off) { if (!b) return; b.disabled = off; b.style.opacity = off ? '0.35' : '1'; b.style.cursor = off ? 'default' : 'pointer'; };
+        if (prev) prev.addEventListener('click', function () { step(-1); });
+        if (next) next.addEventListener('click', function () { step(1); });
+        var sync = function () { var max = el.scrollWidth - el.clientWidth, share = el.clientWidth / el.scrollWidth; edge(prev, el.scrollLeft <= 2); edge(next, el.scrollLeft >= max - 2); if (!thumb) return; thumb.style.width = (share * 100).toFixed(1) + '%'; thumb.style.left = (max > 0 ? el.scrollLeft / max * (1 - share) * 100 : 0).toFixed(1) + '%'; };
         el.addEventListener('scroll', sync, { passive: true }); window.addEventListener('resize', sync); setTimeout(sync, 0);
       }),
       innerRef: this._innerRef || (this._innerRef = function (el) { self._inner = el; if (el) { el.style.transition = ''; } }),
