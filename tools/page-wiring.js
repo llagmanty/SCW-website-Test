@@ -21,8 +21,8 @@
   };
 
   /* ---------- Google Analytics 4 (loads only after the visitor accepts analytics) ---------- */
-  // GA4 web stream Measurement ID (GA4 › Admin › Data streams). Left as the placeholder, nothing loads. [CONFIRM GA4 ID]
-  var GA_MEASUREMENT_ID = 'G-XXXXXXXXXX';
+  // GA4 web stream Measurement ID (GA4 › Admin › Data streams). Set it back to G-XXXXXXXXXX to turn GA4 off.
+  var GA_MEASUREMENT_ID = 'G-29SGQNFMTN';
   SSCAP.onConsent(function () {
     if (!/^G-[A-Z0-9]+$/.test(GA_MEASUREMENT_ID) || GA_MEASUREMENT_ID === 'G-XXXXXXXXXX' || window.gtag) return;
     window.gtag = function () { window.dataLayer.push(arguments); };

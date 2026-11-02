@@ -43,7 +43,7 @@ node tools/build-from-canvas.mjs --no-prerender  # build only
 ## Wiring
 
 - **Leads:** `SSCAP.submitLead(payload)` posts to `LEAD_ENDPOINT` (`/api/sscap-lead`, a placeholder). A comment beside it shows the HubSpot Forms API mapping. [CONFIRM CRM]
-- **Analytics:** Google Analytics 4 loads only after the visitor accepts the cookie banner. Set `GA_MEASUREMENT_ID` in `tools/page-wiring.js` (GA4 › Admin › Data streams) and rebuild; left as `G-XXXXXXXXXX`, nothing loads. [CONFIRM GA4 ID] Events, sent to GA4 and `window.dataLayer`: `cta_click`, `explore_map`, `booking_calendar_open`, `carousel_arrow`, `file_download`.
+- **Analytics:** Google Analytics 4 loads only after the visitor accepts the cookie banner. Measurement ID `G-29SGQNFMTN` is set as `GA_MEASUREMENT_ID` in `tools/page-wiring.js` (GA4 › Admin › Data streams); change it there and rebuild. Events, sent to GA4 and `window.dataLayer`: `cta_click`, `explore_map`, `booking_calendar_open`, `carousel_arrow`, `file_download`.
 - **Theme:** light by default; the choice is saved in `localStorage` (`sscap_theme`).
 - **A/B headline:** add `?h=A|B|C` to the URL.
 
