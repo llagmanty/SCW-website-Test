@@ -111,13 +111,13 @@ input,select,textarea,button{font:inherit}
 .m-legcol>*{align-self:flex-start!important;max-width:100%}
 .m-modal{position:absolute!important;inset:0 0 auto 0!important;height:max(80svh,520px)!important;z-index:20!important;place-items:center!important;overflow-y:auto;padding:12px!important}
 main>section:not(:first-of-type){padding:56px 16px!important}
-#demo-h2{font-size:36px!important}
+#book-h2{font-size:36px!important}
 }
 </style>
 </helmet>
 <div class="{{themeClass}}" style="min-width: 0; background: var(--bg); color: var(--ink)">
 
-<a href="#demo" class="sr-only">Skip to demo request form</a>
+<a href="#demo" class="sr-only">Skip to demo booking</a>
 
 <header style="position: sticky; top: 0; z-index: 50; background: var(--header); border-bottom: 1px solid var(--line)">
 <nav class="m-nav" aria-label="Primary" style="max-width: 1440px; margin: 0 auto; padding: 12px 24px; display: flex; align-items: center; gap: 24px; flex-wrap: wrap">
@@ -520,68 +520,8 @@ main>section:not(:first-of-type){padding:56px 16px!important}
 </div>
 </section>
 <!-- ===== LIVE DEMO REQUEST FORM (before the presentation details) ===== -->
-<section id="demo" aria-labelledby="demo-h2" style="padding: 88px 24px; background: var(--bg); border-top: 1px solid var(--soft2)">
-<div style="max-width: 1200px; margin: 0 auto">
-<div style="display: flex; flex-wrap: wrap; gap: 40px 48px; align-items: flex-start">
-<!-- intro column on the left, the form on the right; stacks on narrow screens -->
-<div class="m-demo-intro" style="flex: 5 1 360px; min-width: 0; display: flex; flex-direction: column; gap: 20px; padding-top: 8px">
-<h2 id="demo-h2" style="margin: 0; font-size: 40px; line-height: 1.15; letter-spacing: -0.015em">Book a 45-minute presentation and live demonstration.</h2>
-<p style="margin: 0; font-size: 18px; line-height: 1.45; font-weight: 600; color: var(--ink)">Proven implementation in major Ontario municipalities.</p>
-<p style="margin: 0; font-size: 17px; line-height: 1.6; color: var(--ink3)">Built for growing municipalities. Built for municipalities that require answers about their sewer system.</p>
-<p style="margin: 0; padding-top: 16px; border-top: 1px solid var(--line); font-size: 13px; line-height: 1.5; color: var(--ink4)">Smart City Water · Proudly Made and Operated in Ontario · Creators of Visual OTTHYMO and DataCurrent</p>
-</div>
-
-
-<div style="flex: 7 1 520px; min-width: 0; background: var(--surface); border: 0; border-radius: 28px; padding: 32px; display: flex; flex-direction: column">
-<sc-if value="{{sent}}" hint-placeholder-val="{{false}}">
-<div role="status" style="padding: 24px 0">
-<span style="width: 56px; height: 56px; border-radius: 50%; display: grid; place-items: center; background: {{accent}}; box-shadow: none"><svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5 L10 17 L19 7" fill="none" stroke="#FFFFFF" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"></path></svg></span>
-<h3 style="margin: 20px 0 8px; font-size: 28px">Thanks, {{firstName}}.</h3>
-<p style="margin: 0 0 16px; font-size: 16px; line-height: 1.55; color: var(--ink2)">An SSCAP specialist will contact you within one business day to schedule your demo. <span style="font-size: 12px; border: 1px dashed var(--flag); color: var(--flag); padding: 1px 6px; border-radius: 4px">CONFIRM SLA</span></p>
-<a href="#demo" style="font-weight: 600">Pick a time on our calendar now →</a> <span style="font-size: 12px; border: 1px dashed var(--flag); color: var(--flag); padding: 1px 6px; border-radius: 4px">CONFIRM calendar link</span>
-</div>
-</sc-if>
-<sc-if value="{{notSent}}" hint-placeholder-val="{{true}}">
-<form onSubmit="{{submit}}" novalidate="novalidate" aria-describedby="privacy-line" style="flex: 1; display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 24px 20px">
-<div style="display: flex; flex-direction: column; gap: 6px">
-<label for="f-first" style="font-size: 14px; font-weight: 500; color: var(--ink2)">Full name</label>
-<input id="f-first" class="fld" name="full_name" autocomplete="name" required="required" onInput="{{setFirst}}" style="min-height: 56px; padding: 0 16px; border: 1px solid var(--field); border-radius: 4px; background: var(--surface3); font-size: 16px; color: var(--ink)">
-</div>
-<div style="display: flex; flex-direction: column; gap: 6px">
-<label for="f-email" style="font-size: 14px; font-weight: 500; color: var(--ink2)">Work email</label>
-<input id="f-email" class="fld" type="email" name="email" autocomplete="email" required="required" onBlur="{{checkEmail}}" aria-invalid="{{emailInvalid}}" aria-describedby="f-email-err" style="min-height: 56px; padding: 0 16px; border: 1px solid {{emailBorder}}; border-radius: 4px; background: var(--surface3); font-size: 16px; color: var(--ink)">
-<span id="f-email-err" role="alert" style="font-size: 13px; color: var(--err)">{{emailErr}}</span>
-</div>
-<div style="display: flex; flex-direction: column; gap: 6px">
-<label for="f-org" style="font-size: 14px; font-weight: 500; color: var(--ink2)">Organization</label>
-<input id="f-org" class="fld" name="organization" autocomplete="organization" required="required" style="min-height: 56px; padding: 0 16px; border: 1px solid var(--field); border-radius: 4px; background: var(--surface3); font-size: 16px; color: var(--ink)">
-</div>
-<div style="display: flex; flex-direction: column; gap: 6px">
-<label for="f-phone" style="font-size: 14px; font-weight: 500; color: var(--ink2)">Phone <span style="font-weight: 400; color: var(--ink4)">(optional)</span></label>
-<input id="f-phone" class="fld" type="tel" name="phone" autocomplete="tel" inputmode="tel" placeholder="+1 (555) 555-0123" style="min-height: 56px; padding: 0 16px; border: 1px solid var(--field); border-radius: 4px; background: var(--surface3); font-size: 16px; color: var(--ink)">
-</div>
-<div aria-hidden="true" style="position: absolute; left: -9999px"><label for="f-hp">Leave this field empty</label><input id="f-hp" name="company_website" tabindex="-1" autocomplete="off"></div>
-<input type="hidden" name="sscap_last_layer" value="{{layerName}}">
-<input type="hidden" name="sscap_last_scenario" value="{{stepName}}">
-<div style="grid-column: 1 / -1; display: flex; gap: 12px; align-items: flex-start">
-<input id="f-consent" type="checkbox" name="casl_consent" style="width: 20px; height: 20px; margin: 2px 0 0; flex-shrink: 0; accent-color: #4C8DFF">
-<label for="f-consent" style="font-size: 14px; line-height: 1.5; color: var(--ink2)">I agree to receive emails from Smart City Water about SSCAP. I can unsubscribe at any time.</label>
-</div>
-<div style="grid-column: 1 / -1; align-self: end; display: flex; flex-wrap: wrap; align-items: center; gap: 16px 24px; padding-top: 8px; border-top: 1px solid var(--line2)">
-<button type="submit" style="min-height: 52px; padding: 0 28px; border-radius: 999px; border: 0; background: {{accent}}; color: #FFFFFF; font-size: 16px; font-weight: 500; cursor: pointer; box-shadow: none; margin-top: 16px">Request my live demo</button>
-<p id="privacy-line" style="flex: 1 1 260px; margin: 16px 0 0; font-size: 14px; line-height: 20px; color: var(--ink4)">We use your information only to arrange your demo. See our <a href="#privacy">Privacy Policy</a>.</p>
-</div>
-</form>
-</sc-if>
-</div>
-
-
-</div>
-</div>
-</section>
-
 <!-- book a live demo: Microsoft Bookings calendar in place of the form -->
-<section id="book-live" aria-labelledby="book-h2" style="padding: 88px 24px; background: var(--bg2); border-top: 1px solid var(--soft2)">
+<section id="demo" aria-labelledby="book-h2" style="padding: 88px 24px; background: var(--bg); border-top: 1px solid var(--soft2)">
 <div style="max-width: 1200px; margin: 0 auto">
 <div style="display: flex; flex-wrap: wrap; gap: 40px 48px; align-items: stretch">
 <div class="m-demo-intro" style="flex: 5 1 360px; min-width: 0; display: flex; flex-direction: column; gap: 20px; padding-top: 8px">
@@ -632,7 +572,7 @@ main>section:not(:first-of-type){padding:56px 16px!important}
 </section>
 
 <!-- ===== 10 · FAQ ===== -->
-<section id="faq" aria-labelledby="faq-h2" style="padding: 88px 24px; background: var(--bg); border-top: 1px solid var(--line)">
+<section id="faq" aria-labelledby="faq-h2" style="padding: 88px 24px; background: var(--bg2); border-top: 1px solid var(--line)">
 <div style="max-width: 880px; margin: 0 auto">
 <p style="margin: 0 0 8px; font-size: 12px; letter-spacing: 0; text-transform: none; font-weight: 600; color: var(--ink4)">FAQ</p>
 <h2 id="faq-h2" style="margin: 0 0 32px; font-size: 40px; line-height: 1.1; letter-spacing: -0.015em">Questions engineers ask before a demo</h2>
@@ -648,7 +588,7 @@ main>section:not(:first-of-type){padding:56px 16px!important}
 </section>
 
 <!-- ===== 11 · FINAL CTA ===== -->
-<section aria-labelledby="cta-h2" style="padding: 24px 24px 88px; background: var(--bg)">
+<section aria-labelledby="cta-h2" style="padding: 24px 24px 88px; background: var(--bg2)">
 <div style="max-width: 1200px; margin: 0 auto; border-radius: 40px; padding: 56px 48px; display: flex; flex-wrap: wrap; gap: 32px; align-items: center; background: radial-gradient(ellipse at 85% 15%, rgba(233,185,64,0.30), rgba(0,0,0,0) 50%), radial-gradient(ellipse at 55% 110%, rgba(1,254,255,0.22), rgba(0,0,0,0) 50%), radial-gradient(ellipse at 8% 90%, rgba(58,132,252,0.38), rgba(0,0,0,0) 55%), var(--surface); border: 1px solid var(--line2)">
 <h2 id="cta-h2" style="flex: 1 1 520px; margin: 0; font-size: 40px; line-height: 1.15; letter-spacing: -0.015em">Your next development application is already in the queue. See its impact today.</h2>
 <a href="#demo" onClick="{{bookDemo}}" style="min-height: 52px; display: inline-flex; align-items: center; padding: 0 28px; border-radius: 999px; background: {{accent}}; color: #FFFFFF; font-weight: 600; font-size: 16px; text-decoration: none; box-shadow: none">Book a live demo</a>
