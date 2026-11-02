@@ -140,8 +140,10 @@ body{margin:0}
   <button type="button" class="primary" id="consent-yes">Accept analytics</button>
 </div>
 
+<!-- the canvas as a JSON data block: the browser skips it while parsing, and JSON.parse reads it faster than a JS literal -->
+<script type="application/json" id="sscap-canvas">${safeJson({ template, script, props })}</script>
 <script>
-window.SSCAP_CANVAS = ${safeJson({ template, script, props })};
+window.SSCAP_CANVAS = JSON.parse(document.getElementById('sscap-canvas').textContent);
 (function () { var h = (new URLSearchParams(location.search).get('h') || '').toUpperCase(); if (/^[ABC]$/.test(h)) SSCAP_CANVAS.props.headlineVariant = h; })();
 </script>
 <script>/* Preact 10.24.3 · MIT · https://preactjs.com */

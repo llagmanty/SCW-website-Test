@@ -16,6 +16,7 @@ node tools/build-from-canvas.mjs --no-prerender  # build only
 | `tools/build-from-canvas.mjs` | Builds `index.html`: adds the SEO head (JSON-LD FAQ read from the canvas), maps canvas assets to local files, and prerenders the first view. |
 | `tools/canvas-runtime.js` | Compiles the canvas template (`{{holes}}`, `<sc-for>`, `<sc-if>`) into a Preact view and re-renders on `setState`. |
 | `tools/page-wiring.js` | Production-only: cookie consent, `dataLayer` analytics, lead submission. |
+| `tools/sscap.htaccess` | Apache settings shipped as `sscap/.htaccess` in the upload package: gzip for text, 30-day caching for images, no caching of the page itself. |
 | `tools/vendor/` | Preact 10.24.3 (MIT), inlined into the page. |
 | `vaughan-city-light.webp`, `vaughan-city-dark.webp` | The City of Vaughan rendered from OpenStreetMap, under the detailed Vaughan Metropolitan Centre map. Only the image for the current theme downloads. |
 | `og-image.png` | 1200×630 share image of the map. |

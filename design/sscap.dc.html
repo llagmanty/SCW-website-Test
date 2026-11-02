@@ -10,6 +10,7 @@
 <x-dc>
 <helmet>
 <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto+Flex:opsz,wght@8..144,300..800&amp;family=Roboto+Mono:wght@400;500;600&amp;display=swap">
 <style>
 body{margin:0;background:#F0EEE9;color:#0F1B2A;font-family:'Roboto Flex',system-ui,sans-serif;-webkit-font-smoothing:antialiased}
@@ -42,6 +43,8 @@ a{color:var(--link)}a:hover{color:var(--link-hover)}
 @keyframes flow{to{background-position:32px 0}}
 /* no mix-blend-mode here: blending isolates the parent and flattens the whole preserve-3d city */
 .glow{animation:glow 2.4s ease-in-out infinite alternate}
+/* behind the blurred intro the glow is not readable: pausing it saves re-blurring the map every frame */
+.intro-on .glow{animation-play-state:paused}
 @keyframes glow{from{opacity:0.75}to{opacity:1}}
 .rowin{animation:rowin 0.5s ease-out both}
 @keyframes rowin{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:none}}
