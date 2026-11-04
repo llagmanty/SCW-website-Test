@@ -138,8 +138,6 @@
       e.preventDefault();
       var form = e.currentTarget || e.target;
       var email = form.querySelector('input[type="email"]');
-      // the hero form always opens the booking calendar; its fields only add a lead when they are complete
-      if (form.closest('.m-modal') && (!form.checkValidity() || (email && email.getAttribute('aria-invalid') === 'true'))) { SSCAP.track('booking_calendar_shown', { with_lead: false }); done(e); return; }
       if (email && email.getAttribute('aria-invalid') === 'true') { email.focus(); return; }
       if (!form.checkValidity()) {
         var bad = form.querySelector(':invalid'); if (bad) bad.focus();
@@ -148,7 +146,7 @@
       // a filled honeypot or a submit within 3 s of load is treated as a bot: show thanks, send nothing
       var trap = form.querySelector('[name="company_website"]');
       if ((trap && trap.value) || Date.now() - shownAt < 3000) { done(e); return; }
-      var payload = Object.assign({ form: form.closest('.m-modal') ? 'hero-modal' : 'demo-section' }, attribution);
+      var payload = Object.assign({ form: form.closest('.m-modal') ? 'contact-us' : 'demo-section' }, attribution);
       new FormData(form).forEach(function (v, k) { if (k !== 'company_website') payload[k] = v; });
       payload.casl_consent = payload.casl_consent ? 'yes' : 'no';
       var btn = form.querySelector('[type="submit"]'); if (btn) btn.disabled = true;
@@ -157,9 +155,8 @@
         SSCAP.track('generate_lead', { form: payload.form });
         done(e);
       }).catch(function () {
+        failNote(form, true);
         SSCAP.track('lead_submit_error');
-        // the hero form leads to the booking calendar: a failed lead post must not stand in the visitor's way
-        if (payload.form === 'hero-modal') done(e); else failNote(form, true);
       }).then(function () { if (btn) btn.disabled = false; });
     };
     vals.submit._wired = true;
