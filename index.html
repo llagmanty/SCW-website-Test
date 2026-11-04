@@ -1157,17 +1157,29 @@ window.SSCAP_CANVAS = JSON.parse(document.getElementById('sscap-canvas').textCon
   var shownAt = Date.now();
 
   /**
-   * submitLead(payload) — the single integration point. [CONFIRM CRM]
-   * HubSpot Forms API: POST https://api.hsforms.com/submissions/v3/integration/submit/{portalId}/{formGuid}
-   *   body { fields: Object.entries(payload).map(([name, value]) => ({ name, value: String(value) })),
-   *          context: { pageUri: payload.landing_page, pageName: document.title },
-   *          legalConsentOptions: { consent: { consentToProcess: true, text: 'We use your information only to arrange your demo.',
-   *            communications: [{ value: payload.casl_consent === 'yes', subscriptionTypeId: 0, text: 'I agree to receive emails from Smart City Water about SSCAP.' }] } } }
-   * WordPress: POST to admin-ajax.php / a REST route with the same JSON.
+   * submitLead(payload) — the single integration point.
+   * Sends to a HubSpot form (free CRM: each message becomes a contact, with email notifications set in the form).
+   * The HubSpot form must have exactly these fields, and reCAPTCHA off (the API refuses others):
+   *   firstname, lastname, email, company, phone, message
+   * Until HUBSPOT_FORM_GUID is set, posts to LEAD_ENDPOINT instead (a placeholder that fails).
    */
+  var HUBSPOT_PORTAL_ID = '44268255';
+  var HUBSPOT_FORM_GUID = ''; // [CONFIRM] GUID of the "SSCAP landing page – Contact us" form in HubSpot
   var LEAD_ENDPOINT = '/api/sscap-lead'; // placeholder
+  function hubspotBody(p) {
+    var parts = String(p.full_name || '').trim().split(/\s+/);
+    var msg = String(p.message || '') + '\n\n— Email updates consent: ' + (p.casl_consent === 'yes' ? 'yes' : 'no') +
+      (p.utm_source ? ' · UTM: ' + [p.utm_source, p.utm_medium, p.utm_campaign].filter(Boolean).join(' / ') : '');
+    var fields = [['firstname', parts.shift() || ''], ['lastname', parts.join(' ')], ['email', p.email], ['company', p.organization], ['phone', p.phone], ['message', msg]]
+      .filter(function (f) { return f[1]; }).map(function (f) { return { name: f[0], value: String(f[1]) }; });
+    var hutk = (document.cookie.match(/(?:^|;\s*)hubspotutk=([^;]+)/) || [])[1];
+    var context = { pageUri: p.landing_page, pageName: document.title }; if (hutk) context.hutk = hutk;
+    return { fields: fields, context: context };
+  }
   SSCAP.submitLead = function (payload) {
-    return fetch(LEAD_ENDPOINT, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload), credentials: 'same-origin' })
+    var hs = !!HUBSPOT_FORM_GUID;
+    var url = hs ? 'https://api.hsforms.com/submissions/v3/integration/submit/' + HUBSPOT_PORTAL_ID + '/' + HUBSPOT_FORM_GUID : LEAD_ENDPOINT;
+    return fetch(url, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(hs ? hubspotBody(payload) : payload), credentials: hs ? 'omit' : 'same-origin' })
       .then(function (res) { if (!res.ok) throw new Error('HTTP ' + res.status); return res; });
   };
 

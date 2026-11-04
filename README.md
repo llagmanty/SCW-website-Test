@@ -43,7 +43,7 @@ node tools/build-from-canvas.mjs --no-prerender  # build only
 
 ## Wiring
 
-- **Leads:** `SSCAP.submitLead(payload)` posts to `LEAD_ENDPOINT` (`/api/sscap-lead`, a placeholder). A comment beside it shows the HubSpot Forms API mapping. [CONFIRM CRM]
+- **Contact form:** `SSCAP.submitLead(payload)` posts to the HubSpot Forms API (portal `44268255`) once `HUBSPOT_FORM_GUID` in `tools/page-wiring.js` is set; the HubSpot form needs the fields `firstname`, `lastname`, `email`, `company`, `phone`, `message` and reCAPTCHA off. Until then it posts to the placeholder `/api/sscap-lead`, which fails. [CONFIRM GUID]
 - **Analytics:** Google Analytics 4 loads only after the visitor accepts the cookie banner. Measurement ID `G-29SGQNFMTN` is set as `GA_MEASUREMENT_ID` in `tools/page-wiring.js` (GA4 › Admin › Data streams); change it there and rebuild. Events, sent to GA4, Clarity and `window.dataLayer`: `cta_click`, `explore_map`, `booking_calendar_open`, `carousel_arrow`, `file_download`, `scroll_depth` (`percent`: 25/50/75/90/100) and `section_view` (`section`: problem, see_it, how_it_works, booking, faq, final_cta; `section_index` 1–6), each once per page view. Views before the visitor answers the banner are held in memory and sent only if they accept.
 - **Heatmaps:** Microsoft Clarity (project `z7ijqjvm9b`, `CLARITY_PROJECT_ID` in `tools/page-wiring.js`) records heatmaps and sessions, also only after consent. The Bookings iframes are not recorded.
 - **Theme:** light by default; the choice is saved in `localStorage` (`sscap_theme`).
