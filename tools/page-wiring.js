@@ -138,6 +138,8 @@
       e.preventDefault();
       var form = e.currentTarget || e.target;
       var email = form.querySelector('input[type="email"]');
+      // the hero form always opens the booking calendar; its fields only add a lead when they are complete
+      if (form.closest('.m-modal') && (!form.checkValidity() || (email && email.getAttribute('aria-invalid') === 'true'))) { SSCAP.track('booking_calendar_shown', { with_lead: false }); done(e); return; }
       if (email && email.getAttribute('aria-invalid') === 'true') { email.focus(); return; }
       if (!form.checkValidity()) {
         var bad = form.querySelector(':invalid'); if (bad) bad.focus();

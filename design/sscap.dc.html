@@ -431,7 +431,7 @@ main>section:not(:first-of-type){padding:56px 16px!important}
 <sc-if value="{{sent}}" hint-placeholder-val="{{false}}">
 <!-- after "Book a live demo": the form gives way to the Microsoft Bookings calendar (loaded only now) -->
 <div role="status" style="flex: 1; display: flex; flex-direction: column; gap: 12px; min-height: 520px">
-<p style="margin: 0; font-size: 15px; line-height: 1.5; color: var(--ink2)"><strong style="color: var(--ink)">Thanks, {{firstName}}.</strong> Pick a time for your live demo.</p>
+<p style="margin: 0; font-size: 15px; line-height: 1.5; color: var(--ink2)"><strong style="color: var(--ink)">Pick a time for your live demo.</strong></p>
 <div style="flex: 1; position: relative; overflow: hidden; border: 1px solid var(--line2); border-radius: 12px; background: #FFFFFF">
 <iframe src="https://outlook.office365.com/book/SSCAPlivedemo@smartcitywater.ca/" title="Book a live SSCAP demo (Microsoft Bookings)" width="100%" height="100%" scrolling="yes" style="position: absolute; top: -24px; left: -20px; width: calc(100% + 56px); height: calc(100% + 24px); border: 0; background: #FFFFFF"></iframe>
 </div>
@@ -1334,7 +1334,7 @@ class Component extends DCLogic {
         else if (FREE.indexOf(dom.toLowerCase()) >= 0) err = 'Please use your work email (for example name@yourtown.ca) so we can prepare a demo for your organization.';
         self.setState({ emailErr: err });
       },
-      submit: function (e) { e.preventDefault(); if (!S.emailErr) self.setState({ sent: true }); },
+      submit: function (e) { e.preventDefault(); self.setState({ sent: true }); },
       chips: chips, seeItems: SEE, howSteps: HOW,
       integrations: INTEGRATIONS.map(function (t) { var flag = t.indexOf('CONFIRM') >= 0; return { t: t, css: flag ? 'border: 1px dashed var(--flag); color: var(--flag);' : 'border: 1px solid var(--line2); color: var(--ink);' }; }),
       mini1: mini1, setMini1: function (e) { self.setState({ mini: +e.target.value }); },
