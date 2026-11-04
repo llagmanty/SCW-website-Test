@@ -1164,7 +1164,7 @@ window.SSCAP_CANVAS = JSON.parse(document.getElementById('sscap-canvas').textCon
    * Until HUBSPOT_FORM_GUID is set, posts to LEAD_ENDPOINT instead (a placeholder that fails).
    */
   var HUBSPOT_PORTAL_ID = '44268255';
-  var HUBSPOT_FORM_GUID = ''; // [CONFIRM] GUID of the "SSCAP landing page – Contact us" form in HubSpot
+  var HUBSPOT_FORM_GUID = '231234a5-220b-4a44-b0c6-9d873f09bef1'; // HubSpot form "SSCAP landing page – Contact us"
   var LEAD_ENDPOINT = '/api/sscap-lead'; // placeholder
   function hubspotBody(p) {
     var parts = String(p.full_name || '').trim().split(/\s+/);
@@ -1180,7 +1180,11 @@ window.SSCAP_CANVAS = JSON.parse(document.getElementById('sscap-canvas').textCon
     var hs = !!HUBSPOT_FORM_GUID;
     var url = hs ? 'https://api.hsforms.com/submissions/v3/integration/submit/' + HUBSPOT_PORTAL_ID + '/' + HUBSPOT_FORM_GUID : LEAD_ENDPOINT;
     return fetch(url, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(hs ? hubspotBody(payload) : payload), credentials: hs ? 'omit' : 'same-origin' })
-      .then(function (res) { if (!res.ok) throw new Error('HTTP ' + res.status); return res; });
+      .then(function (res) {
+        if (res.ok) return res;
+        // HubSpot explains a rejection (e.g. a field missing from the form) in the body: log it for whoever debugs
+        return res.text().then(function (t) { if (window.console) console.warn('Contact form rejected', res.status, t); throw new Error('HTTP ' + res.status); });
+      });
   };
 
   function failNote(form, show) {
