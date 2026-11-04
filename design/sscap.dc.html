@@ -423,15 +423,19 @@ main>section:not(:first-of-type){padding:56px 16px!important}
 <label for="mf-consent" style="font-size: 13px; line-height: 1.5; color: var(--ink2)">I agree to receive emails from Smart City Water about SSCAP. I can unsubscribe at any time.</label>
 </div>
 <div style="grid-column: 1 / -1; display: flex; flex-wrap: wrap; align-items: center; gap: 12px 20px">
-<button type="submit" style="min-height: 48px; padding: 0 24px; border-radius: 999px; border: 0; background: {{accent}}; color: #FFFFFF; font-size: 15px; font-weight: 600; cursor: pointer">Request my live demo</button>
+<button type="submit" style="min-height: 48px; padding: 0 24px; border-radius: 999px; border: 0; background: {{accent}}; color: #FFFFFF; font-size: 15px; font-weight: 600; cursor: pointer">Book a live demo</button>
 <p style="flex: 1 1 220px; margin: 0; font-size: 12px; line-height: 18px; color: var(--ink4)">We use your information only to arrange your demo. See our <a href="#privacy">Privacy Policy</a>.</p>
 </div>
 </form>
 </sc-if>
 <sc-if value="{{sent}}" hint-placeholder-val="{{false}}">
-<div role="status" style="display: flex; align-items: center; gap: 14px">
-<span aria-hidden="true" style="width: 40px; height: 40px; flex-shrink: 0; border-radius: 50%; background: {{accent}}; display: grid; place-items: center"><svg width="20" height="20" viewBox="0 0 24 24"><path d="M5 12.5 L10 17 L19 7" fill="none" stroke="#FFFFFF" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"></path></svg></span>
-<p style="margin: 0; font-size: 15px; line-height: 1.5; color: var(--ink2)"><strong style="color: var(--ink)">Thanks, {{firstName}}.</strong> An SSCAP specialist will contact you within one business day to schedule your demo.</p>
+<!-- after "Book a live demo": the form gives way to the Microsoft Bookings calendar (loaded only now) -->
+<div role="status" style="flex: 1; display: flex; flex-direction: column; gap: 12px; min-height: 520px">
+<p style="margin: 0; font-size: 15px; line-height: 1.5; color: var(--ink2)"><strong style="color: var(--ink)">Thanks, {{firstName}}.</strong> Pick a time for your live demo.</p>
+<div style="flex: 1; position: relative; overflow: hidden; border: 1px solid var(--line2); border-radius: 12px; background: #FFFFFF">
+<iframe src="https://outlook.office365.com/book/SSCAPlivedemo@smartcitywater.ca/" title="Book a live SSCAP demo (Microsoft Bookings)" width="100%" height="100%" scrolling="yes" style="position: absolute; top: -24px; left: -20px; width: calc(100% + 56px); height: calc(100% + 24px); border: 0; background: #FFFFFF"></iframe>
+</div>
+<p style="margin: 0; font-size: 13px; line-height: 18px; color: var(--ink4)">Calendar not showing? <a href="https://outlook.office365.com/book/SSCAPlivedemo@smartcitywater.ca/" target="_blank" rel="noopener" style="font-weight: 600">Open the booking calendar in a new tab ↗</a></p>
 </div>
 </sc-if>
 </div>

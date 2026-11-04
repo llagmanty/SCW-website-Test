@@ -155,8 +155,9 @@
         SSCAP.track('generate_lead', { form: payload.form });
         done(e);
       }).catch(function () {
-        failNote(form, true);
         SSCAP.track('lead_submit_error');
+        // the hero form leads to the booking calendar: a failed lead post must not stand in the visitor's way
+        if (payload.form === 'hero-modal') done(e); else failNote(form, true);
       }).then(function () { if (btn) btn.disabled = false; });
     };
     vals.submit._wired = true;
