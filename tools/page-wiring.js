@@ -59,10 +59,11 @@
     document.getElementById('consent-no').addEventListener('click', function () { setConsent('denied'); });
   });
   document.addEventListener('click', function (e) {
-    var t = e.target.closest && e.target.closest('[data-consent-reopen], a[href="#demo"], a[href$=".pdf"], a[href*="/book/"], button.m-explore, .see-arrow');
+    var t = e.target.closest && e.target.closest('[data-consent-reopen], a[href="#demo"], a[href$=".pdf"], a[href*="/book/"], button.m-explore, .see-arrow, [data-flip]');
     if (!t) return;
     if (t.hasAttribute('data-consent-reopen')) { banner().hidden = false; document.getElementById('consent-yes').focus(); }
     else if (t.getAttribute('href') === '#demo') SSCAP.track('cta_click', { location: t.textContent.trim().slice(0, 40) });
+    else if (t.hasAttribute('data-flip')) SSCAP.track('hero_flip', { side: t.getAttribute('data-flip') });
     else if (t.classList.contains('m-explore')) SSCAP.track('explore_map');
     else if (t.classList.contains('see-arrow')) SSCAP.track('carousel_arrow', { direction: t.classList.contains('see-next') ? 'next' : 'previous' });
     else if (/\/book\//.test(t.getAttribute('href'))) SSCAP.track('booking_calendar_open', { location: t.closest('.m-modal') ? 'hero' : 'booking-section' });
