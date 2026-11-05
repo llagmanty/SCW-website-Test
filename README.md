@@ -24,6 +24,9 @@ node tools/build-from-canvas.mjs --no-prerender  # build only
 | `see-flow-verified.webp` | SSCAP screenshot (VAU24_SAN_FM01 measured vs modelled flow) for the second "See it" card. |
 | `see-performance-score.webp` | SSCAP screenshot (pipe SANMH52857.1 overall performance score on the 3D map) for the third "See it" card. |
 | `favicon.svg` | Smart City Water mark. |
+| `sscap-app.js` | Generated with `index.html`: the canvas data, Preact and the renderer, loaded deferred and versioned by content hash so the page paints first. |
+| `map-snap-{desktop,mobile}-{light,dark}.webp` | Stills of the blurred hero map shown while the intro covers it, so the 3D city is only built once the map is opened. Re-capture them if the map's look changes. |
+| `fonts/roboto-flex-*.woff2` | Self-hosted Roboto Flex (SIL Open Font License). |
 | `sample-design-sheet.pdf`, `design-sheet-preview.webp` | Fictional one-page Sanitary Design Sheet and its preview. Rebuild with `node tools/generate-design-sheet.mjs`. |
 
 ## Hero map
@@ -46,6 +49,7 @@ node tools/build-from-canvas.mjs --no-prerender  # build only
 - **Contact form:** `SSCAP.submitLead(payload)` posts to the HubSpot Forms API (portal `44268255`) to the form "SSCAP landing page – Contact us" (`HUBSPOT_FORM_GUID` in `tools/page-wiring.js`); that form needs the fields `firstname`, `lastname`, `email`, `company`, `phone`, `message` and reCAPTCHA off.
 - **Analytics:** Google Analytics 4 loads only after the visitor accepts the cookie banner. Measurement ID `G-29SGQNFMTN` is set as `GA_MEASUREMENT_ID` in `tools/page-wiring.js` (GA4 › Admin › Data streams); change it there and rebuild. Events, sent to GA4, Clarity and `window.dataLayer`: `cta_click`, `explore_map`, `booking_calendar_open`, `carousel_arrow`, `file_download`, `scroll_depth` (`percent`: 25/50/75/90/100) and `section_view` (`section`: problem, see_it, how_it_works, booking, faq, final_cta; `section_index` 1–6), each once per page view. Views before the visitor answers the banner are held in memory and sent only if they accept.
 - **Heatmaps:** Microsoft Clarity (project `z7ijqjvm9b`, `CLARITY_PROJECT_ID` in `tools/page-wiring.js`) records heatmaps and sessions, also only after consent. The Bookings iframes are not recorded.
+- **Fonts:** Roboto Flex is self-hosted in `fonts/` (SIL Open Font License); the build swaps the canvas's Google Fonts links for it.
 - **Theme:** light by default; the choice is saved in `localStorage` (`sscap_theme`).
 - **A/B headline:** add `?h=A|B|C` to the URL.
 
