@@ -1059,6 +1059,16 @@ window.SSCAP_CANVAS = JSON.parse(document.getElementById('sscap-canvas').textCon
   var store = { get: function (k) { try { return localStorage.getItem(k); } catch (e) { return null; } }, set: function (k, v) { try { localStorage.setItem(k, v); } catch (e) {} } };
   var params = new URLSearchParams(location.search);
 
+  /* ---------- every visit starts at the top: no restored scroll, no jump to a #section in the address ---------- */
+  try { if ('scrollRestoration' in history) history.scrollRestoration = 'manual'; } catch (e) {}
+  if (location.hash) { try { history.replaceState(null, '', location.pathname + location.search); } catch (e) {} }
+  function toTop() { window.scrollTo(0, 0); }
+  toTop();
+  document.addEventListener('DOMContentLoaded', toTop);
+  window.addEventListener('load', toTop);
+  // a page restored from the back/forward cache keeps its old scroll position otherwise
+  window.addEventListener('pageshow', function (e) { if (e.persisted) toTop(); });
+
   /* ---------- consent + analytics (vendor-agnostic dataLayer) ---------- */
   window.dataLayer = window.dataLayer || [];
   var consent = store.get('sscap_consent'); // 'granted' | 'denied' | null
