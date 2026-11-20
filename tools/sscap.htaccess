@@ -1,0 +1,28 @@
+# Apache settings for the /sscap/ landing page folder (shipped as sscap/.htaccess in publish/sscap.zip).
+# Every block is wrapped in <IfModule>, so a host without the module simply skips it.
+
+# Older Apache setups do not know the WOFF2 font type
+AddType font/woff2 .woff2
+
+# Compress text: index.html ~100 KB raw / ~25 KB gzipped, sscap-app.js ~840 KB raw / ~255 KB gzipped
+<IfModule mod_deflate.c>
+  AddOutputFilterByType DEFLATE text/html text/css application/javascript text/javascript application/json image/svg+xml
+</IfModule>
+
+# Cache images for 30 days; always revalidate the page itself so updates show at once
+<IfModule mod_expires.c>
+  ExpiresActive On
+  ExpiresByType image/webp "access plus 30 days"
+  ExpiresByType image/png "access plus 30 days"
+  ExpiresByType image/svg+xml "access plus 30 days"
+  # sscap-app.js is linked with ?v=<content hash>, so a new build always fetches the new file
+  ExpiresByType application/javascript "access plus 1 year"
+  ExpiresByType text/javascript "access plus 1 year"
+  ExpiresByType font/woff2 "access plus 1 year"
+  ExpiresByType text/html "access plus 0 seconds"
+</IfModule>
+<IfModule mod_headers.c>
+  <FilesMatch "\.html$">
+    Header set Cache-Control "no-cache"
+  </FilesMatch>
+</IfModule>
