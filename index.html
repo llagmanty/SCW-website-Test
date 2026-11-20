@@ -974,7 +974,7 @@ body{margin:0}
     document.getElementById('consent-no').addEventListener('click', function () { setConsent('denied'); });
   });
   /* ---------- page sections, by the names used in GA4 / Clarity reports ---------- */
-  var SECTIONS = [['hero-h1', 'Hero'], ['problem-h2', 'The problem'], ['see-h2', 'See it'], ['how-h2', 'How it works'], ['book-h2', 'Book live demo'], ['faq-h2', 'FAQ'], ['cta-h2', 'Final call to action']];
+  var SECTIONS = [['hero-h1', 'Hero'], ['problem-h2', 'The problem'], ['see-h2', 'See it'], ['how-h2', 'How it works'], ['book-h2', 'Book live demo'], ['faq-h2', 'FAQ'], ['cta-h2', 'Banner'], ['footer', 'Footer']];
   function sectionOf(el) {
     if (el.closest('header')) return 'Header';
     if (el.closest('footer')) return 'Footer';
@@ -985,10 +985,13 @@ body{margin:0}
   }
   // every link or button click, tagged with the section it sits in
   document.addEventListener('click', function (e) {
-    var c = e.target.closest && e.target.closest('a[href], button, input[type="submit"]');
+    var c = e.target.closest && e.target.closest('a[href], button, input[type="submit"], summary');
     if (!c || c.closest('#consent')) return;
     var label = (c.getAttribute('aria-label') || c.textContent || c.value || '').replace(/\s+/g, ' ').trim().slice(0, 60);
-    SSCAP.track('section_click', { section: sectionOf(c), label: label });
+    var p = { section: sectionOf(c), label: label };
+    // FAQ questions: say whether the click opened or closed the answer
+    if (c.tagName === 'SUMMARY') p.action = c.parentNode.open ? 'close' : 'open';
+    SSCAP.track('section_click', p);
   });
   document.addEventListener('click', function (e) {
     var t = e.target.closest && e.target.closest('[data-consent-reopen], a[href="#demo"], a[href$=".pdf"], a[href*="/book/"], button.m-explore, .see-arrow, [data-flip], a[data-directions]');
@@ -1024,7 +1027,7 @@ body{margin:0}
     // a section counts as viewed once 40% of the viewport (or half the section, if shorter) shows it
     SECTIONS.forEach(function (s, i) {
       if (seen[s[1]]) return;
-      var el = document.querySelector('section[aria-labelledby="' + s[0] + '"]'); if (!el) return;
+      var el = s[0] === 'footer' ? document.querySelector('footer') : document.querySelector('section[aria-labelledby="' + s[0] + '"]'); if (!el) return;
       var r = el.getBoundingClientRect(), visible = Math.min(r.bottom, vh) - Math.max(r.top, 0);
       if (visible >= Math.min(vh * 0.4, r.height * 0.5)) { seen[s[1]] = true; send('section_view', { section: s[1], section_index: i + 1 }); }
     });
