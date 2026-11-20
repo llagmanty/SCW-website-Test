@@ -46,9 +46,9 @@ const PATCHES = [
   // only the city image for the current theme downloads (the other one is display: none)
   ['<img class="city-light" ', '<img class="city-light" loading="lazy" decoding="async" '],
   ['<img class="city-dark" ', '<img class="city-dark" loading="lazy" decoding="async" '],
-  // real policy pages, plus a way back to the cookie choice
-  ['<a id="privacy" href="#privacy" style="color: var(--ink3)">Privacy</a><a href="#legal" style="color: var(--ink3)">Legal</a>',
-   '<a href="/privacy-policy/" style="color: var(--ink3)">Privacy</a><a href="/legal/" style="color: var(--ink3)">Legal</a><button type="button" data-consent-reopen="" style="background: none; border: 0; padding: 0; font: inherit; color: var(--ink3); text-decoration: underline; cursor: pointer">Cookie settings</button>'],
+  // a way back to the cookie choice, next to the Legal link
+  ['<a href="https://smartcitywater.ca/legal/" style="color: var(--ink3)">Legal</a>',
+   '<a href="https://smartcitywater.ca/legal/" style="color: var(--ink3)">Legal</a><button type="button" data-consent-reopen="" style="background: none; border: 0; padding: 0; font: inherit; color: var(--ink3); text-decoration: underline; cursor: pointer">Cookie settings</button>'],
 ];
 const OPTIONAL = new Set(['/_blob/bbd52348099698ccc1bd60a58e1782be', '/_blob/500d5b755f0904dbbb4c2fb58838867d', '/_blob/a6c8aa0ee04e3d62d57966103e5fc1b1']); // assets mapped only if the canvas still shows them
 for (const [a, b] of PATCHES) {
