@@ -69,9 +69,15 @@
     document.getElementById('consent-no').addEventListener('click', function () { setConsent('denied'); });
   });
   document.addEventListener('click', function (e) {
-    var t = e.target.closest && e.target.closest('[data-consent-reopen], a[href="#demo"], a[href$=".pdf"], a[href*="/book/"], button.m-explore, .see-arrow, [data-flip]');
+    var t = e.target.closest && e.target.closest('[data-consent-reopen], a[href="#demo"], a[href$=".pdf"], a[href*="/book/"], button.m-explore, .see-arrow, [data-flip], a[data-directions]');
     if (!t) return;
     if (t.hasAttribute('data-consent-reopen')) { banner().hidden = false; document.getElementById('consent-yes').focus(); }
+    else if (t.hasAttribute('data-directions')) {
+      // iPhone / iPad open Apple Maps; everyone else gets Google Maps, which phones hand to the Maps app
+      var apple = /iPhone|iPad|iPod/.test(navigator.userAgent) || (/Macintosh/.test(navigator.userAgent) && navigator.maxTouchPoints > 1);
+      if (apple) t.href = 'https://maps.apple.com/?daddr=' + encodeURIComponent(t.getAttribute('data-directions')) + '&dirflg=d';
+      SSCAP.track('directions_click', { app: apple ? 'apple_maps' : 'google_maps' });
+    }
     else if (t.getAttribute('href') === '#demo') SSCAP.track('cta_click', { location: t.textContent.trim().slice(0, 40) });
     else if (t.hasAttribute('data-flip')) SSCAP.track('hero_flip', { side: t.getAttribute('data-flip') });
     else if (t.classList.contains('m-explore')) SSCAP.track('explore_map');

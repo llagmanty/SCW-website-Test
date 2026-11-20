@@ -881,7 +881,7 @@ body{margin:0}
 <span style="font-size: 12px; letter-spacing: 0px; text-transform: none; font-weight: 600; color: var(--ink);">Contact</span><br>
 <a href="mailto:solutions@smartcitywater.ca" style="color: var(--ink3);">solutions@smartcitywater.ca</a><br>
 <a href="tel:+18664730453" style="color: var(--ink3);">+1 (866) 473-0453</a><br>
-155 Winges Rd, Unit 8<br>Woodbridge, ON L4L 6C7
+<a href="https://www.google.com/maps/dir/?api=1&amp;destination=155%20Winges%20Rd%2C%20Unit%208%2C%20Woodbridge%2C%20ON%20L4L%206C7&amp;travelmode=driving" data-directions="155 Winges Rd, Unit 8, Woodbridge, ON L4L 6C7" target="_blank" rel="noopener" aria-label="Driving directions to Smart City Water, 155 Winges Rd, Unit 8, Woodbridge, ON L4L 6C7 (opens in your map app)" style="color: var(--ink3);">155 Winges Rd, Unit 8<br>Woodbridge, ON L4L 6C7</a>
 </address>
 </div>
 <div style="max-width: 1200px; margin: 40px auto 0px; padding-top: 20px; border-top: 1px solid var(--line); display: flex; flex-wrap: wrap; gap: 20px; font-size: 13px;">
@@ -971,9 +971,15 @@ body{margin:0}
     document.getElementById('consent-no').addEventListener('click', function () { setConsent('denied'); });
   });
   document.addEventListener('click', function (e) {
-    var t = e.target.closest && e.target.closest('[data-consent-reopen], a[href="#demo"], a[href$=".pdf"], a[href*="/book/"], button.m-explore, .see-arrow, [data-flip]');
+    var t = e.target.closest && e.target.closest('[data-consent-reopen], a[href="#demo"], a[href$=".pdf"], a[href*="/book/"], button.m-explore, .see-arrow, [data-flip], a[data-directions]');
     if (!t) return;
     if (t.hasAttribute('data-consent-reopen')) { banner().hidden = false; document.getElementById('consent-yes').focus(); }
+    else if (t.hasAttribute('data-directions')) {
+      // iPhone / iPad open Apple Maps; everyone else gets Google Maps, which phones hand to the Maps app
+      var apple = /iPhone|iPad|iPod/.test(navigator.userAgent) || (/Macintosh/.test(navigator.userAgent) && navigator.maxTouchPoints > 1);
+      if (apple) t.href = 'https://maps.apple.com/?daddr=' + encodeURIComponent(t.getAttribute('data-directions')) + '&dirflg=d';
+      SSCAP.track('directions_click', { app: apple ? 'apple_maps' : 'google_maps' });
+    }
     else if (t.getAttribute('href') === '#demo') SSCAP.track('cta_click', { location: t.textContent.trim().slice(0, 40) });
     else if (t.hasAttribute('data-flip')) SSCAP.track('hero_flip', { side: t.getAttribute('data-flip') });
     else if (t.classList.contains('m-explore')) SSCAP.track('explore_map');
@@ -1094,6 +1100,6 @@ body{margin:0}
 
 </script>
 <!-- the canvas, Preact and the renderer load after the prerendered page has painted (cached, versioned by content) -->
-<script src="sscap-app.js?v=77172e243e" defer></script>
+<script src="sscap-app.js?v=161f5843e1" defer></script>
 </body>
 </html>
