@@ -973,27 +973,44 @@ body{margin:0}
     document.getElementById('consent-yes').addEventListener('click', function () { setConsent('granted'); });
     document.getElementById('consent-no').addEventListener('click', function () { setConsent('denied'); });
   });
+  /* ---------- page sections, by the names used in GA4 / Clarity reports ---------- */
+  var SECTIONS = [['hero-h1', 'Hero'], ['problem-h2', 'The problem'], ['see-h2', 'See it'], ['how-h2', 'How it works'], ['book-h2', 'Book live demo'], ['faq-h2', 'FAQ'], ['cta-h2', 'Final call to action']];
+  function sectionOf(el) {
+    if (el.closest('header')) return 'Header';
+    if (el.closest('footer')) return 'Footer';
+    var sec = el.closest('section[aria-labelledby]');
+    var id = sec && sec.getAttribute('aria-labelledby');
+    for (var i = 0; i < SECTIONS.length; i++) if (SECTIONS[i][0] === id) return SECTIONS[i][1];
+    return 'Other';
+  }
+  // every link or button click, tagged with the section it sits in
+  document.addEventListener('click', function (e) {
+    var c = e.target.closest && e.target.closest('a[href], button, input[type="submit"]');
+    if (!c || c.closest('#consent')) return;
+    var label = (c.getAttribute('aria-label') || c.textContent || c.value || '').replace(/\s+/g, ' ').trim().slice(0, 60);
+    SSCAP.track('section_click', { section: sectionOf(c), label: label });
+  });
   document.addEventListener('click', function (e) {
     var t = e.target.closest && e.target.closest('[data-consent-reopen], a[href="#demo"], a[href$=".pdf"], a[href*="/book/"], button.m-explore, .see-arrow, [data-flip], a[data-directions]');
     if (!t) return;
+    var track = function (ev, p) { SSCAP.track(ev, Object.assign({ section: sectionOf(t) }, p || {})); };
     if (t.hasAttribute('data-consent-reopen')) { banner().hidden = false; document.getElementById('consent-yes').focus(); }
     else if (t.hasAttribute('data-directions')) {
       // iPhone / iPad open Apple Maps; everyone else gets Google Maps, which phones hand to the Maps app
       var apple = /iPhone|iPad|iPod/.test(navigator.userAgent) || (/Macintosh/.test(navigator.userAgent) && navigator.maxTouchPoints > 1);
       if (apple) t.href = 'https://maps.apple.com/?daddr=' + encodeURIComponent(t.getAttribute('data-directions')) + '&dirflg=d';
-      SSCAP.track('directions_click', { app: apple ? 'apple_maps' : 'google_maps' });
+      track('directions_click', { app: apple ? 'apple_maps' : 'google_maps' });
     }
-    else if (t.getAttribute('href') === '#demo') SSCAP.track('cta_click', { location: t.textContent.trim().slice(0, 40) });
-    else if (t.hasAttribute('data-flip')) SSCAP.track('hero_flip', { side: t.getAttribute('data-flip') });
-    else if (t.classList.contains('m-explore')) SSCAP.track('explore_map');
-    else if (t.classList.contains('see-arrow')) SSCAP.track('carousel_arrow', { direction: t.classList.contains('see-next') ? 'next' : 'previous' });
-    else if (/\/book\//.test(t.getAttribute('href'))) SSCAP.track('booking_calendar_open', { location: t.closest('.m-modal') ? 'hero' : 'booking-section' });
-    else SSCAP.track('file_download', { file: t.getAttribute('href') });
+    else if (t.getAttribute('href') === '#demo') track('cta_click', { location: t.textContent.trim().slice(0, 40) });
+    else if (t.hasAttribute('data-flip')) track('hero_flip', { side: t.getAttribute('data-flip') });
+    else if (t.classList.contains('m-explore')) track('explore_map');
+    else if (t.classList.contains('see-arrow')) track('carousel_arrow', { direction: t.classList.contains('see-next') ? 'next' : 'previous' });
+    else if (/\/book\//.test(t.getAttribute('href'))) track('booking_calendar_open', { location: t.closest('.m-modal') ? 'hero' : 'booking-section' });
+    else track('file_download', { file: t.getAttribute('href') });
   });
 
   /* ---------- scroll depth and section views (each sent once per page view, after consent) ---------- */
   // sections are looked up on every check because the canvas renderer can replace their nodes
-  var SECTIONS = [['problem-h2', 'problem'], ['see-h2', 'see_it'], ['how-h2', 'how_it_works'], ['book-h2', 'booking'], ['faq-h2', 'faq'], ['cta-h2', 'final_cta']];
   var DEPTHS = [25, 50, 75, 90, 100];
   var seen = {}, reached = {}, queued = false, pending = [];
   // views before the visitor answers the banner are held in memory and sent only if they accept
